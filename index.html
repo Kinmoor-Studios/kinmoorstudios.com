@@ -60,7 +60,11 @@ p{margin:0}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:22px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.0625rem/1 var(--display);font-stretch:125%;letter-spacing:.06em;text-transform:uppercase}
 .brand svg{width:28px;height:28px;flex:none}
-.nav{display:flex;gap:28px;font:500 var(--s1)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.nav{display:flex;align-items:center;gap:28px;font:500 var(--s1)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.theme-toggle{display:inline-grid;place-items:center;width:36px;height:36px;padding:0;border:1px solid var(--rule);border-radius:50%;background:transparent;color:var(--ink);cursor:pointer;transition:border-color .2s}
+.theme-toggle:hover{border-color:var(--ink)}
+.theme-toggle svg{width:18px;height:18px;transition:transform .4s ease}
+.theme-toggle[aria-pressed="true"] svg{transform:rotate(180deg)}
 .nav a{text-decoration:none;color:var(--muted);padding-block:6px}
 .nav a:hover{color:var(--ink)}
 @media (max-width:720px){.nav a:not(.keep){display:none}}
@@ -163,6 +167,7 @@ footer a{color:var(--muted)}
 </style>
 </head>
 <body>
+<script>try{var t=localStorage.getItem('kinmoor-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 
 <header class="top">
   <div class="wrap">
@@ -175,6 +180,9 @@ footer a{color:var(--muted)}
       <a href="#process">Process</a>
       <a href="#budgets">Budgets</a>
       <a class="keep" href="#contact">Contact</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode" title="Switch to dark mode">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>
+      </button>
     </nav>
   </div>
 </header>
@@ -354,6 +362,22 @@ footer a{color:var(--muted)}
     try{navigator.clipboard.writeText(mail.textContent.trim()).then(done,function(){selectMail();btn.textContent='Selected, press Ctrl+C'})}
     catch(e){selectMail();btn.textContent='Selected, press Ctrl+C'}
   });
+
+  /* ---------- Light / dark toggle (follows the device until the visitor chooses) ---------- */
+  var root=document.documentElement, tbtn=document.getElementById('theme-toggle');
+  var mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
+  function effective(){var a=root.getAttribute('data-theme');return(a==='light'||a==='dark')?a:(mq&&mq.matches?'dark':'light')}
+  function syncToggle(){var dark=effective()==='dark',label=dark?'Switch to light mode':'Switch to dark mode';
+    tbtn.setAttribute('aria-pressed',dark?'true':'false');tbtn.setAttribute('aria-label',label);tbtn.title=label}
+  tbtn.addEventListener('click',function(){
+    var next=effective()==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('kinmoor-theme',next)}catch(e){}
+    syncToggle();
+  });
+  try{mq.addEventListener('change',syncToggle)}catch(e){}
+  try{new MutationObserver(syncToggle).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
+  syncToggle();
 
   /* ---------- Contour lines (drawn once, redrawn on resize or theme change) ---------- */
   var cv=document.getElementById('contours');
