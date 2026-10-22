@@ -75,8 +75,11 @@ p{margin:0}
 
 /* Hero */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+.contour-stack{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.4s ease}
+.hero.drawn .contour-stack{opacity:1}
+.hero.drawn .contour-stack.fading{opacity:0;transition-duration:.22s}
+html.theming,html.theming *,html.theming *::before,html.theming *::after{transition:background-color .35s ease,color .35s ease,border-color .35s ease,fill .35s ease!important}
 .contour{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-#contours,#contours-index{-webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent);mask-image:linear-gradient(to bottom,#000 55%,transparent)}
 #contours-index{opacity:.5;animation:breathe 10s ease-in-out infinite;will-change:opacity}
 @keyframes breathe{50%{opacity:.8}}
 .hero .wrap{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px var(--gutter);align-items:end;padding-block:clamp(48px,9vw,120px) clamp(48px,7vw,88px)}
@@ -210,9 +213,11 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
 
 <main id="top">
   <section class="hero" aria-labelledby="h1">
-    <canvas class="contour" id="contours" aria-hidden="true"></canvas>
-    <canvas class="contour" id="contours-index" aria-hidden="true"></canvas>
-    <canvas class="contour" id="contours-lights" aria-hidden="true"></canvas>
+    <div class="contour-stack" aria-hidden="true">
+      <canvas class="contour" id="contours"></canvas>
+      <canvas class="contour" id="contours-index"></canvas>
+      <canvas class="contour" id="contours-lights"></canvas>
+    </div>
     <div class="wrap">
       <div class="hero-copy">
         <p class="eyebrow">Kinmoor Studios · Shopify and software</p>
@@ -398,6 +403,7 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
     tbtn.setAttribute('aria-pressed',dark?'true':'false');tbtn.setAttribute('aria-label',label);tbtn.title=label}
   tbtn.addEventListener('click',function(){
     var next=effective()==='dark'?'light':'dark';
+    root.classList.add('theming');setTimeout(function(){root.classList.remove('theming')},450);
     root.setAttribute('data-theme',next);
     try{localStorage.setItem('kinmoor-theme',next)}catch(e){}
     syncToggle();
@@ -406,119 +412,144 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
   try{new MutationObserver(syncToggle).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
   syncToggle();
 
-  /* ---------- Contour map: static lines, a slowly glowing index layer, and lights that travel the index lines ---------- */
+  /* ---------- Contour map: smoothed contour lines, a slowly glowing index layer, and lights that travel the index lines ---------- */
   var hero=document.querySelector('.hero');
   var cvBase=document.getElementById('contours'), cvIdx=document.getElementById('contours-index'), cvLit=document.getElementById('contours-lights');
   var reduce=false; try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
   function hash(x,y){var h=Math.imul(x,374761393)+Math.imul(y,668265263)|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967295}
   function sm(t){return t*t*(3-2*t)}
+  function ease(t){return t<=0?0:t>=1?1:t*t*(3-2*t)}
   function vnoise(x,y){var xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi,u=sm(xf),v=sm(yf);
     var a=hash(xi,yi),b=hash(xi+1,yi),c=hash(xi,yi+1),d=hash(xi+1,yi+1);
     return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v}
   function field(x,y){return .6*vnoise(x/320,y/320)+.3*vnoise(x/150+17,y/150+5)+.1*vnoise(x/70+3,y/70+41)}
   function tok(n){return getComputedStyle(root).getPropertyValue(n).trim()}
-  var W=0,H=0,DPR=1,chains=[],lit=null,sprite=null,lights=[],sparkCol='#000';
+  function rgb(c){var m=/^#([0-9a-f]{6})$/i.exec(c);if(!m)return'0,0,0';var n=parseInt(m[1],16);return(n>>16&255)+','+(n>>8&255)+','+(n&255)}
+  var W=0,H=0,DPR=1,paths=[],lit=null,sprite=null,lights=[],spark='0,0,0';
   function sized(c){c.width=Math.round(W*DPR);c.height=Math.round(H*DPR);var x=c.getContext('2d');x.setTransform(DPR,0,0,DPR,0,0);return x}
   function key(x,y){return Math.round(x*8)+','+Math.round(y*8)}
 
-  // Join marching-squares segments into continuous lines the lights can follow.
-  function buildChains(seg){
+  // Join the grid segments of one contour level into continuous lines.
+  function chainUp(seg){
     var n=seg.length/4,map=new Map(),used=new Uint8Array(n),out=[];
     function add(k,i){var a=map.get(k);if(a)a.push(i);else map.set(k,[i])}
     for(var i=0;i<n;i++){add(key(seg[4*i],seg[4*i+1]),i);add(key(seg[4*i+2],seg[4*i+3]),i)}
     function next(x,y){var a=map.get(key(x,y));if(a)for(var t=0;t<a.length;t++)if(!used[a[t]])return a[t];return -1}
+    function grow(arr){for(;;){var x=arr[arr.length-2],y=arr[arr.length-1],j=next(x,y);if(j<0)return;used[j]=1;
+      if(key(seg[4*j],seg[4*j+1])===key(x,y))arr.push(seg[4*j+2],seg[4*j+3]);else arr.push(seg[4*j],seg[4*j+1])}}
     for(var s0=0;s0<n;s0++){
       if(used[s0])continue;used[s0]=1;
-      var head=[seg[4*s0+2],seg[4*s0+3]],tail=[seg[4*s0],seg[4*s0+1]],j,x,y,k0;
-      for(;;){x=head[head.length-2];y=head[head.length-1];j=next(x,y);if(j<0)break;used[j]=1;k0=key(x,y);
-        if(key(seg[4*j],seg[4*j+1])===k0)head.push(seg[4*j+2],seg[4*j+3]);else head.push(seg[4*j],seg[4*j+1])}
-      for(;;){x=tail[tail.length-2];y=tail[tail.length-1];j=next(x,y);if(j<0)break;used[j]=1;k0=key(x,y);
-        if(key(seg[4*j],seg[4*j+1])===k0)tail.push(seg[4*j+2],seg[4*j+3]);else tail.push(seg[4*j],seg[4*j+1])}
+      var head=[seg[4*s0+2],seg[4*s0+3]],tail=[seg[4*s0],seg[4*s0+1]];grow(head);grow(tail);
       var pts=[];for(var t=tail.length-2;t>=0;t-=2)pts.push(tail[t],tail[t+1]);for(t=0;t<head.length;t++)pts.push(head[t]);
-      var len=[0];for(var p=2;p<pts.length;p+=2)len.push(len[len.length-1]+Math.hypot(pts[p]-pts[p-2],pts[p+1]-pts[p-1]));
-      var total=len[len.length-1];
-      if(total>240)out.push({p:pts,l:len,t:total});
+      if(pts.length>=6)out.push(pts);
     }
     return out;
   }
+  // Round off the grid's corners so lines read as drawn curves.
+  function chaikin(p,it){for(var k=0;k<it;k++){var q=[p[0],p[1]];for(var i=0;i<p.length-2;i+=2){var x0=p[i],y0=p[i+1],x1=p[i+2],y1=p[i+3];
+    q.push(.75*x0+.25*x1,.75*y0+.25*y1,.25*x0+.75*x1,.25*y0+.75*y1)}q.push(p[p.length-2],p[p.length-1]);p=q}return p}
+  // Evenly spaced points, so a light moves along a curve at a steady speed.
+  function resample(p,step){
+    var out=[p[0],p[1]],carry=0;
+    for(var i=2;i<p.length;i+=2){var x0=p[i-2],y0=p[i-1],dx=p[i]-x0,dy=p[i+1]-y0,len=Math.hypot(dx,dy),d=step-carry;
+      while(d<=len){out.push(x0+dx*d/len,y0+dy*d/len);d+=step}carry=len-(d-step)}
+    var a=new Float32Array(out);return{p:a,n:a.length/2,step:step,t:(a.length/2-1)*step}}
+  function at(c,d){d=Math.max(0,Math.min(c.t,d));var f=d/c.step,i=Math.min(c.n-2,Math.floor(f)),u=f-i;
+    return[c.p[2*i]+(c.p[2*i+2]-c.p[2*i])*u,c.p[2*i+1]+(c.p[2*i+3]-c.p[2*i+1])*u]}
+  function stroke(ctx,p){ctx.moveTo(p[0],p[1]);for(var i=2;i<p.length;i+=2)ctx.lineTo(p[i],p[i+1])}
 
   function draw(){
     var r=cvBase.getBoundingClientRect(); if(!r.width||!r.height) return;
     W=r.width;H=r.height;DPR=Math.min(window.devicePixelRatio||1,2);
     var cb=sized(cvBase),ci=sized(cvIdx);
-    cb.strokeStyle=tok('--contour');cb.lineWidth=.9;cb.lineCap='round';
-    ci.strokeStyle=tok('--contour-strong');ci.lineWidth=1.5;ci.lineCap='round';ci.shadowColor=tok('--glow');ci.shadowBlur=5;
-    var s=9,nx=Math.ceil(W/s)+1,ny=Math.ceil(H/s)+1,f=new Float32Array(nx*ny),idxSeg=[];
+    cb.strokeStyle=tok('--contour');cb.lineWidth=.9;cb.lineCap=cb.lineJoin='round';
+    ci.strokeStyle=tok('--contour-strong');ci.lineWidth=1.4;ci.lineCap=ci.lineJoin='round';ci.shadowColor=tok('--glow');ci.shadowBlur=5;
+    var s=9,nx=Math.ceil(W/s)+1,ny=Math.ceil(H/s)+1,f=new Float32Array(nx*ny);
     for(var j=0;j<ny;j++)for(var i=0;i<nx;i++)f[j*nx+i]=field(i*s+40,j*s+90);
+    paths=[];
     for(var k=0,L=.22;L<.8;L+=.035,k++){
-      var isIdx=k%4===0,ctx=isIdx?ci:cb; ctx.beginPath();
+      var seg=[];
       for(var j2=0;j2<ny-1;j2++)for(var i2=0;i2<nx-1;i2++){
         var a=f[j2*nx+i2],b=f[j2*nx+i2+1],c=f[(j2+1)*nx+i2+1],d=f[(j2+1)*nx+i2];
         var idx=(a>L?8:0)|(b>L?4:0)|(c>L?2:0)|(d>L?1:0); if(idx===0||idx===15) continue;
         var x0=i2*s,y0=j2*s;
         var T=[x0+s*(L-a)/(b-a),y0], R=[x0+s,y0+s*(L-b)/(c-b)], B=[x0+s*(L-d)/(c-d),y0+s], Lf=[x0,y0+s*(L-a)/(d-a)];
-        var segs={1:[[Lf,B]],2:[[B,R]],3:[[Lf,R]],4:[[T,R]],5:[[T,R],[Lf,B]],6:[[T,B]],7:[[Lf,T]],8:[[Lf,T]],9:[[T,B]],10:[[Lf,T],[B,R]],11:[[T,R]],12:[[Lf,R]],13:[[B,R]],14:[[Lf,B]]}[idx];
-        for(var q=0;q<segs.length;q++){
-          ctx.moveTo(segs[q][0][0],segs[q][0][1]);ctx.lineTo(segs[q][1][0],segs[q][1][1]);
-          if(isIdx)idxSeg.push(segs[q][0][0],segs[q][0][1],segs[q][1][0],segs[q][1][1]);
-        }
+        var sg={1:[[Lf,B]],2:[[B,R]],3:[[Lf,R]],4:[[T,R]],5:[[T,R],[Lf,B]],6:[[T,B]],7:[[Lf,T]],8:[[Lf,T]],9:[[T,B]],10:[[Lf,T],[B,R]],11:[[T,R]],12:[[Lf,R]],13:[[B,R]],14:[[Lf,B]]}[idx];
+        for(var q=0;q<sg.length;q++)seg.push(sg[q][0][0],sg[q][0][1],sg[q][1][0],sg[q][1][1]);
+      }
+      var isIdx=k%4===0,ctx=isIdx?ci:cb,lines=chainUp(seg);
+      ctx.beginPath();
+      for(var m=0;m<lines.length;m++){
+        var smooth=chaikin(lines[m],3);stroke(ctx,smooth);
+        if(isIdx&&!reduce){var rs=resample(smooth,2);if(rs.t>260)paths.push(rs)}
       }
       ctx.stroke();
     }
+    // Fade the map out toward the bottom of the hero, baked in once instead of a live CSS mask.
+    [cb,ci].forEach(function(x){x.save();x.shadowBlur=0;x.globalCompositeOperation='destination-in';
+      var fg=x.createLinearGradient(0,0,0,H);fg.addColorStop(0,'rgba(0,0,0,1)');fg.addColorStop(.55,'rgba(0,0,0,1)');fg.addColorStop(1,'rgba(0,0,0,0)');
+      x.fillStyle=fg;x.fillRect(0,0,W,H);x.restore()});
     if(reduce) return;
-    chains=buildChains(idxSeg);
-    lit=sized(cvLit);
-    // Pre-render one soft glow so each frame is a cheap image copy, not a blur.
-    sprite=document.createElement('canvas');sprite.width=sprite.height=48;
-    var sc=sprite.getContext('2d'),g=sc.createRadialGradient(24,24,0,24,24,24),col=sparkCol=tok('--spark');
-    g.addColorStop(0,col);g.addColorStop(.08,col);g.addColorStop(.3,tok('--glow'));g.addColorStop(1,'rgba(0,0,0,0)');
-    sc.fillStyle=g;sc.fillRect(0,0,48,48);
+    lit=sized(cvLit);lit.lineCap=lit.lineJoin='round';
+    spark=rgb(tok('--spark'));
+    sprite=document.createElement('canvas');sprite.width=sprite.height=64;
+    var sc=sprite.getContext('2d'),g=sc.createRadialGradient(32,32,0,32,32,32);
+    g.addColorStop(0,'rgba('+spark+',1)');g.addColorStop(.1,'rgba('+spark+',.75)');g.addColorStop(.3,'rgba('+spark+',.22)');
+    g.addColorStop(.6,'rgba('+spark+',.06)');g.addColorStop(1,'rgba('+spark+',0)');
+    sc.fillStyle=g;sc.fillRect(0,0,64,64);
     var n=Math.round(Math.min(6,Math.max(3,W/240)));lights=[];
-    for(var m=0;m<n;m++){var Lt={};spawn(Lt);Lt.age=-Math.random()*4;lights.push(Lt)}
+    for(var z=0;z<n;z++){var Lt={};spawn(Lt);Lt.age=-z*1.6-Math.random()*1.2;lights.push(Lt)}
   }
 
-  function pick(){var tot=0,i;for(i=0;i<chains.length;i++)tot+=chains[i].t;var r=Math.random()*tot;for(i=0;i<chains.length;i++){r-=chains[i].t;if(r<=0)return chains[i]}return chains[chains.length-1]}
-  function spawn(Lt){var c=pick();Lt.c=c;Lt.dir=Math.random()<.5?1:-1;Lt.v=18+Math.random()*20;Lt.trail=50+Math.random()*50;
-    Lt.s=Math.random()*c.t;Lt.run=180+Math.random()*420;Lt.age=0}
-  function at(c,d){var l=c.l,lo=0,hi=l.length-1;if(d<=0)return[c.p[0],c.p[1]];if(d>=c.t)return[c.p[2*hi],c.p[2*hi+1]];
-    while(hi-lo>1){var m=(lo+hi)>>1;if(l[m]<d)lo=m;else hi=m}
-    var u=(d-l[lo])/((l[hi]-l[lo])||1);return[c.p[2*lo]+(c.p[2*hi]-c.p[2*lo])*u,c.p[2*lo+1]+(c.p[2*hi+1]-c.p[2*lo+1])*u]}
+  function pick(){var tot=0,i;for(i=0;i<paths.length;i++)tot+=paths[i].t;var r=Math.random()*tot;for(i=0;i<paths.length;i++){r-=paths[i].t;if(r<=0)return paths[i]}return paths[paths.length-1]}
+  function spawn(Lt){var c=pick();Lt.c=c;Lt.dir=Math.random()<.5?1:-1;Lt.v=18+Math.random()*18;Lt.trail=70+Math.random()*50;
+    Lt.s=Lt.trail+Math.random()*Math.max(1,c.t-2*Lt.trail);Lt.run=220+Math.random()*380;Lt.age=0}
 
   var raf=0,last=0,running=false,onScreen=true;
   function frame(t){
     raf=0;if(!running)return;
-    var dt=last?Math.min(.05,(t-last)/1000):0;last=t;
-    lit.clearRect(0,0,W,H);lit.lineCap='round';lit.strokeStyle=sparkCol;
+    var dt=last?Math.min(1/30,(t-last)/1000):0;last=t;
+    lit.clearRect(0,0,W,H);
     for(var i=0;i<lights.length;i++){
       var Lt=lights[i];Lt.age+=dt;if(Lt.age<0)continue;
       Lt.s+=Lt.dir*Lt.v*dt;Lt.run-=Lt.v*dt;
       var toEnd=Lt.dir>0?Lt.c.t-Lt.s:Lt.s,left=Math.min(toEnd,Lt.run);
       if(left<=0){spawn(Lt);continue}
-      var a=Math.min(1,Lt.age/1.5)*Math.min(1,left/70);
-      var hp=at(Lt.c,Lt.s);a*=Math.max(0,Math.min(1,(H*.9-hp[1])/(H*.35)));
-      if(a<=0.01)continue;
-      var K=10,prev=hp;lit.lineWidth=1.2;
-      for(var q=1;q<=K;q++){var pt=at(Lt.c,Lt.s-Lt.dir*Lt.trail*q/K);lit.globalAlpha=a*Math.pow(1-(q-1)/K,1.6)*.55;
-        lit.beginPath();lit.moveTo(prev[0],prev[1]);lit.lineTo(pt[0],pt[1]);lit.stroke();prev=pt}
-      lit.globalAlpha=a*.7;lit.drawImage(sprite,hp[0]-8,hp[1]-8,16,16);
+      var hp=at(Lt.c,Lt.s);
+      var a=ease(Lt.age/2)*ease(left/90)*ease((H*.9-hp[1])/(H*.35));
+      if(a<=.005)continue;
+      // Trail: one continuous stroke along the curve, fading toward the tail.
+      var tailD=Lt.s-Lt.dir*Lt.trail,tp=at(Lt.c,tailD),c=Lt.c;
+      var g=lit.createLinearGradient(tp[0],tp[1],hp[0],hp[1]);
+      g.addColorStop(0,'rgba('+spark+',0)');g.addColorStop(.55,'rgba('+spark+','+(.16*a).toFixed(3)+')');g.addColorStop(1,'rgba('+spark+','+(.5*a).toFixed(3)+')');
+      lit.strokeStyle=g;lit.lineWidth=1.3;lit.beginPath();lit.moveTo(tp[0],tp[1]);
+      var lo=Math.min(tailD,Lt.s),hi=Math.max(tailD,Lt.s),i0=Math.ceil(Math.max(0,lo)/c.step),i1=Math.floor(Math.min(c.t,hi)/c.step);
+      if(Lt.dir>0){for(var q=i0;q<=i1;q++)lit.lineTo(c.p[2*q],c.p[2*q+1])}else{for(q=i1;q>=i0;q--)lit.lineTo(c.p[2*q],c.p[2*q+1])}
+      lit.lineTo(hp[0],hp[1]);lit.stroke();
+      lit.globalAlpha=a*.8;lit.drawImage(sprite,hp[0]-10,hp[1]-10,20,20);lit.globalAlpha=1;
     }
-    lit.globalAlpha=1;
     raf=requestAnimationFrame(frame);
   }
-  function start(){if(reduce||running||!chains.length||!onScreen||document.hidden)return;running=true;last=0;raf=requestAnimationFrame(frame)}
+  function start(){if(reduce||running||!paths.length||!onScreen||document.hidden)return;running=true;last=0;raf=requestAnimationFrame(frame)}
   function stop(){running=false;if(raf)cancelAnimationFrame(raf);raf=0}
 
   var idle=window.requestIdleCallback||function(fn){return setTimeout(fn,60)};
-  idle(draw);
   // Lights start only after the page has finished loading, so they never compete with it.
-  function begin(){setTimeout(function(){idle(start)},500)}
+  var ready=false;
+  idle(function(){draw();ready=true;hero.classList.add('drawn')});
+  function begin(){setTimeout(function(){idle(start)},700)}
   if(document.readyState==='complete')begin();else addEventListener('load',begin);
-  try{new IntersectionObserver(function(es){onScreen=es[0].isIntersecting;onScreen?start():stop()}).observe(hero)}catch(e){}
-  document.addEventListener('visibilitychange',function(){document.hidden?stop():start()});
-  function redraw(){var was=running;stop();draw();if(was||!reduce)start()}
+  try{new IntersectionObserver(function(es){onScreen=es[0].isIntersecting;if(!ready)return;onScreen?start():stop()}).observe(hero)}catch(e){}
+  document.addEventListener('visibilitychange',function(){if(!ready)return;document.hidden?stop():start()});
+  function redraw(){if(!ready)return;stop();draw();start()}
+  // On a theme change, fade the map out, redraw it in the new colours, and fade it back in.
+  var stack=document.querySelector('.contour-stack'),swapT;
+  function themeRedraw(){if(!ready)return;if(reduce){redraw();return}
+    stack.classList.add('fading');clearTimeout(swapT);
+    swapT=setTimeout(function(){redraw();stack.classList.remove('fading')},230)}
   var rt,lastW=0; addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){var w=hero.clientWidth;if(w!==lastW){lastW=w;redraw()}},200)});
-  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redraw)}catch(e){}
-  try{new MutationObserver(redraw).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
+  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',themeRedraw)}catch(e){}
+  try{new MutationObserver(themeRedraw).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
 })();
 </script>
 
