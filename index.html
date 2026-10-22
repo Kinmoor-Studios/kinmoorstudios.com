@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Kinmoor Studios designs and builds fast, polished Shopify storefronts, apps and back-office software for consumer brands.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Kinmoor Studios">
+<meta property="og:description" content="Shopify storefronts, apps and software. Beautiful and fast. Pick both.">
+<meta property="og:url" content="https://kinmoorstudios.com/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://kinmoorstudios.com/">
+<title>Kinmoor Studios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Width-matched fallbacks so the page does not reflow when web fonts arrive */
+@font-face{font-family:"Archivo Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:500 900;size-adjust:126%}
+@font-face{font-family:"Source Serif Fallback";src:local("Times New Roman"),local("TimesNewRomanPSMT");font-weight:400;size-adjust:101%}
+@font-face{font-family:"Source Serif Fallback";src:local("Times New Roman Bold"),local("TimesNewRomanPS-BoldMT");font-weight:600 700;size-adjust:101%}
+@font-face{font-family:"Plex Mono Fallback";src:local("Courier New"),local("CourierNewPSMT");font-weight:400 500;size-adjust:100%}
+/* Layout: moorland survey sheet. Contour lines behind an expanded grotesk headline, a live measurement panel as the one framed object, then plain ruled sections. */
+:root{
+  --ground:#ECEEE8;
+  --surface:#F7F8F3;
+  --ink:#1A1D17;
+  --muted:#596155;
+  --rule:#CBD1C4;
+  --contour:#CDD3C5;
+  --heather:#6B3D71;
+  --lichen:#56661B;
+  --warn:#9A4A16;
+  --display:"Archivo","Archivo Fallback","Helvetica Neue",Arial,sans-serif;
+  --serif:"Source Serif 4","Source Serif Fallback",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono","Plex Mono Fallback",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --s1:.8125rem; --s2:1rem; --s3:1.1875rem; --s4:1.5rem; --s5:clamp(1.9rem,4vw,2.75rem); --s6:clamp(2.6rem,7.2vw,5.75rem);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#262B22;
+    --heather:#C99FCF; --lichen:#B9CB5E; --warn:#E8975E; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#262B22;
+  --heather:#C99FCF; --lichen:#B9CB5E; --warn:#E8975E; color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:400 var(--s3)/1.6 var(--serif);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--heather);outline-offset:3px;border-radius:2px}
+h1,h2,h3{font-family:var(--display);font-stretch:125%;text-wrap:balance;margin:0}
+p{margin:0}
+.wrap{max-width:1180px;margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font:500 var(--s1)/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* Header */
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:22px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.0625rem/1 var(--display);font-stretch:125%;letter-spacing:.06em;text-transform:uppercase}
+.brand svg{width:28px;height:28px;flex:none}
+.nav{display:flex;gap:28px;font:500 var(--s1)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.nav a{text-decoration:none;color:var(--muted);padding-block:6px}
+.nav a:hover{color:var(--ink)}
+@media (max-width:720px){.nav a:not(.keep){display:none}}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+#contours{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent);mask-image:linear-gradient(to bottom,#000 55%,transparent)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:end;padding-block:clamp(48px,9vw,120px) clamp(48px,7vw,88px)}
+.hero-copy{display:grid;gap:28px;min-width:0}
+h1{font-size:var(--s6);font-weight:800;line-height:.94;letter-spacing:-.025em}
+h1 span,h1 em{display:block}
+h1 em{font-style:normal;color:var(--heather)}
+.lede{font-size:clamp(1.125rem,1.6vw,1.3125rem);max-width:34em;color:var(--ink)}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;font:500 var(--s1)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:1px solid var(--ink);border-radius:2px;transition:background .2s,color .2s}
+.btn.primary{background:var(--ink);color:var(--ground)}
+.btn.primary:hover{background:var(--heather);border-color:var(--heather)}
+.btn.ghost:hover{background:var(--surface)}
+@media (max-width:860px){.hero .wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* Live readout */
+.readout{background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:22px 22px 18px;display:grid;gap:16px;min-width:0}
+.readout header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.live{display:inline-flex;align-items:center;gap:8px;font:500 var(--s1)/1 var(--mono);color:var(--lichen)}
+.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lichen);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.metrics{display:grid;margin:0;padding:0;list-style:none}
+.metric{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding-block:12px;border-top:1px solid var(--rule)}
+.metric dd{margin:0}
+.metric dt,.metric .name{font:500 var(--s1)/1.35 var(--mono);color:var(--muted)}
+.metric .val{grid-row:span 2;min-width:6.5ch;align-self:center;font:500 1.75rem/1 var(--mono);font-variant-numeric:tabular-nums;text-align:right;letter-spacing:-.02em}
+.metric .budget{font:400 .75rem/1.35 var(--mono);color:var(--muted);min-height:2.7em}
+.metric .budget b{font-weight:500}
+.metric[data-state="ok"] .budget b{color:var(--lichen)}
+.metric[data-state="over"] .budget b{color:var(--warn)}
+@media (max-width:480px){.metric .val{font-size:1.375rem}}
+.readout .note{font:400 .75rem/1.5 var(--mono);color:var(--muted)}
+
+/* Sections */
+section.block .wrap{padding-block:clamp(64px,9vw,112px)}
+section.block + section.block .wrap{border-top:1px solid var(--rule)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:24px 64px;align-items:end;margin-bottom:clamp(36px,5vw,56px)}
+.sec-head h2{font-size:var(--s5);font-weight:750;line-height:1.02;letter-spacing:-.02em}
+.sec-head p{color:var(--muted);max-width:36em}
+@media (max-width:760px){.sec-head{grid-template-columns:minmax(0,1fr)}}
+
+.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 64px}
+.service{display:grid;gap:10px;padding-block:28px;border-top:1px solid var(--rule);align-content:start}
+.service h3{font-size:var(--s4);font-weight:700;line-height:1.15;letter-spacing:-.01em}
+.service p{color:var(--ink);max-width:32em}
+.service .tag{font:500 .75rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--heather)}
+@media (max-width:760px){.services{grid-template-columns:minmax(0,1fr)}}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px;counter-reset:step}
+.step{display:grid;gap:12px;align-content:start;padding-top:20px;border-top:2px solid var(--ink);counter-increment:step}
+.step::before{content:counter(step,decimal-leading-zero);font:500 var(--s1)/1 var(--mono);color:var(--heather)}
+.step h3{font-size:1.25rem;font-weight:700;line-height:1.2}
+.step p{font-size:1.0625rem;color:var(--muted)}
+@media (max-width:960px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:540px){.steps{grid-template-columns:minmax(0,1fr)}}
+
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{text-align:left;padding:18px 16px 18px 0;border-bottom:1px solid var(--rule);vertical-align:baseline}
+thead th{font:500 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:0}
+td.m{font:700 1.125rem/1.3 var(--display);font-stretch:112%}
+td.m span{display:block;font:400 .75rem/1.4 var(--mono);color:var(--muted);margin-top:4px;font-stretch:100%}
+td.d{color:var(--muted);font-size:1.0625rem}
+td.t{font:500 1.375rem/1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;padding-right:0}
+th.t{text-align:right;padding-right:0}
+@media (max-width:640px){
+  table{min-width:0}
+  thead{display:none}
+  tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding-block:18px;border-bottom:1px solid var(--rule)}
+  td{border:0;padding:0}
+  td.d{grid-column:1/-1}
+}
+.foot-note{margin-top:20px;font:400 .8125rem/1.6 var(--mono);color:var(--muted);max-width:60em}
+
+/* Games band */
+.games{background:var(--surface);border-block:1px solid var(--rule)}
+.games .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;gap:24px 56px;align-items:center;padding-block:clamp(48px,6vw,72px)}
+.games h2{font-size:var(--s4);font-weight:750;line-height:1.1}
+.games p{color:var(--muted)}
+@media (max-width:860px){.games .wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* Contact */
+.contact .wrap{display:grid;gap:28px;padding-block:clamp(72px,10vw,128px)}
+.contact h2{font-size:var(--s6);font-weight:800;line-height:.95;letter-spacing:-.025em}
+.contact p{max-width:36em;color:var(--muted)}
+.mailrow{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.mail{font:500 clamp(1.125rem,2.4vw,1.5rem)/1.2 var(--mono);color:var(--ink);overflow-wrap:anywhere;user-select:all}
+.copy{cursor:pointer;background:transparent;color:var(--ink)}
+.copy[data-done]{border-color:var(--lichen);color:var(--lichen)}
+
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;padding-block:28px;border-top:1px solid var(--rule);font:400 .75rem/1.5 var(--mono);color:var(--muted)}
+footer a{color:var(--muted)}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Kinmoor Studios, home">
+      <svg viewBox="0 0 28 28" aria-hidden="true"><rect x="0.5" y="0.5" width="27" height="27" rx="2" fill="none" stroke="currentColor"/><path d="M4 20c4-6 7-9 10-9s6 3 10 9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 20c2.5-3.5 4.3-5 6-5s3.5 1.5 6 5" fill="none" stroke="var(--heather)" stroke-width="1.6"/></svg>
+      Kinmoor
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#budgets">Budgets</a>
+      <a class="keep" href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="h1">
+    <canvas id="contours" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">Kinmoor Studios · Shopify and software</p>
+        <h1 id="h1"><span>Beautiful</span> <span>and fast.</span> <em>Pick both.</em></h1>
+        <p class="lede">We design and build Shopify storefronts, apps and software for consumer brands. Every build ships with a performance budget, and we hold to it without stripping out the design.</p>
+        <div class="actions">
+          <a class="btn primary" href="#contact">Start with an audit</a>
+          <a class="btn ghost" href="#process">How we work</a>
+        </div>
+      </div>
+
+      <aside class="readout" aria-labelledby="ro-title">
+        <header>
+          <p class="eyebrow" id="ro-title">This page, measured just now</p>
+          <span class="live">In your browser</span>
+        </header>
+        <dl class="metrics">
+          <div class="metric" id="m-fcp"><dt class="name">First paint</dt><dd class="val">…</dd><dd class="budget">Budget 1.8 s · <b>measuring</b></dd></div>
+          <div class="metric" id="m-lcp"><dt class="name">Main content shown</dt><dd class="val">…</dd><dd class="budget">Budget 2.5 s · <b>measuring</b></dd></div>
+          <div class="metric" id="m-cls"><dt class="name">Layout shift</dt><dd class="val">…</dd><dd class="budget">Budget 0.1 · <b>measuring</b></dd></div>
+          <div class="metric" id="m-kb"><dt class="name">Transferred</dt><dd class="val">…</dd><dd class="budget"><b>measuring</b></dd></div>
+        </dl>
+        <p class="note">Read from your browser's Performance API as the page loaded. Reload to measure again.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="block" id="work" aria-labelledby="work-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="work-h">What we build</h2>
+        <p>Storefronts that feel considered on every screen, and the tools behind them that keep a brand running. Each one designed, measured and tested before it ships.</p>
+      </div>
+      <div class="services">
+        <article class="service">
+          <span class="tag">Themes</span>
+          <h3>Shopify storefronts</h3>
+          <p>Custom Online Store 2.0 themes designed for your brand, built from sections your team can edit without calling a developer.</p>
+        </article>
+        <article class="service">
+          <span class="tag">Audits</span>
+          <h3>Store audits</h3>
+          <p>Speed, accessibility, search and every installed app, with evidence for each finding and a ranked list of fixes. Useful on its own, and the first step of every build.</p>
+        </article>
+        <article class="service">
+          <span class="tag">Apps</span>
+          <h3>Shopify apps and integrations</h3>
+          <p>Checkout extensions, admin tools and connections to the rest of your stack, for when an off-the-shelf app is too slow, too costly or doesn't fit.</p>
+        </article>
+        <article class="service">
+          <span class="tag">Software</span>
+          <h3>Back-office software</h3>
+          <p>Our first product brings Shopify payouts into QuickBooks. It fetches and prepares everything automatically, and nothing posts without a person's approval. In private development.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="process" aria-labelledby="process-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="process-h">How a project runs</h2>
+        <p>You see a working store before you commit to building one.</p>
+      </div>
+      <ol class="steps">
+        <li class="step"><h3>Audit</h3><p>We measure your current store on real devices and write up what's slowing it down, what's broken and what it's costing you.</p></li>
+        <li class="step"><h3>Concept</h3><p>A working concept on a private development store, with your real products, so you can click through it before signing for the build.</p></li>
+        <li class="step"><h3>Build</h3><p>A version-controlled theme. Every change is checked against the performance budget and an accessibility scan before it goes live.</p></li>
+        <li class="step"><h3>Launch and handover</h3><p>Redirects, app checks and monitoring around launch. You get the repository, the documentation and full admin access.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="budgets" aria-labelledby="budgets-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="budgets-h">The budgets we build to</h2>
+        <p>Design decisions get made inside these limits, not traded against them. The panel at the top of this page measures the same things.</p>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Measure</th><th scope="col">What a shopper notices</th><th scope="col" class="t">Budget</th></tr></thead>
+          <tbody>
+            <tr><td class="m">Largest Contentful Paint<span>LCP</span></td><td class="d">How long until the main image or headline appears</td><td class="t">≤ 2.5 s</td></tr>
+            <tr><td class="m">Interaction to Next Paint<span>INP</span></td><td class="d">How quickly the page reacts to a tap, a filter or Add to cart</td><td class="t">≤ 200 ms</td></tr>
+            <tr><td class="m">Cumulative Layout Shift<span>CLS</span></td><td class="d">Whether buttons and text jump around while the page loads</td><td class="t">≤ 0.1</td></tr>
+            <tr><td class="m">Accessibility<span>WCAG</span></td><td class="d">Keyboard use, screen readers, readable contrast and labels</td><td class="t">2.2 AA</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="foot-note">The first three are the limits Google rates as good, taken at the 75th percentile of real visits on phones and desktops.</p>
+    </div>
+  </section>
+
+  <section class="games" aria-labelledby="games-h">
+    <div class="wrap">
+      <h2 id="games-h">We make games too.</h2>
+      <p>Kinmoor started as a game studio, and our first game is in development. Games taught us to care about motion, feel and frame budgets, and that carries into every storefront we build.</p>
+      <a class="btn ghost" href="https://kinmoor.games" rel="noopener">kinmoor.games</a>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-h">Start with an audit.</h2>
+      <p>Send us your store's address. We'll look at it closely and tell you plainly what's holding it back and what we'd change, before we talk about a rebuild.</p>
+      <div class="mailrow">
+        <span class="mail" id="mail">hello@kinmoorstudios.com</span>
+        <button class="btn copy" id="copy" type="button">Copy address</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Kinmoor Studios, LLC</span>
+    <span>This site sets no cookies and runs no trackers.</span>
+    <a href="https://kinmoor.games" rel="noopener">Games at kinmoor.games</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ---------- Live performance readout ---------- */
+  var budgets={fcp:1800,lcp:2500,cls:0.1};
+  function fmtMs(v){return v<1000?Math.round(v)+' ms':(v/1000).toFixed(2)+' s'}
+  function set(id,val,state,budgetText){
+    var el=document.getElementById(id); if(!el) return;
+    el.querySelector('.val').textContent=val;
+    el.dataset.state=state||'';
+    var b=el.querySelector('.budget');
+    var label=state==='ok'?'within budget':state==='over'?'over budget':state==='na'?'not supported here':state==='info'?'':'measuring';
+    b.innerHTML=label?(budgetText?budgetText+' · ':'')+'<b>'+label+'</b>':budgetText;
+  }
+  var cls=0, lcp=null;
+  function po(type,cb){try{var o=new PerformanceObserver(function(l){l.getEntries().forEach(cb)});o.observe({type:type,buffered:true});return true}catch(e){return false}}
+
+  var hasPaint=po('paint',function(e){if(e.name==='first-contentful-paint'){set('m-fcp',fmtMs(e.startTime),e.startTime<=budgets.fcp?'ok':'over','Budget 1.8 s')}});
+  var hasLcp=po('largest-contentful-paint',function(e){lcp=e.startTime;set('m-lcp',fmtMs(lcp),lcp<=budgets.lcp?'ok':'over','Budget 2.5 s')});
+  var hasCls=po('layout-shift',function(e){if(!e.hadRecentInput){cls+=e.value}set('m-cls',cls.toFixed(3),cls<=budgets.cls?'ok':'over','Budget 0.1')});
+
+  function weigh(){
+    try{
+      var nav=performance.getEntriesByType('navigation')[0];
+      var list=performance.getEntriesByType('resource').slice();
+      if(nav) list.unshift(nav);
+      var bytes=0;
+      list.forEach(function(e){bytes+=(e.transferSize||e.encodedBodySize||0)});
+      if(bytes>0){set('m-kb',(bytes/1024).toFixed(0)+' KB','info', list.length+' requests, all files')}
+      else{set('m-kb','—','na','')}
+    }catch(e){set('m-kb','—','na','')}
+  }
+  function finish(){
+    if(!hasPaint) set('m-fcp','—','na','Budget 1.8 s');
+    if(!hasLcp) set('m-lcp','—','na','Budget 2.5 s');
+    if(hasCls && document.querySelector('#m-cls .val').textContent==='…') set('m-cls','0.000','ok','Budget 0.1');
+    if(!hasCls) set('m-cls','—','na','Budget 0.1');
+    weigh();
+  }
+  if(document.readyState==='complete') setTimeout(finish,300); else addEventListener('load',function(){setTimeout(finish,300)});
+  setTimeout(weigh,2500);
+
+  /* ---------- Copy address ---------- */
+  var btn=document.getElementById('copy'), mail=document.getElementById('mail');
+  function selectMail(){var r=document.createRange();r.selectNodeContents(mail);var s=getSelection();s.removeAllRanges();s.addRange(r)}
+  btn.addEventListener('click',function(){
+    var done=function(){btn.textContent='Copied';btn.setAttribute('data-done','');setTimeout(function(){btn.textContent='Copy address';btn.removeAttribute('data-done')},2000)};
+    try{navigator.clipboard.writeText(mail.textContent.trim()).then(done,function(){selectMail();btn.textContent='Selected, press Ctrl+C'})}
+    catch(e){selectMail();btn.textContent='Selected, press Ctrl+C'}
+  });
+
+  /* ---------- Contour lines (drawn once, redrawn on resize or theme change) ---------- */
+  var cv=document.getElementById('contours');
+  function hash(x,y){var h=Math.imul(x,374761393)+Math.imul(y,668265263)|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967295}
+  function sm(t){return t*t*(3-2*t)}
+  function vnoise(x,y){var xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi,u=sm(xf),v=sm(yf);
+    var a=hash(xi,yi),b=hash(xi+1,yi),c=hash(xi,yi+1),d=hash(xi+1,yi+1);
+    return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v}
+  function field(x,y){return .6*vnoise(x/320,y/320)+.3*vnoise(x/150+17,y/150+5)+.1*vnoise(x/70+3,y/70+41)}
+  function draw(){
+    var r=cv.getBoundingClientRect(); if(!r.width||!r.height) return;
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    cv.width=Math.round(r.width*dpr); cv.height=Math.round(r.height*dpr);
+    var ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,r.width,r.height);
+    var col=getComputedStyle(document.documentElement).getPropertyValue('--contour').trim();
+    var s=9,nx=Math.ceil(r.width/s)+1,ny=Math.ceil(r.height/s)+1,f=new Float32Array(nx*ny);
+    for(var j=0;j<ny;j++)for(var i=0;i<nx;i++)f[j*nx+i]=field(i*s+40,j*s+90);
+    ctx.strokeStyle=col; ctx.lineCap='round';
+    for(var k=0,L=.22;L<.8;L+=.035,k++){
+      ctx.lineWidth=(k%4===0)?1.6:0.9; ctx.beginPath();
+      for(var j2=0;j2<ny-1;j2++)for(var i2=0;i2<nx-1;i2++){
+        var a=f[j2*nx+i2],b=f[j2*nx+i2+1],c=f[(j2+1)*nx+i2+1],d=f[(j2+1)*nx+i2];
+        var idx=(a>L?8:0)|(b>L?4:0)|(c>L?2:0)|(d>L?1:0); if(idx===0||idx===15) continue;
+        var x0=i2*s,y0=j2*s;
+        var T=[x0+s*(L-a)/(b-a),y0], R=[x0+s,y0+s*(L-b)/(c-b)], B=[x0+s*(L-d)/(c-d),y0+s], Lf=[x0,y0+s*(L-a)/(d-a)];
+        var segs={1:[[Lf,B]],2:[[B,R]],3:[[Lf,R]],4:[[T,R]],5:[[T,R],[Lf,B]],6:[[T,B]],7:[[Lf,T]],8:[[Lf,T]],9:[[T,B]],10:[[Lf,T],[B,R]],11:[[T,R]],12:[[Lf,R]],13:[[B,R]],14:[[Lf,B]]}[idx];
+        for(var q=0;q<segs.length;q++){ctx.moveTo(segs[q][0][0],segs[q][0][1]);ctx.lineTo(segs[q][1][0],segs[q][1][1])}
+      }
+      ctx.stroke();
+    }
+  }
+  var idle=window.requestIdleCallback||function(fn){return setTimeout(fn,60)};
+  idle(draw);
+  var rt; addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(draw,150)});
+  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw)}catch(e){}
+  try{new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
+})();
+</script>
+
+</body>
+</html>
