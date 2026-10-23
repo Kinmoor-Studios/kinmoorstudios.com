@@ -330,7 +330,10 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
 </footer>
 
 <script>
-(function(){
+function kinmoorBoot(){
+  // If the page is started again in place (for example after a live update), clean up the previous run first.
+  if(window.__kinmoorTeardown){try{window.__kinmoorTeardown()}catch(e){}}
+  var ac=new AbortController(),sig={signal:ac.signal},obs=[];
   /* ---------- Live performance readout ---------- */
   var budgets={fcp:1800,lcp:2500,cls:0.1};
   function fmtMs(v){return v<1000?Math.round(v)+' ms':(v/1000).toFixed(2)+' s'}
@@ -343,7 +346,7 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
     b.innerHTML=label?(budgetText?budgetText+' · ':'')+'<b>'+label+'</b>':budgetText;
   }
   var cls=0, lcp=null;
-  function po(type,cb){try{var o=new PerformanceObserver(function(l){l.getEntries().forEach(cb)});o.observe({type:type,buffered:true});return true}catch(e){return false}}
+  function po(type,cb){try{var o=new PerformanceObserver(function(l){l.getEntries().forEach(cb)});obs.push(o);o.observe({type:type,buffered:true});return true}catch(e){return false}}
 
   var hasPaint=po('paint',function(e){if(e.name==='first-contentful-paint'){set('m-fcp',fmtMs(e.startTime),e.startTime<=budgets.fcp?'ok':'over','Budget 1.8 s')}});
   var hasLcp=po('largest-contentful-paint',function(e){lcp=e.startTime;set('m-lcp',fmtMs(lcp),lcp<=budgets.lcp?'ok':'over','Budget 2.5 s')});
@@ -367,17 +370,17 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
     if(!hasCls) set('m-cls','—','na','Budget 0.1');
     weigh();
   }
-  if(document.readyState==='complete') setTimeout(finish,300); else addEventListener('load',function(){setTimeout(finish,300)});
+  if(document.readyState==='complete') setTimeout(finish,300); else addEventListener('load',function(){setTimeout(finish,300)},sig);
   setTimeout(weigh,2500);
 
   /* ---------- Copy address ---------- */
   var btn=document.getElementById('copy'), mail=document.getElementById('mail');
   function selectMail(){var r=document.createRange();r.selectNodeContents(mail);var s=getSelection();s.removeAllRanges();s.addRange(r)}
-  btn.addEventListener('click',function(){
+  btn.onclick=function(){
     var done=function(){btn.textContent='Copied';btn.setAttribute('data-done','');setTimeout(function(){btn.textContent='Copy address';btn.removeAttribute('data-done')},2000)};
     try{navigator.clipboard.writeText(mail.textContent.trim()).then(done,function(){selectMail();btn.textContent='Address selected'})}
     catch(e){selectMail();btn.textContent='Address selected'}
-  });
+  };
 
   /* ---------- Light / dark toggle (follows the device until the visitor chooses) ---------- */
   var root=document.documentElement, tbtn=document.getElementById('theme-toggle');
@@ -385,15 +388,15 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
   function effective(){var a=root.getAttribute('data-theme');return(a==='light'||a==='dark')?a:(mq&&mq.matches?'dark':'light')}
   function syncToggle(){var dark=effective()==='dark',label=dark?'Switch to light mode':'Switch to dark mode';
     tbtn.setAttribute('aria-pressed',dark?'true':'false');tbtn.setAttribute('aria-label',label);tbtn.title=label}
-  tbtn.addEventListener('click',function(){
+  tbtn.onclick=function(){
     var next=effective()==='dark'?'light':'dark';
     root.classList.add('theming');setTimeout(function(){root.classList.remove('theming')},450);
     root.setAttribute('data-theme',next);
     try{localStorage.setItem('kinmoor-theme',next)}catch(e){}
     syncToggle();
-  });
-  try{mq.addEventListener('change',syncToggle)}catch(e){}
-  try{new MutationObserver(syncToggle).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
+  };
+  try{mq.addEventListener('change',syncToggle,sig)}catch(e){}
+  try{(obs[obs.length]=new MutationObserver(syncToggle)).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
   syncToggle();
 
   /* ---------- Contour map: smoothed contour lines, a slowly glowing index layer, and lights that travel the index lines ---------- */
@@ -524,19 +527,22 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
   var ready=false;
   idle(function(){draw();ready=true;hero.classList.add('drawn')});
   function begin(){setTimeout(function(){idle(start)},700)}
-  if(document.readyState==='complete')begin();else addEventListener('load',begin);
-  try{new IntersectionObserver(function(es){onScreen=es[0].isIntersecting;if(!ready)return;onScreen?start():stop()}).observe(hero)}catch(e){}
-  document.addEventListener('visibilitychange',function(){if(!ready)return;document.hidden?stop():start()});
+  if(document.readyState==='complete')begin();else addEventListener('load',begin,sig);
+  try{(obs[obs.length]=new IntersectionObserver(function(es){onScreen=es[es.length-1].isIntersecting;if(!ready)return;onScreen?start():stop()})).observe(hero)}catch(e){}
+  document.addEventListener('visibilitychange',function(){if(!ready)return;document.hidden?stop():start()},sig);
+  addEventListener('pageshow',function(){if(ready){stop();start()}},sig);
   function redraw(){if(!ready)return;stop();draw();start()}
   // On a theme change, fade the map out, redraw it in the new colours, and fade it back in.
   var stack=document.querySelector('.contour-stack'),swapT;
   function themeRedraw(){if(!ready)return;if(reduce){redraw();return}
     stack.classList.add('fading');clearTimeout(swapT);
     swapT=setTimeout(function(){redraw();stack.classList.remove('fading')},230)}
-  var rt,lastW=0; addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){var w=hero.clientWidth;if(w!==lastW){lastW=w;redraw()}},200)});
-  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',themeRedraw)}catch(e){}
-  try{new MutationObserver(themeRedraw).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
-})();
+  var rt,lastW=0; addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){var w=hero.clientWidth;if(w!==lastW){lastW=w;redraw()}},200)},sig);
+  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',themeRedraw,sig)}catch(e){}
+  try{(obs[obs.length]=new MutationObserver(themeRedraw)).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
+  window.__kinmoorTeardown=function(){ac.abort();obs.forEach(function(o){try{o.disconnect()}catch(e){}});stop()};
+}
+if(window.claude&&window.claude.hot&&window.claude.hot.ready)window.claude.hot.ready(kinmoorBoot);else kinmoorBoot();
 </script>
 
 </body>
