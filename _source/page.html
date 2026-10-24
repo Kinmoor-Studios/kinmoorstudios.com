@@ -263,7 +263,13 @@ footer .meta{grid-column:2}
 /* The circle scales with the window: about 160 px at 1366 and 220 px at 1920. The mask uses closest-side, so it scales too. It is centred on the pointer by its transform, not a margin, so the bright map inside lands exactly on the pixel grid. */
 .torch{--tsz:clamp(140px,11.5vw,240px);position:absolute;left:0;top:0;width:var(--tsz);height:var(--tsz);display:none;opacity:0;transition:opacity .45s ease,display .45s allow-discrete;pointer-events:none;
   -webkit-mask-image:radial-gradient(closest-side,#000,rgba(0,0,0,.82) 14%,rgba(0,0,0,.44) 36%,rgba(0,0,0,.15) 62%,transparent);mask-image:radial-gradient(closest-side,#000,rgba(0,0,0,.82) 14%,rgba(0,0,0,.44) 36%,rgba(0,0,0,.15) 62%,transparent)}
-.torch canvas{position:absolute;left:0;top:0;will-change:transform}
+.tmap{position:absolute;left:0;top:0;will-change:transform}
+.tmap canvas{position:absolute;left:0;top:0}
+/* A secret: a small smiley in the hero's bottom-right corner, below the readout panel. It sits inside the torch, so it shows only under the pointer.
+   It is its own small drawing rather than part of the map, so it can cancel the depth effect and stay in the corner however far the hero has scrolled. */
+.smile{position:absolute;right:42px;bottom:14px;width:32px;height:32px;fill:none;stroke:var(--torch);stroke-width:1.5;stroke-linecap:round;overflow:visible;filter:drop-shadow(0 0 2.5px var(--torch))}
+.smile .eye{fill:var(--torch);stroke:none}
+@media (max-width:699px){.smile{bottom:10px}}
 /* While off, the circle is out of rendering altogether (display:none): even invisible, its layers cost the compositor on every frame. It fades in and out where browsers can animate display. */
 .hero.torch-on .torch{display:block;opacity:1;will-change:transform,opacity}
 @starting-style{.hero.torch-on .torch{opacity:0}}
@@ -420,9 +426,11 @@ footer .meta{grid-column:2}
   .atmos,.contour-stack{animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--hero;animation-range:exit-crossing 0% exit-crossing 100%}
   .atmos{animation-name:kin-far}
   .contour-stack{animation-name:kin-mid}
+  .smile{animation-name:kin-mid-back;animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--hero;animation-range:exit-crossing 0% exit-crossing 100%}
 }}
 @keyframes kin-far{to{transform:translate3d(0,30%,0)}}
 @keyframes kin-mid{to{transform:translate3d(0,14%,0)}}
+@keyframes kin-mid-back{to{transform:translate3d(0,calc(var(--sh,0px) * -.14),0)}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 <script>try{var t=localStorage.getItem('kinmoor-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
@@ -455,7 +463,7 @@ footer .meta{grid-column:2}
       <canvas class="contour" id="contours"></canvas>
       <canvas class="contour" id="contours-index"></canvas>
       <canvas class="contour" id="contours-lights"></canvas>
-      <div class="torch"><canvas id="contours-torch"></canvas></div>
+      <div class="torch"><div class="tmap" id="tmap"><canvas id="contours-torch"></canvas><svg class="smile" viewBox="-16 -16 32 32" aria-hidden="true"><circle r="13"/><path d="M-6.4 4.9a7.5 7.5 0 0 0 12.8 0"/><circle class="eye" cx="-4.5" cy="-3.5" r="1.6"/><circle class="eye" cx="4.5" cy="-3.5" r="1.6"/></svg></div></div>
     </div>
     <div class="wrap">
       <div class="hero-copy">
@@ -717,7 +725,7 @@ function kinmoorBoot(){
      All of it is drawn by kinHero(). It can also run in a background thread, but measured side by side
      the hand-off between threads cost more than it saved, so it runs on the page's own thread. */
   function kinHero(scope,isWorker){
-    var cb,ci,cl,ca,bx,ix,lx,ax,W=0,H=0,SL=0,DPR=1,LDPR=1,col=null,reduce=false,still=false,on=false,raf=0;
+    var cb,ci,cl,ca,bx,ix,lx,ax,W=0,H=0,DPR=1,LDPR=1,col=null,reduce=false,still=false,on=false,raf=0;
     var paths=[],tLines=[],lights=[],pal=[],aCols=[],aW=0,aH=0,T=30,lastT=0,lastLight=0,lastAtm=0,dirty=[],cover=null,scrolling=false,LH=0;
     var workAcc=0,workN=0,lastReport=0,quality=0,winN=0,winSlow=0,calm=0,buildId=0,built=false,cbr=null,cir=null,ct=null,ctr=null,tcx=null;
     var rAF=(typeof requestAnimationFrame==='function')?function(f){return requestAnimationFrame(f)}:function(f){return setTimeout(function(){f(performance.now())},16)};
@@ -797,11 +805,7 @@ function kinmoorBoot(){
         d.restore();if(ss>1){c.save();c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';c.drawImage(tc,0,0,w,h);c.restore();tc.width=tc.height=0}c.save();c.globalCompositeOperation='destination-in';var g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,'#000');g.addColorStop(.55,'#000');g.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g;c.fillRect(0,0,w,h);c.restore()}
       else for(var n=0;n<3;n++){var o=(n-1)*.4*k;c.drawImage(b,o,-o,w,h);c.drawImage(i,o,-o,w,h)}
       c.globalCompositeOperation='source-in';c.fillStyle=col.torch||'#C99FCF';c.fillRect(0,0,w,h);c.globalCompositeOperation='source-over';
-      // A secret: a small smiley in the bottom-right corner, below the readout panel. It exists only in this bright map, so it shows only under the torch.
-      // SL lifts it by as much as the depth effect will have pushed the map down by the time the hero's bottom edge scrolls into view.
-      var x=(W-58)*k,y=(H-(W<700?26:30)-SL)*k,r=13*k;c.save();c.strokeStyle=c.fillStyle;c.lineWidth=1.5*k;c.lineCap='round';c.shadowColor=c.fillStyle;c.shadowBlur=5*k;
-      c.beginPath();c.arc(x,y,r,0,6.2832);c.stroke();c.beginPath();c.arc(x,y+1*k,7.5*k,.55,2.59);c.stroke();
-      c.beginPath();c.arc(x-4.5*k,y-3.5*k,1.6*k,0,6.2832);c.arc(x+4.5*k,y-3.5*k,1.6*k,0,6.2832);c.fill();c.restore()}
+}
 
     /* Colour fields: painted into a canvas one sixth the hero's size, which the browser scales up. */
     var FIELDS=[
@@ -889,7 +893,7 @@ function kinmoorBoot(){
       workAcc+=performance.now()-w0;workN++;
       if(now-lastReport>=1000&&workN){post({type:'stats',work:workAcc/workN,q:quality});workAcc=0;workN=0;lastReport=now}
       raf=rAF(frame)}
-    function sizeAll(z){W=z.W;H=z.H;SL=z.lift||0;DPR=z.DPR;LDPR=quality>=1?1:Math.min(DPR,1.5);
+    function sizeAll(z){W=z.W;H=z.H;DPR=z.DPR;LDPR=quality>=1?1:Math.min(DPR,1.5);
       if(bx){[[cb,DPR],[ci,DPR]].forEach(function(e){e[0].width=Math.max(1,Math.round(W*e[1]));e[0].height=Math.max(1,Math.round(H*e[1]))});
         bx.setTransform(DPR,0,0,DPR,0,0);ix.setTransform(DPR,0,0,DPR,0,0)}
       LH=lightsH();cl.width=Math.max(1,Math.round(W*LDPR));cl.height=Math.max(1,Math.round(LH*LDPR));if(cl.style)cl.style.height=LH+'px';
@@ -899,11 +903,11 @@ function kinmoorBoot(){
     /* The map is built once per size or theme. With a builder, that happens in a background worker,
        which sends back two finished images and the light paths; otherwise it is drawn here. */
     function requestBuild(){buildId++;
-      if(scope.build)scope.build({type:'build',id:buildId,size:{W:W,H:H,lift:SL,DPR:DPR},col:col,reduce:reduce});
+      if(scope.build)scope.build({type:'build',id:buildId,size:{W:W,H:H,DPR:DPR},col:col,reduce:reduce});
       else{drawContours();if(tcx){ct.width=Math.max(1,Math.round(W*DPR));ct.height=Math.max(1,Math.round(H*DPR));paintTorch(tcx,cb,ci)}onBuilt()}}
     function onBuilt(){if(!reduce)seedLights();post({type:built?'drawn':'ready'});built=true}
     function handle(m){
-      if(m.type==='build'){W=m.size.W;H=m.size.H;SL=m.size.lift||0;DPR=m.size.DPR;col=m.col;reduce=m.reduce;
+      if(m.type==='build'){W=m.size.W;H=m.size.H;DPR=m.size.DPR;col=m.col;reduce=m.reduce;
         var ob=new OffscreenCanvas(Math.max(1,Math.round(W*DPR)),Math.max(1,Math.round(H*DPR))),oi=new OffscreenCanvas(ob.width,ob.height);
         bx=ob.getContext('2d');ix=oi.getContext('2d');bx.setTransform(DPR,0,0,DPR,0,0);ix.setTransform(DPR,0,0,DPR,0,0);drawContours();
         var ot=new OffscreenCanvas(ob.width,ob.height);paintTorch(ot.getContext('2d'),ob,oi);
@@ -936,14 +940,11 @@ function kinmoorBoot(){
   function measure(){var r=hero.getBoundingClientRect(),sr=stack.getBoundingClientRect(),D=Math.min(window.devicePixelRatio||1,2);
     // The maps are drawn at the stack's size. Each map canvas is shown at exactly its bitmap's size divided by the pixel ratio, so the browser never rescales it (a 816.5 px box for an 817 px bitmap blurs every line).
     var cw=Math.round(sr.width*D)/D+'px',ch=Math.round(sr.height*D)/D+'px';
-    ['contours','contours-index','contours-torch'].forEach(function(id){var c=document.getElementById(id);if(c){c.style.width=cw;c.style.height=ch}});
+    ['contours','contours-index','contours-torch','tmap'].forEach(function(id){var c=document.getElementById(id);if(c){c.style.width=cw;c.style.height=ch}});
+    // The smiley cancels the depth effect's movement, which is 14% of the stack's height.
+    hero.style.setProperty('--sh',sr.height+'px');
     var ro=document.querySelector('.readout'),q=ro&&ro.getBoundingClientRect();if(q&&send)send({type:'cover',r:[q.left-r.left,q.top-r.top,q.width,q.height]});
-    // The depth effect moves the map down by 14% of the hero's height over the hero's exit, which starts once the hero's top reaches the top of the window.
-    // On a window shorter than the hero, that hides the smiley; lift it by the shift at the moment the hero's bottom comes into view, never into the readout.
-    var lift=0;if(depthOn()){lift=.14*Math.max(0,r.height-innerHeight);
-      if(q&&q.right-r.left>r.width-80)lift=Math.min(lift,Math.max(0,r.height-(r.width<700?26:30)-21-(q.bottom-r.top)))}
-    return{W:sr.width,H:sr.height,lift:Math.round(lift),DPR:D}}
-  function depthOn(){try{return matchMedia('(prefers-reduced-motion:no-preference)').matches&&CSS.supports('animation-timeline','view()')}catch(e){return false}}
+    return{W:sr.width,H:sr.height,DPR:D}}
   var send=null,ready=false,onScreen=true,dead=false,quality=0,builder=null;
   // A visible control to stop the background (WCAG 2.2.2), remembered for the next visit.
   var still=false,mbtn=document.getElementById('motion');try{still=localStorage.getItem('kinmoor-motion')==='paused'}catch(e){}
@@ -993,7 +994,7 @@ function kinmoorBoot(){
   /* ---------- Torch: brighter lines follow the pointer, or a finger on the map ---------- */
   // Each frame moves two layers by transform: the circle, and the bright map inside it the opposite way, so the lines stay in register.
   // The map's position is read once when the torch lights and again after scrolling, not on every frame.
-  var torchEl=stack.querySelector('.torch'),torchCv=document.getElementById('contours-torch'),tX=0,tY=0,gX=0,gY=0,tFirst=true,tRaf=0,tOn=false,tOff=0,tR=110,tBox=null,tD=1;
+  var torchEl=stack.querySelector('.torch'),torchCv=document.getElementById('tmap'),tX=0,tY=0,gX=0,gY=0,tFirst=true,tRaf=0,tOn=false,tOff=0,tR=110,tBox=null,tD=1;
   function torchMove(){tRaf=0;if(!tOn)return;if(!tBox)tBox=stack.getBoundingClientRect();var x=tX-tBox.left,y=tY-tBox.top;
     // It follows the pointer directly: any easing reads as lag behind the cursor. Offsets are whole device pixels, and the bright map's is the exact opposite of the circle's, so it sits on the pixel grid and in register with the map below.
     gX=x;gY=y;tFirst=false;var ox=Math.round((gX-tR)*tD)/tD,oy=Math.round((gY-tR)*tD)/tD;
