@@ -6,7 +6,7 @@ SITE='https://kinmoorstudios.com/'
 def csp_for(html):
     """Content-Security-Policy that allows only this page's own inline code (by hash), its own fonts, and nothing else."""
     def h(text): return "'sha256-"+base64.b64encode(hashlib.sha256(text.encode()).digest()).decode()+"'"
-    scripts=[h(m) for m in re.findall(r'<script>([\s\S]*?)</script>',html)]
+    scripts=[h(m) for m in re.findall(r'<script(?: type="speculationrules")?>([\s\S]*?)</script>',html)]
     styles=[h(m) for m in re.findall(r'<style>([\s\S]*?)</style>',html)]
     return ("default-src 'none'; script-src "+' '.join(scripts or ["'none'"])+"; style-src "+' '.join(styles or ["'none'"])+
             "; img-src 'self' data:; font-src 'self'; manifest-src 'self'; worker-src blob:; connect-src 'self'"
@@ -70,7 +70,8 @@ SMALL_CSS='''@font-face{font-family:"Archivo";src:url("/fonts/archivo-display.wo
 @font-face{font-family:"Kinmoor Text";src:url("/fonts/kinmoor-text.woff2?v=77a883ec") format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"IBM Plex Mono";src:url("/fonts/ibm-plex-mono-500.woff2?v=723c5326") format("woff2");font-weight:500;font-display:swap}
 :root{--ground:#ECEEE8;--ink:#1A1D17;--muted:#596155;--rule:#CBD1C4;--heather:#6B3D71}
-@media (prefers-color-scheme:dark){:root{--ground:#111310;--ink:#E8EBE2;--muted:#9BA394;--rule:#2D3229;--heather:#C99FCF;color-scheme:dark}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#111310;--ink:#E8EBE2;--muted:#9BA394;--rule:#2D3229;--heather:#C99FCF;color-scheme:dark}}
+:root[data-theme="dark"]{--ground:#111310;--ink:#E8EBE2;--muted:#9BA394;--rule:#2D3229;--heather:#C99FCF;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font:400 1.125rem/1.65 "Kinmoor Text",Georgia,"Times New Roman",serif}
 main{max-width:44rem;margin:0 auto;padding:clamp(48px,10vw,120px) max(20px,env(safe-area-inset-right,0px)) 64px max(20px,env(safe-area-inset-left,0px))}
@@ -81,7 +82,13 @@ p,li{text-wrap:pretty}p{margin:0 0 14px}ul{padding-left:1.2em;margin:0 0 14px}
 a{color:var(--heather);text-underline-offset:3px}
 :focus-visible{outline:2px solid var(--heather);outline-offset:3px}
 .home{display:inline-block;margin-top:24px;font:500 .8125rem/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);border:1px solid var(--ink);padding:14px 20px;text-decoration:none}
-.updated{font:500 .8125rem/1.5 "IBM Plex Mono",ui-monospace,monospace;color:var(--muted)}'''
+.updated{font:500 .8125rem/1.5 "IBM Plex Mono",ui-monospace,monospace;color:var(--muted)}
+/* Moving between pages: the old page eases up and fades while the new one rises in (Chrome, Edge, and Safari 18.2 and later; other browsers switch instantly). Off with reduced motion. */
+@media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto;types:page}}
+html:active-view-transition-type(page)::view-transition-old(root){animation:vt-out .26s cubic-bezier(.4,0,1,1) both}
+html:active-view-transition-type(page)::view-transition-new(root){animation:vt-in .42s cubic-bezier(.2,.7,.2,1) both}
+@keyframes vt-out{to{opacity:0;transform:translateY(-12px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(16px)}}'''
 def small_page(path,title,desc,body):
     page=f'''<!DOCTYPE html>
 <html lang="en">
@@ -90,6 +97,8 @@ def small_page(path,title,desc,body):
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <style>{SMALL_CSS}</style>
+<script>try{{var t=localStorage.getItem('kinmoor-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}}catch(e){{}}</script>
+<script type="speculationrules">{{"prefetch":[{{"source":"list","urls":["/"],"eagerness":"moderate"}}]}}</script>
 </head>
 <body>
 <main>

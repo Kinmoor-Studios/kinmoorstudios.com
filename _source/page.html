@@ -5,6 +5,7 @@
 <link rel="preload" href="fonts/kinmoor-text.woff2?v=77a883ec" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/ibm-plex-mono-500.woff2?v=723c5326" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/ibm-plex-mono-400.woff2?v=6b380ffd" as="font" type="font/woff2" crossorigin>
+<script type="speculationrules">{"prerender":[{"source":"list","urls":["/privacy"],"eagerness":"moderate"}]}</script>
 <style>
 /* Fonts are served from this site, trimmed to the weights and characters the page uses: about 53 KB for all four files. */
 @font-face{font-family:"Archivo";src:url("fonts/archivo-display.woff2?v=2607a15a") format("woff2");font-weight:700 800;font-stretch:112% 125%;font-display:swap}
@@ -133,6 +134,12 @@ h1 em{font-style:normal;color:var(--heather)}
 /* Theme switch: the map hides at once, then fades back in when it has been redrawn in the new colours */
 .hero.drawn .contour-stack.swap{opacity:0;transition:none}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
+/* Moving between pages: the old page eases up and fades while the new one rises in (Chrome, Edge, and Safari 18.2 and later; other browsers switch instantly). Off with reduced motion. */
+@media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto;types:page}}
+html:active-view-transition-type(page)::view-transition-old(root){animation:vt-out .26s cubic-bezier(.4,0,1,1) both}
+html:active-view-transition-type(page)::view-transition-new(root){animation:vt-in .42s cubic-bezier(.2,.7,.2,1) both}
+@keyframes vt-out{to{opacity:0;transform:translateY(-12px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(16px)}}
 
 /* Sections */
 section.block .wrap{padding-block:clamp(64px,9vw,112px)}
