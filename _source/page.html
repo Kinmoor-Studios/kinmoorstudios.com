@@ -1,0 +1,886 @@
+<title>Kinmoor Studios</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' rx='5' fill='%231A1D17'/%3E%3Cpath d='M4 20c4-6 7-9 10-9s6 3 10 9' fill='none' stroke='%23ECEEE8' stroke-width='1.8'/%3E%3Cpath d='M8 20c2.5-3.5 4.3-5 6-5s3.5 1.5 6 5' fill='none' stroke='%23C99FCF' stroke-width='1.8'/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/archivo-display.woff2?v=2607a15a" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/kinmoor-text.woff2?v=77a883ec" as="font" type="font/woff2" crossorigin>
+<style>
+/* Fonts are served from this site, trimmed to the weights and characters the page uses: about 53 KB for all four files. */
+@font-face{font-family:"Archivo";src:url("fonts/archivo-display.woff2?v=2607a15a") format("woff2");font-weight:700 800;font-stretch:112% 125%;font-display:swap}
+@font-face{font-family:"Kinmoor Text";src:url("fonts/kinmoor-text.woff2?v=77a883ec") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url("fonts/ibm-plex-mono-400.woff2?v=6b380ffd") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url("fonts/ibm-plex-mono-500.woff2?v=723c5326") format("woff2");font-weight:500;font-display:swap}
+/* Width-matched fallbacks so the page does not reflow when the fonts arrive */
+@font-face{font-family:"Archivo Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:500 900;size-adjust:126%}
+@font-face{font-family:"Kinmoor Text Fallback";src:local("Times New Roman"),local("TimesNewRomanPSMT");font-weight:400;size-adjust:101%}
+@font-face{font-family:"Plex Mono Fallback";src:local("Courier New"),local("CourierNewPSMT");font-weight:400 500;size-adjust:100%}
+/* Layout: moorland survey sheet. Contour lines behind an expanded grotesk headline, a live measurement panel as the one framed object, then plain ruled sections. */
+:root{
+  --ground:#ECEEE8;
+  --surface:#F7F8F3;
+  --ink:#1A1D17;
+  --muted:#596155;
+  --rule:#CBD1C4;
+  --contour:#CDD3C5;
+  --contour-strong:#B6BEAC;
+  --glow:rgba(107,61,113,.18);
+  --spark:#6B3D71;
+  --tr1:#6B3D71; --tr2:#56661B; --tr3:#3E5BA8; --tr4:#A0601C;
+  --atm1:rgba(124,64,132,.24); --atm2:rgba(64,90,190,.20); --atm3:rgba(224,146,56,.24); --atm4:rgba(56,132,124,.18);
+  --atm5:rgba(206,82,128,.20); --atm6:rgba(112,88,214,.22); --atm7:rgba(236,172,70,.24);
+
+  --heather:#6B3D71;
+  --lichen:#56661B;
+  --warn:#9A4A16;
+  --display:"Archivo","Archivo Fallback","Helvetica Neue",Arial,sans-serif;
+  --serif:"Kinmoor Text","Kinmoor Text Fallback",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono","Plex Mono Fallback",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --gutter:32px;
+  --s1:.8125rem; --s2:1rem; --s3:1.1875rem; --s4:1.5rem; --s5:clamp(1.9rem,4vw,2.75rem); --s6:clamp(2.6rem,6.4vw,5.2rem);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
+    --heather:#C99FCF; --lichen:#B9CB5E; --warn:#E8975E; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
+  --heather:#C99FCF; --lichen:#B9CB5E; --warn:#E8975E; color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+html{scroll-padding-top:16px}
+body{background:var(--ground);color:var(--ink);font:400 var(--s3)/1.6 var(--serif);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--heather);outline-offset:3px;border-radius:2px}
+h1,h2,h3{font-family:var(--display);font-stretch:125%;text-wrap:balance;margin:0}
+p{margin:0;text-wrap:pretty}
+.wrap{max-width:1180px;margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font:500 var(--s1)/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* Header */
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:22px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.0625rem/1 var(--display);font-stretch:125%;letter-spacing:.06em;text-transform:uppercase}
+.brand svg{width:28px;height:28px;flex:none}
+.nav{display:flex;align-items:center;gap:28px;font:500 var(--s1)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.theme-toggle{display:inline-grid;place-items:center;width:36px;height:36px;padding:0;border:1px solid var(--rule);border-radius:50%;background:transparent;color:var(--ink);cursor:pointer;transition:border-color .2s}
+.theme-toggle:hover{border-color:var(--ink)}
+.theme-toggle svg{width:18px;height:18px;transition:transform .4s ease}
+.theme-toggle[aria-pressed="true"] svg{transform:rotate(180deg)}
+.nav a{position:relative;text-decoration:none;color:var(--muted);padding-block:6px}
+.nav a:hover{color:var(--ink)}
+@media (max-width:720px){.nav a:not(.keep){display:none}}
+@media (max-width:380px){.top .wrap{gap:12px}.nav{gap:14px}.brand{gap:8px}}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+.contour-stack{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .9s ease}
+.hero.drawn .contour-stack{opacity:1}
+.contour{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#contours-index{opacity:.5;animation:breathe 10s ease-in-out infinite;will-change:opacity}
+@keyframes breathe{50%{opacity:.8}}
+.hero .wrap{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px var(--gutter);align-items:start;padding-block:clamp(48px,9vw,120px) clamp(48px,7vw,88px)}
+.hero-copy{display:grid;gap:28px;min-width:0;container-type:inline-size}
+h1{font-size:var(--s6);font-size:min(var(--s6),13cqi);font-weight:800;line-height:.94;letter-spacing:-.025em}
+h1 span,h1 em{display:block}
+/* Optical alignment: letters carry their own space on the left (0.08 em for a D at this weight), so large lines are pulled back to sit on the same edge as the text around them. */
+.ol-D{margin-left:-.084em}.ol-d{margin-left:-.041em}.ol-y{margin-left:-.002em}.ol-S{margin-left:-.05em}
+h1 em{font-style:normal;color:var(--heather)}
+.lede{font-size:clamp(1.125rem,1.6vw,1.3125rem);max-width:34em;color:var(--ink)}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;font:500 var(--s1)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:1px solid var(--ink);border-radius:2px;transition:background .2s,color .2s}
+.btn.primary{background:var(--ink);color:var(--ground)}
+.btn.primary:hover{background:var(--heather);border-color:var(--heather)}
+.btn.ghost:hover{background:var(--surface)}
+/* Arrow drawn as a shape, not a character, so it centres on the capital letters rather than the font's arrow height */
+.btn.primary::after{content:"";flex:none;width:1em;height:.7em;background:currentColor;transform:translateY(var(--arrow-y,0));transition:transform .25s ease;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 11'%3E%3Cpath d='M0 5.5h14M9.5 1l4.5 4.5L9.5 10' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 11'%3E%3Cpath d='M0 5.5h14M9.5 1l4.5 4.5L9.5 10' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.btn.primary:hover::after{transform:translate(3px,var(--arrow-y,0))}
+.service,.step{position:relative}
+.service::after,.step::after,.nav a::after{content:"";position:absolute;left:0;right:0;background:var(--heather);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.service::after{top:-1px;height:1px}
+.step::after{top:-2px;height:2px}
+.nav a::after{bottom:0;height:1px;background:currentColor}
+@media (hover:hover){.service:hover::after,.step:hover::after,.nav a:hover::after{transform:scaleX(1)}}
+@media (max-width:860px){.hero .wrap{grid-template-columns:minmax(0,1fr)}}
+
+/* Live readout */
+.readout{background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:22px 22px 18px;display:grid;gap:16px;min-width:0}
+.readout header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.live{display:inline-flex;align-items:center;gap:8px;font:500 var(--s1)/1 var(--mono);color:var(--lichen)}
+.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lichen);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.metrics{display:grid;margin:0;padding:0;list-style:none}
+.metric{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding-block:10px;border-top:1px solid var(--rule)}
+.metric dd{margin:0}
+.metric dt,.metric .name{font:500 var(--s1)/1.35 var(--mono);color:var(--muted)}
+.metric .val{grid-row:span 2;min-width:6.5ch;align-self:center;font:500 1.5rem/1 var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;letter-spacing:-.02em}
+.metric .budget{font:400 .75rem/1.35 var(--mono);color:var(--muted);min-height:2.7em}
+.metric .budget b{font-weight:500}
+.metric[data-state="ok"] .budget b{color:var(--lichen)}
+.metric[data-state="over"] .budget b{color:var(--warn)}
+@media (max-width:480px){.metric .val{font-size:1.25rem}}
+.readout .note{font:400 .75rem/1.5 var(--mono);color:var(--muted);max-width:34em}
+.ro-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px}
+.motion-toggle{min-height:32px;padding:6px 12px;font:500 .75rem/1 var(--mono);letter-spacing:.04em;color:var(--ink);background:transparent;border:1px solid var(--muted);border-radius:2px;cursor:pointer;transition:border-color .2s}
+.motion-toggle:hover{border-color:var(--ink)}
+.hero.still #contours-index{animation-play-state:paused}
+.hero.still .live::before{animation:none}
+/* Theme switch: the map hides at once, then fades back in when it has been redrawn in the new colours */
+.hero.drawn .contour-stack.swap{opacity:0;transition:none}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
+
+/* Sections */
+section.block .wrap{padding-block:clamp(64px,9vw,112px)}
+section.block + section.block .wrap{border-top:1px solid var(--rule)}
+.sec-head{display:grid;gap:16px;justify-items:start;margin-bottom:clamp(36px,5vw,56px)}
+.sec-head h2{font-size:var(--s5);font-weight:750;line-height:1.02;letter-spacing:-.02em}
+.sec-head p{color:var(--muted);max-width:32em;font-size:clamp(1.125rem,1.6vw,1.3125rem);text-wrap:pretty}
+
+.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--gutter)}
+.service{display:grid;gap:10px;padding-block:28px;border-top:1px solid var(--rule);align-content:start}
+.service h3{font-size:var(--s4);font-weight:700;line-height:1.15;letter-spacing:-.01em}
+.service p{color:var(--ink);max-width:32em}
+.service .tag{font:500 .75rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--heather)}
+@media (max-width:760px){.services{grid-template-columns:minmax(0,1fr)}}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px var(--gutter);counter-reset:step}
+.step{display:grid;gap:12px;align-content:start;padding-top:20px;border-top:2px solid var(--ink);counter-increment:step}
+.step::before{content:counter(step,decimal-leading-zero);font:500 var(--s1)/1 var(--mono);color:var(--heather)}
+.step h3{font-size:1.25rem;font-weight:700;line-height:1.2}
+.step p{font-size:1.0625rem;color:var(--muted)}
+@media (max-width:960px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:540px){.steps{grid-template-columns:minmax(0,1fr)}}
+
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{text-align:left;padding:18px 16px 18px 0;border-bottom:1px solid var(--rule);vertical-align:baseline}
+table{table-layout:fixed}
+thead th:first-child{width:50%}
+thead th:nth-child(2),td.d{padding-left:calc(var(--gutter) / 2)}
+thead th.t{width:7.5rem}
+thead th{font:500 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:0}
+td.m{font:700 1.125rem/1.3 var(--display);font-stretch:112%}
+td.m span{display:block;font:400 .75rem/1.4 var(--mono);color:var(--muted);margin-top:4px;font-stretch:100%}
+td.d{color:var(--muted);font-size:1.0625rem}
+td.t{font:500 1.375rem/1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;padding-right:0}
+th.t{text-align:right;padding-right:0}
+@media (max-width:640px){
+  table{min-width:0;table-layout:auto}
+  thead{display:none}
+  tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding-block:18px;border-bottom:1px solid var(--rule)}
+  td{border:0;padding:0}
+  td.d{grid-column:1/-1;padding-left:0}
+}
+.foot-note{margin-top:20px;font:400 .8125rem/1.6 var(--mono);color:var(--muted);max-width:60em}
+.psi{margin-top:clamp(40px,6vw,64px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px var(--gutter);align-items:end;padding:clamp(20px,3vw,32px);background:var(--surface);border:1px solid var(--rule);border-radius:3px}
+.psi h3{font-size:var(--s4);font-weight:700;line-height:1.15;margin-bottom:8px}
+.psi p{color:var(--muted);font-size:1.0625rem}
+.psi-form{display:grid;gap:10px;min-width:0}
+.psi label{font:500 .75rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.psi .row{display:flex;flex-wrap:wrap;gap:10px}
+.psi input{flex:1 1 220px;min-width:0;min-height:48px;padding:0 14px;font:400 1.0625rem/1 var(--serif);color:var(--ink);background:var(--ground);border:1px solid var(--muted);border-radius:2px}
+.psi input:focus-visible{outline:2px solid var(--heather);outline-offset:2px}
+.psi .btn{min-height:48px;cursor:pointer}
+.psi small{font:400 .75rem/1.5 var(--mono);color:var(--muted)}
+@media (max-width:760px){.psi{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Contact */
+.contact .wrap{display:grid;gap:28px;padding-block:clamp(72px,10vw,128px);border-top:1px solid var(--rule)}
+.contact h2{font-size:var(--s6);font-weight:800;line-height:.95;letter-spacing:-.025em}
+.contact p{max-width:36em;color:var(--muted)}
+.mailrow{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.mail{font:500 clamp(1.125rem,2.4vw,1.5rem)/1.2 var(--mono);color:var(--ink);overflow-wrap:anywhere;user-select:all}
+.copy{cursor:pointer;background:transparent;color:var(--ink)}
+.copy[data-done]{border-color:var(--lichen);color:var(--lichen)}
+
+footer .wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px var(--gutter);padding-block:28px;border-top:1px solid var(--rule);font:400 .75rem/1.5 var(--mono);color:var(--muted)}
+footer a{color:var(--muted)}
+footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px}
+@media (max-width:760px){footer .wrap{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Atmosphere: soft colour fields painted into one small canvas that the browser scales up. Smooth gradients survive the scaling, so each frame costs a fraction of a millisecond. */
+.atmos{position:absolute;inset:0;overflow:hidden;pointer-events:none;contain:strict;}
+#atmos-cv{position:absolute;inset:0;width:100%;height:100%}
+.hero.paused .atmos *{animation-play-state:paused!important}
+
+/* Side-by-side test */
+.demo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px var(--gutter);align-items:start}
+.demo-stage{position:relative;height:clamp(280px,34vw,420px);overflow:hidden;background:var(--surface);border:1px solid var(--rule);border-radius:3px;contain:strict}
+#demo-canvas,#demo-dom{position:absolute;inset:0;width:100%;height:100%}
+.dot{position:absolute;left:0;top:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%}
+.demo-main{display:grid;gap:10px;min-width:0}
+.demo-status{font:400 .75rem/1.5 var(--mono);color:var(--muted);min-height:3em}
+.demo-side{display:grid;gap:20px;min-width:0}
+.demo-buttons{display:flex;flex-wrap:wrap;gap:10px}
+.demo-buttons .btn{cursor:pointer;background:transparent;color:var(--ink)}
+.demo-buttons .btn[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
+.demo-buttons .btn:disabled{opacity:.4;cursor:default}
+.demo-count{display:grid;gap:8px}
+.demo-count-row{display:flex;justify-content:space-between;font:500 .75rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.demo-count-row output{font-variant-numeric:tabular-nums;color:var(--ink)}
+.demo-count input{width:100%;accent-color:var(--heather);min-height:24px}
+.demo-graph{display:block;width:100%;height:120px;background:var(--surface);border:1px solid var(--rule);border-radius:3px}
+.demo-legend{font:400 .75rem/1.5 var(--mono);color:var(--muted)}
+.demo-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0}
+.demo-stats div{display:grid;gap:4px;padding-top:10px;border-top:1px solid var(--rule)}
+.demo-stats dt{font:400 .75rem/1.3 var(--mono);color:var(--muted)}
+.demo-stats dd{margin:0;font:500 1.25rem/1 var(--mono);font-variant-numeric:tabular-nums}
+.demo-stats div[data-state="ok"] dd{color:var(--lichen)}
+.demo-stats div[data-state="over"] dd{color:var(--warn)}
+.demo-notes{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:1rem;color:var(--muted)}
+.demo-notes b{font-weight:400;color:var(--ink)}
+@media (max-width:860px){.demo{grid-template-columns:minmax(0,1fr)}}
+
+/* High contrast preference: stronger secondary text and rules */
+@media (prefers-contrast:more){
+  :root{--muted:#3D4339;--rule:#7A8372}
+  :root[data-theme="dark"]{--muted:#C6CDBE;--rule:#5E6757}
+}
+@media (prefers-contrast:more) and (prefers-color-scheme:dark){:root:not([data-theme="light"]){--muted:#C6CDBE;--rule:#5E6757}}
+/* Windows High Contrast and other forced colour modes: hide decoration, keep the arrow visible */
+@media (forced-colors:active){
+  .contour-stack,.atmos,.demo-graph{display:none}
+  .btn.primary::after{forced-color-adjust:none;background:ButtonText}
+  .btn.primary:hover::after{background:ButtonText}
+}
+/* Without JavaScript, controls that need it are hidden rather than left doing nothing */
+@media (scripting:none){
+  .theme-toggle,.copy,.readout,#demo,.nav a[href="#demo"]{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script>try{var t=localStorage.getItem('kinmoor-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Kinmoor Studios, home">
+      <svg viewBox="0 0 28 28" aria-hidden="true"><rect x="0.5" y="0.5" width="27" height="27" rx="2" fill="none" stroke="currentColor"/><path d="M4 20c4-6 7-9 10-9s6 3 10 9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 20c2.5-3.5 4.3-5 6-5s3.5 1.5 6 5" fill="none" stroke="var(--heather)" stroke-width="1.6"/></svg>
+      Kinmoor
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#demo">Demo</a>
+      <a href="#budgets">Budgets</a>
+      <a class="keep" href="#contact">Contact</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode" title="Switch to dark mode">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" data-bg="under" aria-labelledby="h1">
+    <div class="atmos" aria-hidden="true">
+      <canvas id="atmos-cv"></canvas>
+
+    </div>
+    <div class="contour-stack" aria-hidden="true">
+      <canvas class="contour" id="contours"></canvas>
+      <canvas class="contour" id="contours-index"></canvas>
+      <canvas class="contour" id="contours-lights"></canvas>
+    </div>
+    <div class="wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">Kinmoor Studios · Shopify and software</p>
+        <h1 id="h1"><span class="ol-D">Design that</span> <span class="ol-d">doesn’t slow</span> <em class="ol-y">you down.</em></h1>
+        <p class="lede">We design and build Shopify storefronts, apps, and software for consumer brands. Every build has a performance budget, and we meet it without scaling back the design.</p>
+        <div class="actions">
+          <a class="btn primary" href="#contact">Start with an audit</a>
+          <a class="btn ghost" href="#process">How we work</a>
+        </div>
+      </div>
+
+      <section class="readout" aria-labelledby="ro-title">
+        <header>
+          <p class="eyebrow" id="ro-title">This page, measured in your browser</p>
+          <span class="live">Live</span>
+        </header>
+        <dl class="metrics">
+          <div class="metric" id="m-fcp"><dt class="name">First content shown</dt><dd class="val">…</dd><dd class="budget">Budget 1.8 s · <b>measuring</b></dd></div>
+          <div class="metric" id="m-lcp"><dt class="name">Main content shown</dt><dd class="val">…</dd><dd class="budget">Budget 2.5 s · <b>measuring</b></dd></div>
+          <div class="metric" id="m-cls"><dt class="name">Layout shift</dt><dd class="val">…</dd><dd class="budget">Budget 0.1 · <b>measuring</b></dd></div>
+          <div class="metric" id="m-inp"><dt class="name">Response to a tap or click</dt><dd class="val">—</dd><dd class="budget">Budget 200 ms · <b>tap or click anything</b></dd></div>
+          <div class="metric" id="m-anim"><dt class="name">Background animation, work per frame</dt><dd class="val">…</dd><dd class="budget">Budget 2 ms · <b>measuring</b></dd></div>
+          <div class="metric" id="m-kb"><dt class="name">Page weight</dt><dd class="val">…</dd><dd class="budget"><b>measuring</b></dd></div>
+        </dl>
+        <div class="ro-foot">
+          <p class="note">From your browser's Performance API. Response and animation figures keep updating as you use the page.</p>
+          <button class="motion-toggle" id="motion" type="button" aria-pressed="false">Pause animation</button>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section class="block" id="work" aria-labelledby="work-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="work-h">What we build</h2>
+        <p>We make online stores, the apps that extend them, and the back-office tools that keep a brand running. Each one is designed, measured, and tested before it ships.</p>
+      </div>
+      <div class="services">
+        <article class="service">
+          <span class="tag">Themes</span>
+          <h3>Shopify storefronts</h3>
+          <p>We design custom themes for your brand on Shopify's Online Store 2.0. Your team can edit every section without calling a developer.</p>
+        </article>
+        <article class="service">
+          <span class="tag">Audits</span>
+          <h3>Store audits</h3>
+          <p>We check speed, accessibility, search, and every installed app, with evidence behind each finding. You get a ranked list of fixes, whether or not you rebuild.</p>
+        </article>
+        <article class="service">
+          <span class="tag">Apps</span>
+          <h3>Shopify apps and integrations</h3>
+          <p>We build checkout extensions, admin tools, and connections to your other systems. They're for when an off-the-shelf app is too slow, costs too much, or doesn't fit how you work.</p>
+        </article>
+        <article class="service">
+          <span class="tag">Software</span>
+          <h3>Back-office software</h3>
+          <p>Our first product, now in private development, brings Shopify payouts into QuickBooks. It prepares each payout automatically, but nothing is posted until a person approves it.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="process" aria-labelledby="process-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="process-h">How a project runs</h2>
+        <p>You see a working store before you commit to building one.</p>
+      </div>
+      <ol class="steps">
+        <li class="step"><h3>Audit</h3><p>We test your current store on real phones and computers, then write up what's slow, what's broken, and what to fix first.</p></li>
+        <li class="step"><h3>Concept</h3><p>We build a working concept on a private development store with your real products. You can click through it before you sign off on the build.</p></li>
+        <li class="step"><h3>Build</h3><p>The theme is kept in version control. Every change has to pass the performance budget and an accessibility scan before it goes live.</p></li>
+        <li class="step"><h3>Launch and handover</h3><p>We set up redirects, check every app, and watch the site after launch. You get the code, the documentation, and full admin access.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="demo" aria-labelledby="demo-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="demo-h">See the difference</h2>
+        <p>The same glowing dots, built two ways. Nothing in the second is a secret technique. The difference is holding every build to a budget. Turn up the count and see which one holds.</p>
+      </div>
+      <div class="demo">
+        <div class="demo-main">
+          <div class="demo-stage" id="demo-stage">
+            <canvas id="demo-canvas" aria-hidden="true"></canvas>
+            <div id="demo-dom" aria-hidden="true"></div>
+          </div>
+          <p class="demo-status"><span id="demo-status" role="status">Choose a way to run it.</span> <span id="demo-countdown" aria-hidden="true"></span></p>
+        </div>
+        <div class="demo-side">
+          <div class="demo-buttons" role="group" aria-label="Run the test">
+            <button class="btn" id="demo-usual" type="button" aria-pressed="false">Common shortcuts</button>
+            <button class="btn" id="demo-ours" type="button" aria-pressed="false">Built to budget</button>
+            <button class="btn" id="demo-stop" type="button" disabled>Stop</button>
+          </div>
+          <div class="demo-count">
+            <div class="demo-count-row"><label for="demo-count">Dots</label><output id="demo-count-out" for="demo-count">300</output></div>
+            <input id="demo-count" type="range" min="50" max="1500" step="50" value="300">
+          </div>
+          <canvas class="demo-graph" id="demo-graph" aria-hidden="true"></canvas>
+          <p class="demo-legend">Line: time between frames, green under the dashed 60 fps line and amber over it. Shaded: script time per frame.</p>
+          <dl class="demo-stats">
+            <div><dt>Typical frame</dt><dd id="demo-med">—</dd></div>
+            <div><dt>Slow frames</dt><dd id="demo-slow">—</dd></div>
+            <div><dt>Script per frame</dt><dd id="demo-work">—</dd></div>
+          </dl>
+          <p class="demo-legend" id="demo-cause" hidden></p>
+          <p class="demo-legend" id="demo-compare" aria-live="polite">Common shortcuts: not run yet · Built to budget: not run yet</p>
+          <ul class="demo-notes">
+            <li><b>Common shortcuts</b> give every dot its own element with a live glow, move it by its position on the page, and check the layout after each move. Each is an everyday habit; together they add up.</li>
+            <li><b>Built to budget</b> paints each glow once and copies it into a single canvas, so the browser only moves pixels.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="budgets" aria-labelledby="budgets-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="budgets-h">The budgets we build to</h2>
+        <p>Every design decision has to fit within these limits. The panel at the top of this page measures the same things, live, in your browser.</p>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Measure</th><th scope="col">What a shopper notices</th><th scope="col" class="t">Budget</th></tr></thead>
+          <tbody>
+            <tr><td class="m">Largest Contentful Paint<span>LCP</span></td><td class="d">How long until the main image or headline appears</td><td class="t">≤ 2.5 s</td></tr>
+            <tr><td class="m">Interaction to Next Paint<span>INP</span></td><td class="d">How quickly the page reacts to a tap, a filter, or Add to cart</td><td class="t">≤ 200 ms</td></tr>
+            <tr><td class="m">Cumulative Layout Shift<span>CLS</span></td><td class="d">Whether buttons and text jump around while the page loads</td><td class="t">≤ 0.1</td></tr>
+            <tr><td class="m">Accessibility<span>WCAG</span></td><td class="d">Keyboard use, screen readers, readable contrast, and labels</td><td class="t">2.2 AA</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="foot-note">The first three are Google's thresholds for a good score, measured at the 75th percentile of real visits on phones and computers.</p>
+      <div class="psi">
+        <div>
+          <h3>How does your store measure up?</h3>
+          <p>Run Google's PageSpeed Insights on your store. It checks the same measures as this table, and the report opens in a new tab.</p>
+        </div>
+        <div class="psi-form">
+          <label for="psi-url">Your store's web address</label>
+          <div class="row">
+            <input id="psi-url" name="url" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="yourstore.com">
+            <a class="btn primary" id="psi-go" href="https://pagespeed.web.dev/" target="_blank" rel="noopener">Run the test</a>
+          </div>
+          <small>PageSpeed Insights is a free tool from Google. The web address goes straight to Google; we don't see it.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="contact" id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-h" class="ol-S">Start with an audit.</h2>
+      <p>Send us your store's web address. We'll review it, find what's slowing it down, and tell you what we'd change. There's no commitment to a rebuild.</p>
+      <div class="mailrow">
+        <span class="mail" id="mail">hello@kinmoorstudios.com</span>
+        <button class="btn copy" id="copy" type="button">Copy address</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Kinmoor Studios, LLC</span>
+    <div class="meta">
+      <span>No cookies. No trackers. <a href="/privacy">Privacy</a></span>
+      <a href="https://kinmoor.games" rel="noopener">Games at kinmoor.games</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function kinmoorBoot(){
+  // If the page is started again in place (for example after a live update), clean up the previous run first.
+  if(window.__kinmoorTeardown){try{window.__kinmoorTeardown()}catch(e){}}
+  var ac=new AbortController(),sig={signal:ac.signal},obs=[];
+  /* ---------- Live performance readout ---------- */
+  var budgets={fcp:1800,lcp:2500,cls:0.1};
+  function fmtMs(v){return v<1000?Math.round(v)+' ms':(v/1000).toFixed(2)+' s'}
+  function set(id,val,state,budgetText){
+    var el=document.getElementById(id); if(!el) return;
+    el.querySelector('.val').textContent=val;
+    el.dataset.state=state||'';
+    var b=el.querySelector('.budget');
+    var label=state==='ok'?'within budget':state==='over'?'over budget':state==='na'?'not supported here':state==='wait'?'tap or click anything':state==='info'?'':'measuring';
+    b.textContent=label&&budgetText?budgetText+' · ':label?'':budgetText||'';if(label){var em=document.createElement('b');em.textContent=label;b.appendChild(em)}
+  }
+  var cls=0, lcp=null;
+  function po(type,cb){try{var o=new PerformanceObserver(function(l){l.getEntries().forEach(cb)});obs.push(o);o.observe({type:type,buffered:true});return true}catch(e){return false}}
+
+  var hasPaint=po('paint',function(e){if(e.name==='first-contentful-paint'){set('m-fcp',fmtMs(e.startTime),e.startTime<=budgets.fcp?'ok':'over','Budget 1.8 s')}});
+  var hasLcp=po('largest-contentful-paint',function(e){lcp=e.startTime;set('m-lcp',fmtMs(lcp),lcp<=budgets.lcp?'ok':'over','Budget 2.5 s')});
+  // Scored the way Google scores it: the worst burst of shifts (each less than 1 s apart, at most 5 s long), not a running total.
+  var clsWin=0,clsStart=0,clsLast=0;
+  var hasCls=po('layout-shift',function(e){if(e.hadRecentInput)return;
+    if(clsWin&&e.startTime-clsLast<1000&&e.startTime-clsStart<5000){clsWin+=e.value}else{clsWin=e.value;clsStart=e.startTime}
+    clsLast=e.startTime;if(clsWin>cls)cls=clsWin;set('m-cls',cls.toFixed(3),cls<=budgets.cls?'ok':'over','Budget 0.1')});
+
+  // Response: the slowest tap, click, or key press so far, from the Event Timing API (how Interaction to Next Paint is measured).
+  var inpWorst=-1,hasEvents=false;
+  try{hasEvents=PerformanceObserver.supportedEntryTypes.indexOf('event')>=0}catch(e){}
+  if(hasEvents){try{var eo=new PerformanceObserver(function(l){l.getEntries().forEach(function(e){if(!e.interactionId)return;
+      if(e.duration>inpWorst){inpWorst=e.duration;set('m-inp',fmtMs(inpWorst),inpWorst<=200?'ok':'over','Budget 200 ms')}})});
+    obs.push(eo);eo.observe({type:'event',durationThreshold:16,buffered:true})}catch(e){hasEvents=false}}
+  // Interactions faster than 16 ms are below what browsers report, so a tap with no report is under 16 ms.
+  function tapped(){if(!hasEvents)return;setTimeout(function(){if(inpWorst<0)set('m-inp','< 16 ms','ok','Budget 200 ms')},400)}
+  addEventListener('pointerup',tapped,sig);addEventListener('keyup',tapped,sig);
+
+  function weigh(){
+    try{
+      var nav=performance.getEntriesByType('navigation')[0];
+      var list=performance.getEntriesByType('resource').slice();
+      if(nav) list.unshift(nav);
+      var bytes=0;
+      // Compressed size of every file, so the figure is the same on a first visit and a cached one.
+      list.forEach(function(e){bytes+=(e.encodedBodySize||e.transferSize||0)});
+      if(bytes>0){set('m-kb',(bytes/1024).toFixed(0)+' KB','info', list.length+' files, compressed')}
+      else{set('m-kb','—','na','')}
+    }catch(e){set('m-kb','—','na','')}
+  }
+  function finish(){
+    if(!hasPaint) set('m-fcp','—','na','Budget 1.8 s');
+    if(!hasLcp) set('m-lcp','—','na','Budget 2.5 s');
+    if(hasCls && document.querySelector('#m-cls .val').textContent==='…') set('m-cls','0.000','ok','Budget 0.1');
+    if(!hasCls) set('m-cls','—','na','Budget 0.1');
+    if(!hasEvents) set('m-inp','—','na','Budget 200 ms');
+    weigh();
+  }
+  if(document.readyState==='complete') setTimeout(finish,300); else addEventListener('load',function(){setTimeout(finish,300)},sig);
+  setTimeout(weigh,2500);
+
+  /* ---------- Store test: links to Google's PageSpeed Insights with the visitor's address filled in ---------- */
+  var psiIn=document.getElementById('psi-url'),psiGo=document.getElementById('psi-go');
+  function psiHref(){var v=(psiIn.value||'').trim();if(!v)return 'https://pagespeed.web.dev/';if(!/^https?:\/\//i.test(v))v='https://'+v;return 'https://pagespeed.web.dev/report?url='+encodeURIComponent(v)}
+  psiIn.addEventListener('input',function(){psiGo.href=psiHref()},sig);
+  psiIn.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();psiGo.href=psiHref();psiGo.click()}},sig);
+
+  /* ---------- Copy address ---------- */
+  var btn=document.getElementById('copy'), mail=document.getElementById('mail');
+  function selectMail(){var r=document.createRange();r.selectNodeContents(mail);var s=getSelection();s.removeAllRanges();s.addRange(r)}
+  btn.onclick=function(){
+    var done=function(){btn.textContent='Copied';btn.setAttribute('data-done','');setTimeout(function(){btn.textContent='Copy address';btn.removeAttribute('data-done')},2000)};
+    try{navigator.clipboard.writeText(mail.textContent.trim()).then(done,function(){selectMail();btn.textContent='Address selected'})}
+    catch(e){selectMail();btn.textContent='Address selected'}
+  };
+
+  /* ---------- Light / dark toggle (follows the device until the visitor chooses) ---------- */
+  var root=document.documentElement, tbtn=document.getElementById('theme-toggle');
+  var mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
+  function effective(){var a=root.getAttribute('data-theme');return(a==='light'||a==='dark')?a:(mq&&mq.matches?'dark':'light')}
+  function syncToggle(){var dark=effective()==='dark',label=dark?'Switch to light mode':'Switch to dark mode';
+    tbtn.setAttribute('aria-pressed',dark?'true':'false');tbtn.setAttribute('aria-label',label);tbtn.title=label}
+  tbtn.onclick=function(){
+    var next=effective()==='dark'?'light':'dark';
+    var apply=function(){root.setAttribute('data-theme',next);try{localStorage.setItem('kinmoor-theme',next)}catch(e){}syncToggle()};
+    // The browser snapshots the page once and crossfades it, instead of transitioning every element.
+    var calm=false;try{calm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+    if(document.startViewTransition&&!calm)document.startViewTransition(apply);else apply();
+  };
+  try{mq.addEventListener('change',syncToggle,sig)}catch(e){}
+  try{(obs[obs.length]=new MutationObserver(syncToggle)).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
+  syncToggle();
+
+  /* ---------- Hero background: contour map, drifting colour, and travelling lights ----------
+     All of it is drawn by kinHero(). It can also run in a background thread, but measured side by side
+     the hand-off between threads cost more than it saved, so it runs on the page's own thread. */
+  function kinHero(scope,isWorker){
+    var cb,ci,cl,ca,bx,ix,lx,ax,W=0,H=0,DPR=1,LDPR=1,col=null,reduce=false,still=false,on=false,raf=0;
+    var paths=[],lights=[],pal=[],aCols=[],aW=0,aH=0,T=30,lastT=0,lastLight=0,lastAtm=0,dirty=[],scrolling=false;
+    var workAcc=0,workN=0,lastReport=0,quality=0,winN=0,winSlow=0,calm=0,buildId=0,built=false,cbr=null,cir=null;
+    var rAF=(typeof requestAnimationFrame==='function')?function(f){return requestAnimationFrame(f)}:function(f){return setTimeout(function(){f(performance.now())},16)};
+    var cAF=(typeof cancelAnimationFrame==='function')?function(h){cancelAnimationFrame(h)}:function(h){clearTimeout(h)};
+    function post(m){scope.postMessage(m)}
+    function hash(x,y){var h=Math.imul(x,374761393)+Math.imul(y,668265263)|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967295}
+    function sm(t){return t*t*(3-2*t)}
+    function ease(t){return t<=0?0:t>=1?1:t*t*(3-2*t)}
+    function vn(x,y){var xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi,u=sm(xf),v=sm(yf);
+      var a=hash(xi,yi),b=hash(xi+1,yi),c=hash(xi,yi+1),d=hash(xi+1,yi+1);return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v}
+    function field(x,y){return .6*vn(x/320,y/320)+.3*vn(x/150+17,y/150+5)+.1*vn(x/70+3,y/70+41)}
+    function rgb(c){var m=/^#([0-9a-f]{6})$/i.exec(c||'');if(!m)return[0,0,0];var n=parseInt(m[1],16);return[n>>16&255,n>>8&255,n&255]}
+    function rgba(v){var m=/rgba?\(([^)]+)\)/.exec(v||'');if(!m)return[0,0,0,0];var a=m[1].split(',').map(parseFloat);return[a[0],a[1],a[2],a.length>3?a[3]:1]}
+    function key(x,y){return Math.round(x*8)*131072+Math.round(y*8)}
+
+    /* Contours: computed once, drawn once. */
+    function chainUp(seg){
+      var n=seg.length/4,map=new Map(),used=new Uint8Array(n),out=[];
+      function add(k,i){var a=map.get(k);if(a)a.push(i);else map.set(k,[i])}
+      for(var i=0;i<n;i++){add(key(seg[4*i],seg[4*i+1]),i);add(key(seg[4*i+2],seg[4*i+3]),i)}
+      function next(x,y){var a=map.get(key(x,y));if(a)for(var t=0;t<a.length;t++)if(!used[a[t]])return a[t];return -1}
+      function grow(arr){for(;;){var x=arr[arr.length-2],y=arr[arr.length-1],j=next(x,y);if(j<0)return;used[j]=1;
+        if(key(seg[4*j],seg[4*j+1])===key(x,y))arr.push(seg[4*j+2],seg[4*j+3]);else arr.push(seg[4*j],seg[4*j+1])}}
+      for(var s0=0;s0<n;s0++){if(used[s0])continue;used[s0]=1;
+        var head=[seg[4*s0+2],seg[4*s0+3]],tail=[seg[4*s0],seg[4*s0+1]];grow(head);grow(tail);
+        var pts=[];for(var t=tail.length-2;t>=0;t-=2)pts.push(tail[t],tail[t+1]);for(t=0;t<head.length;t++)pts.push(head[t]);
+        if(pts.length>=6)out.push(pts)}
+      return out}
+    function chaikin(p,it){for(var k=0;k<it;k++){var q=[p[0],p[1]];for(var i=0;i<p.length-2;i+=2){var x0=p[i],y0=p[i+1],x1=p[i+2],y1=p[i+3];
+      q.push(.75*x0+.25*x1,.75*y0+.25*y1,.25*x0+.75*x1,.25*y0+.75*y1)}q.push(p[p.length-2],p[p.length-1]);p=q}return p}
+    function resample(p,step){var out=[p[0],p[1]],carry=0;
+      for(var i=2;i<p.length;i+=2){var x0=p[i-2],y0=p[i-1],dx=p[i]-x0,dy=p[i+1]-y0,len=Math.hypot(dx,dy),d=step-carry;
+        while(d<=len){out.push(x0+dx*d/len,y0+dy*d/len);d+=step}carry=len-(d-step)}
+      var a=new Float32Array(out);return{p:a,n:a.length/2,step:step,t:(a.length/2-1)*step}}
+    function at(c,d){d=c.closed?((d%c.t)+c.t)%c.t:Math.max(0,Math.min(c.t,d));var f=d/c.step,i=Math.min(c.n-2,Math.floor(f)),u=f-i;
+      return[c.p[2*i]+(c.p[2*i+2]-c.p[2*i])*u,c.p[2*i+1]+(c.p[2*i+3]-c.p[2*i+1])*u]}
+    var CASES={1:[3,2],2:[2,1],3:[3,1],4:[0,1],5:[0,1,3,2],6:[0,2],7:[3,0],8:[3,0],9:[0,2],10:[3,0,2,1],11:[0,1],12:[3,1],13:[2,1],14:[3,2]};
+    function fadeEdges(c,top){c.save();c.shadowBlur=0;c.globalCompositeOperation='destination-in';var g=c.createLinearGradient(0,0,0,c.canvas.height/(c===ax?1:DPR));
+      if(top){g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(.22,'rgba(0,0,0,1)')}else g.addColorStop(0,'rgba(0,0,0,1)');
+      g.addColorStop(.55,'rgba(0,0,0,1)');g.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g;c.fillRect(0,0,c.canvas.width,c.canvas.height);c.restore()}
+    function drawContours(){
+      if(!W||!H)return;
+      var s=9,nx=Math.ceil(W/s)+1,ny=Math.ceil(H/s)+1,f=new Float32Array(nx*ny),j,i,E=[0,0,0,0,0,0,0,0];
+      for(j=0;j<ny;j++)for(i=0;i<nx;i++)f[j*nx+i]=field(i*s+40,j*s+90);
+      bx.clearRect(0,0,W,H);ix.clearRect(0,0,W,H);
+      bx.strokeStyle=col.contour;bx.lineWidth=.9;bx.lineCap=bx.lineJoin='round';
+      ix.strokeStyle=col.strong;ix.lineWidth=1.4;ix.lineCap=ix.lineJoin='round';ix.shadowColor=col.glow;ix.shadowBlur=5;
+      paths=[];
+      for(var k=0,L=.22;L<.8;L+=.035,k++){
+        var seg=[];
+        for(j=0;j<ny-1;j++)for(i=0;i<nx-1;i++){
+          var a=f[j*nx+i],b=f[j*nx+i+1],c=f[(j+1)*nx+i+1],d=f[(j+1)*nx+i];
+          var idx=(a>L?8:0)|(b>L?4:0)|(c>L?2:0)|(d>L?1:0);if(idx===0||idx===15)continue;
+          var x0=i*s,y0=j*s;
+          E[0]=x0+s*(L-a)/(b-a);E[1]=y0;E[2]=x0+s;E[3]=y0+s*(L-b)/(c-b);E[4]=x0+s*(L-d)/(c-d);E[5]=y0+s;E[6]=x0;E[7]=y0+s*(L-a)/(d-a);
+          var cs=CASES[idx];for(var q=0;q<cs.length;q+=2)seg.push(E[2*cs[q]],E[2*cs[q]+1],E[2*cs[q+1]],E[2*cs[q+1]+1]);
+        }
+        var isIdx=k%4===0,ctx=isIdx?ix:bx,lines=chainUp(seg);
+        ctx.beginPath();
+        for(var m=0;m<lines.length;m++){var p=chaikin(lines[m],3);ctx.moveTo(p[0],p[1]);for(var r=2;r<p.length;r+=2)ctx.lineTo(p[r],p[r+1]);
+          if(isIdx&&!reduce){var rs=resample(p,2);rs.closed=Math.hypot(p[0]-p[p.length-2],p[1]-p[p.length-1])<3;if(rs.t>260)paths.push(rs)}}
+        ctx.stroke();
+      }
+      fadeEdges(bx,false);fadeEdges(ix,false);
+    }
+
+    /* Colour fields: painted into a canvas one sixth the hero's size, which the browser scales up. */
+    var FIELDS=[
+      {c:1,x:.12,y:.10,r:.42,ax:.08,ay:.10,px:86,py:70,p:0,o:0},
+      {c:0,x:.58,y:.30,r:.38,ax:.10,ay:.12,px:102,py:78,p:0,o:1.7},
+      {c:3,x:.88,y:.05,r:.36,ax:.07,ay:.12,px:74,py:94,p:0,o:3.1},
+      {c:2,x:.30,y:.70,r:.34,ax:.12,ay:.08,px:110,py:84,p:0,o:4.4},
+      {c:5,x:.38,y:.18,r:.40,ax:.10,ay:.08,px:90,py:66,p:76,o:.9},
+      {c:4,x:.74,y:.45,r:.34,ax:.10,ay:.07,px:82,py:98,p:92,o:2.6},
+      {c:6,x:.92,y:.52,r:.30,ax:.08,ay:.10,px:106,py:72,p:104,o:5.2}];
+    function paintAtmos(t){
+      var TAU=6.2832;ax.clearRect(0,0,aW,aH);
+      for(var i=0;i<FIELDS.length;i++){var f=FIELDS[i],c=aCols[f.c],k=c[3]*.6;
+        if(f.p)k*=.5-.5*Math.cos(TAU*t/f.p+f.o);if(k<.004)continue;
+        var x=(f.x+f.ax*Math.sin(TAU*t/f.px+f.o))*aW,y=(f.y+f.ay*Math.sin(TAU*t/f.py+f.o*1.3))*aH,rad=f.r*aW*(1+.08*Math.sin(TAU*t/(f.px*1.7)+f.o));
+        var g=ax.createRadialGradient(x,y,0,x,y,rad),s=c[0]+','+c[1]+','+c[2];
+        g.addColorStop(0,'rgba('+s+','+k+')');g.addColorStop(.25,'rgba('+s+','+(k*.82)+')');g.addColorStop(.6,'rgba('+s+','+(k*.32)+')');g.addColorStop(1,'rgba('+s+',0)');
+        ax.fillStyle=g;ax.fillRect(0,0,aW,aH)}
+      fadeEdges(ax,true)}
+
+    /* Lights: one per line, each blending between palette colours now and then. */
+    function pick(){var tot=0,i,free=[];for(i=0;i<paths.length;i++)if(!paths[i].busy){free.push(paths[i]);tot+=paths[i].t}
+      if(!free.length)return null;var r=Math.random()*tot;for(i=0;i<free.length;i++){r-=free[i].t;if(r<=0)return free[i]}return free[free.length-1]}
+    function spawn(Lt){if(Lt.c)Lt.c.busy=false;var c=pick();if(!c){Lt.c=null;return}c.busy=true;Lt.c=c;Lt.dir=Math.random()<.5?1:-1;Lt.v=18+Math.random()*18;Lt.trail=70+Math.random()*50;
+      Lt.s=Lt.trail+Math.random()*Math.max(1,c.t-2*Lt.trail);Lt.run=220+Math.random()*380;Lt.age=0;
+      if(Lt.to===undefined){Lt.from=Lt.to=Math.floor(Math.random()*4);Lt.k=1;Lt.next=3+Math.random()*6}}
+    function lightColour(Lt,dt){Lt.next-=dt;if(Lt.next<=0&&Lt.k>=1){Lt.from=Lt.to;do{Lt.to=Math.floor(Math.random()*pal.length)}while(Lt.to===Lt.from&&pal.length>1);Lt.k=0;Lt.next=4+Math.random()*6}
+      Lt.k=Math.min(1,Lt.k+dt/2.4);var e=ease(Lt.k),A=pal[Lt.from]||[0,0,0],B=pal[Lt.to]||A;
+      return Math.round(A[0]+(B[0]-A[0])*e)+','+Math.round(A[1]+(B[1]-A[1])*e)+','+Math.round(A[2]+(B[2]-A[2])*e)}
+    function seedLights(){if(!lx)return;var cap=quality>=2?3:6,n=Math.min(paths.length,Math.round(Math.min(cap,Math.max(3,W/240))));
+      paths.forEach(function(p){p.busy=false});lights=[];for(var z=0;z<n;z++){var Lt={};spawn(Lt);Lt.age=-z*1.6-Math.random()*1.2;lights.push(Lt)}}
+    // Only the patches the lights touched last frame are cleared, instead of the whole hero.
+    function stepLights(dt){
+      for(var d=0;d<dirty.length;d++){var r=dirty[d];lx.clearRect(r[0],r[1],r[2],r[3])}
+      dirty=[];
+      for(var i=0;i<lights.length;i++){
+        var Lt=lights[i];Lt.age+=dt;if(Lt.age<0)continue;
+        if(!Lt.c){spawn(Lt);if(!Lt.c)continue}
+        Lt.s+=Lt.dir*Lt.v*dt;Lt.run-=Lt.v*dt;
+        var toEnd=Lt.c.closed?Infinity:(Lt.dir>0?Lt.c.t-Lt.s:Lt.s),left=Math.min(toEnd,Lt.run);
+        if(left<=0){spawn(Lt);continue}
+        var hp=at(Lt.c,Lt.s),lc=lightColour(Lt,dt);
+        var a=ease(Lt.age/2)*ease(left/90)*ease((H*.9-hp[1])/(H*.35));
+        if(a<=.005)continue;
+        var tailD=Lt.s-Lt.dir*Lt.trail,tp=at(Lt.c,tailD),c=Lt.c,x0=hp[0],y0=hp[1],x1=hp[0],y1=hp[1];
+        var g=lx.createLinearGradient(tp[0],tp[1],hp[0],hp[1]);
+        g.addColorStop(0,'rgba('+lc+',0)');g.addColorStop(.55,'rgba('+lc+','+(.16*a).toFixed(3)+')');g.addColorStop(1,'rgba('+lc+','+(.5*a).toFixed(3)+')');
+        lx.strokeStyle=g;lx.lineWidth=1.3;lx.beginPath();lx.moveTo(tp[0],tp[1]);
+        for(var dd=c.step;dd<Lt.trail;dd+=c.step){var pp=at(c,tailD+Lt.dir*dd);lx.lineTo(pp[0],pp[1]);
+          if(pp[0]<x0)x0=pp[0];if(pp[0]>x1)x1=pp[0];if(pp[1]<y0)y0=pp[1];if(pp[1]>y1)y1=pp[1]}
+        lx.lineTo(hp[0],hp[1]);lx.stroke();
+        var hg=lx.createRadialGradient(hp[0],hp[1],0,hp[0],hp[1],10),ha=a*.8;
+        hg.addColorStop(0,'rgba('+lc+','+ha.toFixed(3)+')');hg.addColorStop(.1,'rgba('+lc+','+(ha*.75).toFixed(3)+')');hg.addColorStop(.3,'rgba('+lc+','+(ha*.22).toFixed(3)+')');hg.addColorStop(.6,'rgba('+lc+','+(ha*.06).toFixed(3)+')');hg.addColorStop(1,'rgba('+lc+',0)');
+        lx.fillStyle=hg;lx.fillRect(hp[0]-10,hp[1]-10,20,20);
+        dirty.push([Math.floor(x0-12),Math.floor(y0-12),Math.ceil(x1-x0+24),Math.ceil(y1-y0+24)]);
+      }
+    }
+    function clearLights(){if(lx){lx.clearRect(0,0,W,H)}dirty=[]}
+
+    /* Quality governor: if this device keeps missing frames, lower the cost; when it recovers, restore it.
+       Level 1 draws the lights at standard resolution and the colour 20 times a second; level 2 also halves the lights' update rate and count. */
+    function setQuality(q){if(q===quality)return;quality=q;LDPR=quality>=1?1:DPR;cl.width=Math.max(1,Math.round(W*LDPR));cl.height=Math.max(1,Math.round(H*LDPR));
+      lx.setTransform(LDPR,0,0,LDPR,0,0);lx.lineCap=lx.lineJoin='round';dirty=[];if(quality>=2&&lights.length>3)lights.length=3;post({type:'quality',q:quality})}
+    function govern(interval){winN++;if(interval>26)winSlow++;
+      if(winN>=90){var share=winSlow/winN;
+        if(share>.25&&quality<2){setQuality(quality+1);calm=0}
+        else if(share<.03&&quality>0){if(++calm>=6){setQuality(quality-1);if(quality<2&&lights.length<3)seedLights();calm=0}}else calm=0;
+        winN=0;winSlow=0}}
+
+    function frame(now){raf=0;if(!on)return;
+      var interval=lastT?now-lastT:0;lastT=now;if(interval)govern(interval);
+      var w0=performance.now();
+      // Frame pacing: the lights move a few pixels a second, so they update at most 60 times a second (30 at level 2), even on 120 Hz screens.
+      var gap=quality>=2?32:15.5;
+      // While the page is being scrolled the lights hold still, so the browser only has to move finished layers.
+      if(scrolling){lastLight=now;lastAtm=now}
+      else if(!still&&now-lastLight>=gap){var dt=lastLight?Math.min(1/20,(now-lastLight)/1000):0;lastLight=now;T+=dt;stepLights(dt)}
+      if(now-lastAtm>=(quality>=1?48:32)){if(!lastLight)T+=lastAtm?(now-lastAtm)/1000:0;lastAtm=now;paintAtmos(T)}
+      workAcc+=performance.now()-w0;workN++;
+      if(now-lastReport>=1000&&workN){post({type:'stats',work:workAcc/workN,q:quality});workAcc=0;workN=0;lastReport=now}
+      raf=rAF(frame)}
+    function sizeAll(z){W=z.W;H=z.H;DPR=z.DPR;LDPR=quality>=1?1:DPR;
+      if(bx){[[cb,DPR],[ci,DPR]].forEach(function(e){e[0].width=Math.max(1,Math.round(W*e[1]));e[0].height=Math.max(1,Math.round(H*e[1]))});
+        bx.setTransform(DPR,0,0,DPR,0,0);ix.setTransform(DPR,0,0,DPR,0,0)}
+      cl.width=Math.max(1,Math.round(W*LDPR));cl.height=Math.max(1,Math.round(H*LDPR));
+      lx.setTransform(LDPR,0,0,LDPR,0,0);lx.lineCap=lx.lineJoin='round';
+      aW=Math.max(2,Math.round(W/6));aH=Math.max(2,Math.round(H/6));ca.width=aW;ca.height=aH;dirty=[]}
+    function setColours(c){col=c;pal=c.tr.map(rgb);aCols=c.atm.map(rgba)}
+    /* The map is built once per size or theme. With a builder, that happens in a background worker,
+       which sends back two finished images and the light paths; otherwise it is drawn here. */
+    function requestBuild(){buildId++;
+      if(scope.build)scope.build({type:'build',id:buildId,size:{W:W,H:H,DPR:DPR},col:col,reduce:reduce});
+      else{drawContours();onBuilt()}}
+    function onBuilt(){if(!reduce)seedLights();post({type:built?'drawn':'ready'});built=true}
+    function handle(m){
+      if(m.type==='build'){W=m.size.W;H=m.size.H;DPR=m.size.DPR;col=m.col;reduce=m.reduce;
+        var ob=new OffscreenCanvas(Math.max(1,Math.round(W*DPR)),Math.max(1,Math.round(H*DPR))),oi=new OffscreenCanvas(ob.width,ob.height);
+        bx=ob.getContext('2d');ix=oi.getContext('2d');bx.setTransform(DPR,0,0,DPR,0,0);ix.setTransform(DPR,0,0,DPR,0,0);drawContours();
+        var b1=ob.transferToImageBitmap(),b2=oi.transferToImageBitmap(),list=[b1,b2],ps=paths.map(function(p){list.push(p.p.buffer);return{p:p.p,n:p.n,step:p.step,t:p.t,closed:p.closed}});
+        scope.postMessage({type:'built',id:m.id,base:b1,idx:b2,paths:ps},list);return}
+      if(m.type==='built'){if(m.id!==buildId){m.base.close();m.idx.close();return}
+        cbr.transferFromImageBitmap(m.base);cir.transferFromImageBitmap(m.idx);paths=m.paths;onBuilt();return}
+      if(m.type==='init'){cb=m.base;ci=m.idx;cl=m.lit;ca=m.atm;lx=cl.getContext('2d');ax=ca.getContext('2d');
+        if(scope.build){cbr=cb.getContext('bitmaprenderer');cir=ci.getContext('bitmaprenderer')}else{bx=cb.getContext('2d');ix=ci.getContext('2d')}
+        reduce=!!m.reduce;still=!!m.still;setColours(m.col);sizeAll(m.size);paintAtmos(T);requestBuild()}
+      else if(m.type==='size'){sizeAll(m.size);paintAtmos(T);requestBuild()}
+      else if(m.type==='col'){setColours(m.col);paintAtmos(T);clearLights();requestBuild()}
+      else if(m.type==='scroll'){scrolling=!!m.on}
+      else if(m.type==='still'){still=!!m.on;if(still)clearLights();lastLight=0}
+      else if(m.type==='run'){var want=!!m.on&&!reduce;if(want&&!on){on=true;lastT=0;lastLight=0;lastAtm=0;raf=rAF(frame)}else if(!want&&on){on=false;if(raf)cAF(raf);raf=0}}
+    }
+    if(isWorker)scope.onmessage=function(e){handle(e.data)};
+    return handle;
+  }
+
+  /* ---------- Page side: starts kinHero, keeps it in step with the page ---------- */
+  var hero=document.querySelector('.hero'),stack=document.querySelector('.contour-stack'),atmosEl=document.querySelector('.atmos');
+  var reduce=false; try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+  // A visitor's data-saver setting (Chromium) gets the same still map as reduced motion.
+  var saveData=!!(navigator.connection&&navigator.connection.saveData);if(saveData)reduce=true;
+  function tok(n){return getComputedStyle(root).getPropertyValue(n).trim()}
+  function colours(){return{contour:tok('--contour'),strong:tok('--contour-strong'),glow:tok('--glow'),
+    tr:['--tr1','--tr2','--tr3','--tr4'].map(tok),atm:['--atm1','--atm2','--atm3','--atm4','--atm5','--atm6','--atm7'].map(tok)}}
+  function measure(){var r=hero.getBoundingClientRect();return{W:r.width,H:r.height,DPR:Math.min(window.devicePixelRatio||1,2)}}
+  var send=null,ready=false,onScreen=true,dead=false,quality=0,builder=null;
+  // A visible control to stop the background (WCAG 2.2.2), remembered for the next visit.
+  var still=false,mbtn=document.getElementById('motion');try{still=localStorage.getItem('kinmoor-motion')==='paused'}catch(e){}
+  function budgetText(){return 'Budget 2 ms'}
+  function onStats(m){
+    if(m.type==='ready'){ready=true;hero.classList.add('drawn');begin()}
+    else if(m.type==='drawn'){stack.classList.remove('swap')}
+    else if(m.type==='quality'){quality=m.q;hero.dataset.quality=m.q}
+    else if(m.type==='stats'&&!still&&!reduce){set('m-anim',m.work.toFixed(2)+' ms',m.work<=2?'ok':'over',budgetText())}}
+  function showMotion(){mbtn.setAttribute('aria-pressed',still?'true':'false');mbtn.textContent=still?'Play animation':'Pause animation';hero.classList.toggle('still',still);
+    if(still)set('m-anim','0.00 ms','info','Paused')}
+  if(reduce){mbtn.hidden=true;hero.classList.add('still');set('m-anim','Off','info',saveData?'Data saver is on':'Reduced motion is on')}else showMotion();
+  function boot(){
+    if(dead)return;
+    var cvB=document.getElementById('contours'),cvI=document.getElementById('contours-index'),cvL=document.getElementById('contours-lights'),cvA=document.getElementById('atmos-cv');
+    var msg={type:'init',size:measure(),col:colours(),reduce:reduce,still:still};
+    // The map's one-off build (about 150 ms on a mid-range phone) runs in a worker. The per-frame lights stay here, where they measured smoothest.
+    var scope={postMessage:onStats},h;
+    if(window.Worker&&window.OffscreenCanvas&&OffscreenCanvas.prototype.transferToImageBitmap&&window.ImageBitmapRenderingContext){
+      try{var src='('+kinHero.toString()+')(self,true)',blob=URL.createObjectURL(new Blob([src],{type:'text/javascript'}));
+        var url=window.trustedTypes?trustedTypes.createPolicy('kinmoor',{createScriptURL:function(u){if(u===blob)return u;throw new Error('blocked')}}).createScriptURL(blob):blob;
+        builder=new Worker(url);builder.onmessage=function(e){if(h)h(e.data)};scope.build=function(r){builder.postMessage(r)}}catch(e){builder=null}}
+    h=kinHero(scope,false);send=h;msg.base=cvB;msg.idx=cvI;msg.lit=cvL;msg.atm=cvA;h(msg);
+  }
+  function start(){if(dead||!ready||still||reduce||!onScreen||document.hidden)return;send({type:'run',on:true})}
+  function stop(){if(send)send({type:'run',on:false})}
+  mbtn.onclick=function(){still=!still;try{localStorage.setItem('kinmoor-motion',still?'paused':'playing')}catch(e){}
+    showMotion();if(send)send({type:'still',on:still});if(still)stop();else{set('m-anim','…','',budgetText());start()}};
+  // A live update may start this script again: the old run stops first.
+  function kill(){stop();dead=true;if(builder){builder.terminate();builder=null}}
+  var idle=window.requestIdleCallback||function(fn){return setTimeout(fn,60)};
+  idle(boot);
+  // The lights start only after the page has finished loading, so they never compete with it.
+  var begun=false;function begin(){if(begun)return;begun=true;var go=function(){setTimeout(function(){idle(start)},700)};if(document.readyState==='complete')go();else addEventListener('load',go,sig)}
+  try{(obs[obs.length]=new IntersectionObserver(function(es){onScreen=es[es.length-1].isIntersecting;if(!ready)return;onScreen?start():stop()})).observe(hero)}catch(e){}
+  document.addEventListener('visibilitychange',function(){if(!ready)return;document.hidden?stop():start()},sig);
+  addEventListener('pageshow',function(){if(ready)start()},sig);
+  var scrollT=0,scrollOn=false;
+  addEventListener('scroll',function(){if(!ready||!onScreen)return;if(!scrollOn){scrollOn=true;send({type:'scroll',on:true})}
+    clearTimeout(scrollT);scrollT=setTimeout(function(){scrollOn=false;send({type:'scroll',on:false})},140)},{passive:true,signal:ac.signal});
+  // On a theme change the map hides at once and fades back in, in the new colours, as soon as it has been rebuilt.
+  function themeRedraw(){if(!ready)return;stack.classList.add('swap');send({type:'col',col:colours()})}
+  var rt,lastW=0; addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){var w=hero.clientWidth;if(ready&&w!==lastW){lastW=w;send({type:'size',size:measure()})}},200)},sig);
+  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',themeRedraw,sig)}catch(e){}
+  try{(obs[obs.length]=new MutationObserver(themeRedraw)).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
+
+  /* ---------- Frame-time graph for the side-by-side test ---------- */
+  var gcol=null;
+  function graphColours(){gcol={ink:tok('--muted'),rule:tok('--rule'),ok:tok('--lichen'),over:tok('--warn'),area:tok('--heather')}}
+  function recolour(){if(gcol){graphColours();drawGraph(dgraph,dF,dW,50,true)}}
+  try{(obs[obs.length]=new MutationObserver(recolour)).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
+  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',recolour,sig)}catch(e){}
+  // Draws frame times as a line (green under the 60 fps line, amber over it), with script time per frame as a shaded area underneath.
+  function drawGraph(cv,frames,work,maxMs,label){if(!gcol)graphColours();
+    var dpr=Math.min(window.devicePixelRatio||1,2),w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;
+    if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}
+    var c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);
+    var n=frames.length,cap=cv._cap||240,step=w/(cap-1),y=function(ms){return h-2-Math.min(ms,maxMs)/maxMs*(h-4)};
+    var ry=Math.round(y(16.7))+.5;c.strokeStyle=gcol.rule;c.lineWidth=1;c.setLineDash([3,3]);c.beginPath();c.moveTo(0,ry);c.lineTo(w,ry);c.stroke();c.setLineDash([]);
+    if(label){c.fillStyle=gcol.ink;c.font='500 10px "IBM Plex Mono","Plex Mono Fallback",monospace';c.textBaseline='bottom';c.fillText('60 fps',4,ry-2)}
+    if(!n)return;var x0=w-(n-1)*step;
+    if(work&&work.length){c.globalAlpha=.28;c.fillStyle=gcol.area;c.beginPath();c.moveTo(x0,h);for(var i=0;i<work.length;i++)c.lineTo(x0+i*step,y(work[i]));c.lineTo(x0+(work.length-1)*step,h);c.closePath();c.fill();c.globalAlpha=1}
+    c.lineWidth=1.4;c.lineJoin='round';
+    // Two strokes in total, one per colour, rather than one per segment.
+    var okP=new Path2D(),overP=new Path2D();
+    for(var j=1;j<n;j++){var P=(frames[j]>20||frames[j-1]>20)?overP:okP;P.moveTo(x0+(j-1)*step,y(frames[j-1]));P.lineTo(x0+j*step,y(frames[j]))}
+    c.strokeStyle=gcol.ok;c.stroke(okP);c.strokeStyle=gcol.over;c.stroke(overP);
+  }
+  function push(arr,v,cap){arr.push(v);if(arr.length>cap)arr.shift()}
+
+  /* ---------- Side-by-side test: the same dots, drawn with common shortcuts and built to budget ---------- */
+  var stage=document.getElementById('demo-stage'),dcv=document.getElementById('demo-canvas'),ddom=document.getElementById('demo-dom'),dgraph=document.getElementById('demo-graph');
+  var dCount=document.getElementById('demo-count'),dCountOut=document.getElementById('demo-count-out'),dStatus=document.getElementById('demo-status'),dCountdown=document.getElementById('demo-countdown'),dCause=document.getElementById('demo-cause');
+  var bUsual=document.getElementById('demo-usual'),bOurs=document.getElementById('demo-ours'),bStop=document.getElementById('demo-stop');
+  var sMed=document.getElementById('demo-med'),sSlow=document.getElementById('demo-slow'),sWork=document.getElementById('demo-work');
+  var dMode=null,dRaf=0,dLast=0,dT0=0,N=+dCount.value,px,py,vx,vy,pc,dF=[],dW=[],dEls=[],dSprites=[],dOn=true;
+  if(dgraph)dgraph._cap=240;
+  function demoPalette(){return['--tr1','--tr2','--tr3','--tr4'].map(function(n){return tok(n)})}
+  function seed(){var r=stage.getBoundingClientRect();px=new Float32Array(N);py=new Float32Array(N);vx=new Float32Array(N);vy=new Float32Array(N);pc=new Uint8Array(N);
+    for(var i=0;i<N;i++){px[i]=Math.random()*r.width;py[i]=Math.random()*r.height;var a=Math.random()*6.283,s=30+Math.random()*60;vx[i]=Math.cos(a)*s;vy[i]=Math.sin(a)*s;pc[i]=i%4}}
+  function move(dt,w,h){for(var i=0;i<N;i++){var x=px[i]+vx[i]*dt,y=py[i]+vy[i]*dt;if(x<0||x>w){vx[i]=-vx[i];x=x<0?0:w}if(y<0||y>h){vy[i]=-vy[i];y=y<0?0:h}px[i]=x;py[i]=y}}
+  // Built to budget: one glow per colour painted once, then each dot is a single image copy into one canvas.
+  function buildSprites(){var dpr=Math.min(window.devicePixelRatio||1,2),pal=demoPalette();dSprites=pal.map(function(col){var s=document.createElement('canvas'),z=Math.round(24*dpr);s.width=s.height=z;
+    var c=s.getContext('2d'),g=c.createRadialGradient(z/2,z/2,0,z/2,z/2,z/2);g.addColorStop(0,col);g.addColorStop(.18,col);g.addColorStop(.4,col+'40');g.addColorStop(1,col+'00');c.fillStyle=g;c.fillRect(0,0,z,z);return s})}
+  // Common shortcuts: one element per dot with a live glow, moved by its page position, measuring the page after every move.
+  function buildDom(){var pal=demoPalette(),f=document.createDocumentFragment();dEls=[];
+    for(var i=0;i<N;i++){var e=document.createElement('i');e.className='dot';e.style.background=pal[pc[i]];e.style.boxShadow='0 0 9px 3px '+pal[pc[i]]+'66';f.appendChild(e);dEls.push(e)}
+    ddom.textContent='';ddom.appendChild(f)}
+  function stat(){if(!dF.length)return;var s=dF.slice().sort(function(a,b){return a-b}),med=s[s.length>>1],slow=0,wk=0;for(var i=0;i<dF.length;i++)if(dF[i]>20)slow++;for(i=0;i<dW.length;i++)wk+=dW[i];
+    sMed.textContent=med.toFixed(1)+' ms';sSlow.textContent=Math.round(slow/dF.length*100)+'%';sWork.textContent=(wk/dW.length).toFixed(2)+' ms';
+    if(dMode){results[dMode]={med:med,slow:Math.round(slow/dF.length*100),n:N};showCompare()}
+    sMed.parentNode.dataset.state=med>20?'over':'ok';sSlow.parentNode.dataset.state=slow/dF.length>.05?'over':'ok';sWork.parentNode.dataset.state=wk/dW.length>8?'over':'ok'}
+  function demoFrame(t){dRaf=0;if(!dMode)return;
+    var r=stage.getBoundingClientRect(),w=r.width,h=r.height,dt=dLast?Math.min(.05,(t-dLast)/1000):0;if(dLast)push(dF,t-dLast,240);dLast=t;
+    var w0=performance.now();move(dt,w,h);
+    if(dMode==='usual'){for(var i=0;i<N;i++){var e=dEls[i];e.style.left=px[i]+'px';e.style.top=py[i]+'px';e.getBoundingClientRect()}}
+    else{var dpr=Math.min(window.devicePixelRatio||1,2);if(dcv.width!==Math.round(w*dpr)){dcv.width=Math.round(w*dpr);dcv.height=Math.round(h*dpr)}
+      var c=dcv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);for(var j=0;j<N;j++)c.drawImage(dSprites[pc[j]],px[j]-12,py[j]-12,24,24)}
+    var work=performance.now()-w0;push(dW,work,240);drawGraph(dgraph,dF,dW,50,true);if(dF.length%10===0)stat();
+    if(dMode==='usual'){var el=(t-dT0)/1000;
+      if(work>800)push(dF,work,240);
+      if(work>800||el>10){drawGraph(dgraph,dF,dW,50,true);demoStop(work>800?'Stopped: one frame took '+Math.round(work).toLocaleString('en-US')+' ms, so the page froze for that long.':'Stopped after 10 seconds so it doesn’t slow the rest of the page.');return}
+      dCountdown.textContent='Stops by itself in '+Math.max(0,Math.ceil(10-el))+' s.'}
+    dRaf=requestAnimationFrame(demoFrame)}
+  var results={usual:null,ours:null},dCmp=document.getElementById('demo-compare');
+  function showCompare(){var f=function(k,name){var r=results[k];return r?name+': '+r.med.toFixed(1)+' ms per frame, '+r.slow+'% slow ('+r.n+' dots)':name+': not run yet'};
+    dCmp.textContent=f('usual','Common shortcuts')+' · '+f('ours','Built to budget')}
+  function demoRun(mode){demoStop('');dMode=mode;N=+dCount.value;seed();dF=[];dW=[];dLast=0;dT0=performance.now();
+    stage.dataset.mode=mode;bUsual.setAttribute('aria-pressed',mode==='usual');bOurs.setAttribute('aria-pressed',mode==='ours');bStop.disabled=false;
+    loafWorst=null;dCause.hidden=true;
+    if(mode==='usual'){buildDom();dcv.getContext('2d').clearRect(0,0,dcv.width,dcv.height);dStatus.textContent='Running common shortcuts.'}else{ddom.textContent='';dEls=[];buildSprites();dStatus.textContent='Running built to budget. Press Stop when you’ve seen enough.'}
+    stat();if(dOn)dRaf=requestAnimationFrame(demoFrame)}
+  function demoStop(msg){if(dRaf)cancelAnimationFrame(dRaf);dRaf=0;if(dMode)stat();dMode=null;bUsual.setAttribute('aria-pressed','false');bOurs.setAttribute('aria-pressed','false');bStop.disabled=true;
+    ddom.textContent='';dEls=[];dCountdown.textContent='';if(msg!=='')dStatus.textContent=msg||'Stopped.';showCause()}
+  /* Where the browser reports Long Animation Frames (Chrome, Edge), name what made the slowest frame slow. */
+  var loafWorst=null;
+  try{if(PerformanceObserver.supportedEntryTypes.indexOf('long-animation-frame')>=0){var lo=new PerformanceObserver(function(l){if(!dMode)return;l.getEntries().forEach(function(e){if(!loafWorst||e.duration>loafWorst.duration)loafWorst=e})});obs.push(lo);lo.observe({type:'long-animation-frame'})}}catch(e){}
+  function showCause(){if(!loafWorst)return;var forced=0,script=0;(loafWorst.scripts||[]).forEach(function(sc){forced+=sc.forcedStyleAndLayoutDuration||0;script+=sc.duration||0});
+    var styleLayout=loafWorst.renderStart&&loafWorst.styleAndLayoutStart?Math.max(0,loafWorst.startTime+loafWorst.duration-loafWorst.styleAndLayoutStart):0;
+    var parts=[];if(forced>=1)parts.push(Math.round(forced).toLocaleString('en-US')+' ms recalculating layout because the page’s script asked for it mid-frame');
+    else if(script>=1)parts.push(Math.round(script).toLocaleString('en-US')+' ms running script');
+    if(styleLayout>=1)parts.push(Math.round(styleLayout).toLocaleString('en-US')+' ms on the final style, layout and paint');
+    dCause.textContent='Slowest frame: '+Math.round(loafWorst.duration).toLocaleString('en-US')+' ms'+(parts.length?', of which '+parts.join(' and ')+'.':'.');dCause.hidden=false}
+  bUsual.onclick=function(){demoRun('usual')};bOurs.onclick=function(){demoRun('ours')};bStop.onclick=function(){demoStop()};
+  dCount.addEventListener('input',function(){dCountOut.textContent=dCount.value;if(dMode)demoRun(dMode)},sig);
+  try{(obs[obs.length]=new IntersectionObserver(function(es){dOn=es[es.length-1].isIntersecting;if(!dOn&&dMode)demoStop('Stopped when you scrolled away.')})).observe(stage)}catch(e){}
+  document.addEventListener('visibilitychange',function(){if(document.hidden&&dMode)demoStop('Stopped while the tab was in the background.')},sig);
+  // Draw the empty graph only when the section comes near the screen.
+  try{var gIO=new IntersectionObserver(function(es){if(es[es.length-1].isIntersecting){gIO.disconnect();drawGraph(dgraph,dF,dW,50,true)}},{rootMargin:'300px'});obs.push(gIO);gIO.observe(dgraph)}catch(e){}
+  window.__kinmoorTeardown=function(){ac.abort();obs.forEach(function(o){try{o.disconnect()}catch(e){}});kill();demoStop('')};
+}
+if(window.claude&&window.claude.hot&&window.claude.hot.ready)window.claude.hot.ready(kinmoorBoot);else kinmoorBoot();
+</script>
