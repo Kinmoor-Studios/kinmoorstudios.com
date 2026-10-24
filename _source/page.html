@@ -97,6 +97,9 @@ h1 em{font-style:normal;color:var(--heather)}
 .btn.primary{background:var(--ink);color:var(--ground)}
 .btn.primary:hover{background:var(--heather);border-color:var(--heather)}
 .btn.ghost:hover{background:var(--surface)}
+/* In dark mode the primary button is dark letters on a light ground, which renders lighter than the light-on-dark letters beside it, most of all on 1x screens. A hairline stroke evens the weight without loading a heavier font. */
+:root[data-theme="dark"] .btn.primary{-webkit-text-stroke:.3px currentColor}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{-webkit-text-stroke:.3px currentColor}}
 /* Arrow drawn as a shape, not a character, so it centres on the capital letters rather than the font's arrow height */
 .btn.primary::after{content:"";flex:none;width:1em;height:.7em;background:currentColor;transform:translateY(var(--arrow-y,0));transition:transform .25s ease;
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 11'%3E%3Cpath d='M0 5.5h14M9.5 1l4.5 4.5L9.5 10' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E") center/contain no-repeat;
@@ -523,7 +526,7 @@ footer .meta{grid-column:2}
           <button class="ring" type="button" aria-expanded="false" aria-controls="spec-apps"><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span><span class="vh">Specifics: Shopify apps and integrations</span></button>
           <span class="tag">Apps</span>
           <h3>Shopify apps and integrations</h3>
-          <div class="swap"><p class="desc">We build checkout extensions, admin tools, and connections to your other systems. They're for when an off-the-shelf app is too slow, costs too much, or doesn't fit how you work.</p><ul class="spec" id="spec-apps"><li><span class="t">Custom features in your checkout</span></li><li><span class="t">Tools for your team inside the Shopify admin</span></li><li><span class="t">Connections to your other software</span></li><li><span class="t">As fast as the rest of your store</span></li></ul></div>
+          <div class="swap"><p class="desc">When an off-the-shelf app is too slow, costs too much, or doesn't fit how you work, we build one for you: a checkout extension, a tool in the Shopify admin, or a connection to your other systems.</p><ul class="spec" id="spec-apps"><li><span class="t">Custom features in your checkout</span></li><li><span class="t">Tools for your team inside the Shopify admin</span></li><li><span class="t">Connections to your other software</span></li><li><span class="t">As fast as the rest of your store</span></li></ul></div>
         </article>
         <article class="service">
           <button class="ring" type="button" aria-expanded="false" aria-controls="spec-software"><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span><span class="vh">Specifics: Back-office software</span></button>
