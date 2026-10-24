@@ -280,8 +280,8 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
 /* Each card has a colour that complements the heather: three from the tracers, and a deep teal. Once opened, the card's label, button and list markers take it. */
 .service:nth-child(1){--tint:var(--tr2)}.service:nth-child(2){--tint:var(--tr3)}.service:nth-child(3){--tint:var(--tr4-ink)}.service:nth-child(4){--tint:var(--teal-ink)}
 .service.open{--accent:var(--tint)}
-/* The card's top line fills in its colour on hover, and stays drawn while the card is open. */
-.service::after{background:var(--tint,var(--heather))}
+/* The card's top line fills in heather on hover. Once the card is opened it takes the card's colour and stays drawn. */
+.service::after{background:var(--accent,var(--heather));transition:transform .5s cubic-bezier(.2,.7,.2,1),background-color .35s ease}
 .service.open::after{transform:scaleX(1)}
 
 /* Celebrate: the last stage. Its title is a button that shines now and then, with sparkles twinkling around it, and bursts into confetti when pressed.
