@@ -598,21 +598,25 @@ function kinmoorBoot(){
     el.querySelector('.val').textContent=val;
     el.dataset.state=state||'';
     var b=el.querySelector('.budget');
-    var label=state==='ok'?'within budget':state==='over'?'over budget':state==='na'?'not supported here':state==='wait'?'tap or click anything':state==='info'?'':'measuring';
+    var label=state==='ok'?'within budget':state==='over'?'over budget':state==='na'?'not supported here':state==='bg'?'opened in a background tab':state==='skip'?'not measured this visit':state==='wait'?'tap or click anything':state==='info'?'':'measuring';
     b.textContent=label&&budgetText?budgetText+' · ':label?'':budgetText||'';if(label){var em=document.createElement('b');em.textContent=label;b.appendChild(em)}
   }
   // The budgets table shows the same figures as bars: this page's value as a share of each budget, filling when the row comes into view.
   var meters={};[].forEach.call(document.querySelectorAll('.meter[data-meter]'),function(m){meters[m.dataset.meter]={el:m,out:m.querySelector('b'),sub:m.querySelector('small'),max:+m.dataset.max}});
-  function meter(k,v,txt){var m=meters[k];if(!m)return;m.out.textContent=txt;
-    if(v==null){m.el.style.setProperty('--v','0');m.el.dataset.state='';m.sub.textContent='not supported here';return}
+  function meter(k,v,txt,note){var m=meters[k];if(!m)return;m.out.textContent=txt;
+    if(v==null){m.el.style.setProperty('--v','0');m.el.dataset.state='';m.sub.textContent=note||'not supported here';return}
     var share=v/m.max;m.el.style.setProperty('--v',Math.min(1,share).toFixed(3));m.el.dataset.state=share<=1?'ok':'over';
     m.sub.textContent=(share<.01&&share>0?'under 1':Math.round(share*100))+'% of budget'}
   try{var mIO=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('shown');mIO.unobserve(e.target)}})},{rootMargin:'0px 0px -12% 0px'});
     obs.push(mIO);[].forEach.call(document.querySelectorAll('.meter[data-meter]'),function(m){mIO.observe(m)})}catch(e){}
+  // Browsers don't report paint timings for a page that loads in a background tab, and stop reporting the main-content time after the first tap,
+  // scroll or key press. When a figure never arrives, the readout says why instead of waiting.
+  var hiddenEarly=document.visibilityState==='hidden',fcpSeen=false;
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&lcp===null)hiddenEarly=true},sig);
   var cls=0, lcp=null;
   function po(type,cb){try{var o=new PerformanceObserver(function(l){l.getEntries().forEach(cb)});obs.push(o);o.observe({type:type,buffered:true});return true}catch(e){return false}}
 
-  var hasPaint=po('paint',function(e){if(e.name==='first-contentful-paint'){set('m-fcp',fmtMs(e.startTime),e.startTime<=budgets.fcp?'ok':'over','Budget 1.8 s')}});
+  var hasPaint=po('paint',function(e){if(e.name==='first-contentful-paint'){fcpSeen=true;set('m-fcp',fmtMs(e.startTime),e.startTime<=budgets.fcp?'ok':'over','Budget 1.8 s')}});
   var hasLcp=po('largest-contentful-paint',function(e){lcp=e.startTime;set('m-lcp',fmtMs(lcp),lcp<=budgets.lcp?'ok':'over','Budget 2.5 s');meter('lcp',lcp,fmtMs(lcp))});
   // Scored the way Google scores it: the worst burst of shifts (each less than 1 s apart, at most 5 s long), not a running total.
   var clsWin=0,clsStart=0,clsLast=0;
@@ -645,6 +649,10 @@ function kinmoorBoot(){
   function finish(){
     if(!hasPaint) set('m-fcp','—','na','Budget 1.8 s');
     if(!hasLcp){set('m-lcp','—','na','Budget 2.5 s');meter('lcp',null,'—')}
+    // Supported, but nothing came: say why (a background tab, or an early tap or scroll), rather than "measuring" for ever.
+    setTimeout(function(){var why=hiddenEarly?'bg':'skip',note=hiddenEarly?'background tab':'not measured';
+      if(hasPaint&&!fcpSeen)set('m-fcp','—',why,'Budget 1.8 s');
+      if(hasLcp&&lcp===null){set('m-lcp','—',why,'Budget 2.5 s');meter('lcp',null,'—',note)}},2500);
     if(hasCls && document.querySelector('#m-cls .val').textContent==='…'){set('m-cls','0.000','ok','Budget 0.1');meter('cls',0,'0.000')}
     if(!hasCls){set('m-cls','—','na','Budget 0.1');meter('cls',null,'—')}
     if(!hasEvents) set('m-inp','—','na','Budget 200 ms');
