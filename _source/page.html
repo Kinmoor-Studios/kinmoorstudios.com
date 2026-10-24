@@ -3,6 +3,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' rx='5' fill='%231A1D17'/%3E%3Cpath d='M4 20c4-6 7-9 10-9s6 3 10 9' fill='none' stroke='%23ECEEE8' stroke-width='1.8'/%3E%3Cpath d='M8 20c2.5-3.5 4.3-5 6-5s3.5 1.5 6 5' fill='none' stroke='%23C99FCF' stroke-width='1.8'/%3E%3C/svg%3E">
 <link rel="preload" href="fonts/archivo-display.woff2?v=2607a15a" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/kinmoor-text.woff2?v=77a883ec" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ibm-plex-mono-500.woff2?v=723c5326" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ibm-plex-mono-400.woff2?v=6b380ffd" as="font" type="font/woff2" crossorigin>
 <style>
 /* Fonts are served from this site, trimmed to the weights and characters the page uses: about 53 KB for all four files. */
 @font-face{font-family:"Archivo";src:url("fonts/archivo-display.woff2?v=2607a15a") format("woff2");font-weight:700 800;font-stretch:112% 125%;font-display:swap}
@@ -25,7 +27,7 @@
   --torch:#7E4785;
   --glow:rgba(107,61,113,.18);
   --spark:#6B3D71;
-  --tr1:#6B3D71; --tr2:#56661B; --tr3:#3E5BA8; --tr4:#A0601C; --tr4-ink:#8C5318;
+  --tr1:#6B3D71; --tr2:#56661B; --tr3:#3E5BA8; --tr4:#A0601C; --tr4-ink:#8C5318; --teal-ink:#2A6A62;
   --atm1:rgba(124,64,132,.24); --atm2:rgba(64,90,190,.20); --atm3:rgba(224,146,56,.24); --atm4:rgba(56,132,124,.18);
   --atm5:rgba(206,82,128,.20); --atm6:rgba(112,88,214,.22); --atm7:rgba(236,172,70,.24);
 
@@ -40,12 +42,12 @@
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --torch:#E6CBEA; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --tr4-ink:#F2C08A; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
+    --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --torch:#E6CBEA; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --tr4-ink:#F2C08A; --teal-ink:#86CFC1; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
     --heather:#C99FCF; --lichen:#B9CB5E; --warn:#E8975E; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --torch:#E6CBEA; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --tr4-ink:#F2C08A; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
+  --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --torch:#E6CBEA; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --tr4-ink:#F2C08A; --teal-ink:#86CFC1; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
   --heather:#C99FCF; --lichen:#B9CB5E; --warn:#E8975E; color-scheme:dark;
 }
 
@@ -275,8 +277,12 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
 .spec .o{position:absolute;top:0;left:2ch;right:0;text-indent:0}
 .service.open .desc{opacity:0;transform:translateY(-6px);visibility:hidden;transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s}
 .service.open .spec{visibility:visible}
-/* Once opened, each card's label, button and list markers take one of the tracer colours that complement the heather. */
-.service.open:nth-child(1),.service.open:nth-child(4){--accent:var(--tr2)}.service.open:nth-child(2){--accent:var(--tr3)}.service.open:nth-child(3){--accent:var(--tr4-ink)}
+/* Each card has a colour that complements the heather: three from the tracers, and a deep teal. Once opened, the card's label, button and list markers take it. */
+.service:nth-child(1){--tint:var(--tr2)}.service:nth-child(2){--tint:var(--tr3)}.service:nth-child(3){--tint:var(--tr4-ink)}.service:nth-child(4){--tint:var(--teal-ink)}
+.service.open{--accent:var(--tint)}
+/* The card's top line fills in its colour on hover, and stays drawn while the card is open. */
+.service::after{background:var(--tint,var(--heather))}
+.service.open::after{transform:scaleX(1)}
 
 /* Celebrate: the last stage. Its title is a button that shines now and then, with sparkles twinkling around it, and bursts into confetti when pressed.
    The sparkles only scale and fade (the graphics card's job), and they, like the shine, run only while the section is on screen. */
