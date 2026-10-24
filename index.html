@@ -94,10 +94,12 @@ html.theming,html.theming *,html.theming *::before,html.theming *::after{transit
 .contour{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 #contours-index{opacity:.5;animation:breathe 10s ease-in-out infinite;will-change:opacity}
 @keyframes breathe{50%{opacity:.8}}
-.hero .wrap{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px var(--gutter);align-items:end;padding-block:clamp(48px,9vw,120px) clamp(48px,7vw,88px)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px var(--gutter);align-items:start;padding-block:clamp(48px,9vw,120px) clamp(48px,7vw,88px)}
 .hero-copy{display:grid;gap:28px;min-width:0;container-type:inline-size}
 h1{font-size:var(--s6);font-size:min(var(--s6),13cqi);font-weight:800;line-height:.94;letter-spacing:-.025em}
 h1 span,h1 em{display:block;white-space:nowrap}
+/* Optical alignment: letters carry their own space on the left (0.08 em for a D at this weight), so large lines are pulled back to sit on the same edge as the text around them. */
+.ol-D{margin-left:-.084em}.ol-d{margin-left:-.041em}.ol-y{margin-left:-.002em}.ol-S{margin-left:-.05em}
 h1 em{font-style:normal;color:var(--heather)}
 .lede{font-size:clamp(1.125rem,1.6vw,1.3125rem);max-width:34em;color:var(--ink)}
 .actions{display:flex;flex-wrap:wrap;gap:12px}
@@ -250,7 +252,7 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
     <div class="wrap">
       <div class="hero-copy">
         <p class="eyebrow">Kinmoor Studios · Shopify and software</p>
-        <h1 id="h1"><span>Design that</span> <span>doesn’t slow</span> <em>you down.</em></h1>
+        <h1 id="h1"><span class="ol-D">Design that</span> <span class="ol-d">doesn’t slow</span> <em class="ol-y">you down.</em></h1>
         <p class="lede">We design and build Shopify storefronts, apps, and software for consumer brands. Every build has a performance budget, and we meet it without scaling back the design.</p>
         <div class="actions">
           <a class="btn primary" href="#contact">Start with an audit</a>
@@ -349,12 +351,12 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
           <p>Run Google's PageSpeed Insights on your store. It checks the same measures as this table, and the report opens in a new tab.</p>
         </div>
         <form id="psi-form" novalidate>
-          <label for="psi-url">Your store's address</label>
+          <label for="psi-url">Your store's web address</label>
           <div class="row">
             <input id="psi-url" name="url" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="yourstore.com">
             <a class="btn primary" id="psi-go" href="https://pagespeed.web.dev/" target="_blank" rel="noopener">Run the test</a>
           </div>
-          <small>PageSpeed Insights is a free tool from Google. Your address goes straight to Google; we don't see it.</small>
+          <small>PageSpeed Insights is a free tool from Google. The web address goes straight to Google; we don't see it.</small>
         </form>
       </div>
     </div>
@@ -364,8 +366,8 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
   <section class="contact" id="contact" aria-labelledby="contact-h">
     <div class="wrap">
       <p class="eyebrow">Contact</p>
-      <h2 id="contact-h">Start with an audit.</h2>
-      <p>Send us your store's address. We'll review it, find what's slowing it down, and tell you what we'd change. There's no commitment to a rebuild.</p>
+      <h2 id="contact-h" class="ol-S">Start with an audit.</h2>
+      <p>Send us your store's web address. We'll review it, find what's slowing it down, and tell you what we'd change. There's no commitment to a rebuild.</p>
       <div class="mailrow">
         <span class="mail" id="mail">hello@kinmoorstudios.com</span>
         <button class="btn copy" id="copy" type="button">Copy address</button>
