@@ -22,9 +22,10 @@
   --rule:#CBD1C4;
   --contour:#CDD3C5;
   --contour-strong:#B6BEAC;
+  --torch:#7E4785;
   --glow:rgba(107,61,113,.18);
   --spark:#6B3D71;
-  --tr1:#6B3D71; --tr2:#56661B; --tr3:#3E5BA8; --tr4:#A0601C;
+  --tr1:#6B3D71; --tr2:#56661B; --tr3:#3E5BA8; --tr4:#A0601C; --tr4-ink:#8C5318;
   --atm1:rgba(124,64,132,.24); --atm2:rgba(64,90,190,.20); --atm3:rgba(224,146,56,.24); --atm4:rgba(56,132,124,.18);
   --atm5:rgba(206,82,128,.20); --atm6:rgba(112,88,214,.22); --atm7:rgba(236,172,70,.24);
 
@@ -39,19 +40,19 @@
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
+    --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --torch:#E6CBEA; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --tr4-ink:#F2C08A; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
     --heather:#C99FCF; --lichen:#B9CB5E; --warn:#E8975E; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
+  --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --torch:#E6CBEA; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --tr4-ink:#F2C08A; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
   --heather:#C99FCF; --lichen:#B9CB5E; --warn:#E8975E; color-scheme:dark;
 }
 
 *,*::before,*::after{box-sizing:border-box}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 html{scroll-padding-top:16px}
-body{background:var(--ground);color:var(--ink);font:400 var(--s3)/1.6 var(--serif);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 var(--s3)/1.6 var(--serif);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--heather);outline-offset:3px;border-radius:2px}
 h1,h2,h3{font-family:var(--display);font-stretch:125%;text-wrap:balance;margin:0}
@@ -99,11 +100,10 @@ h1 em{font-style:normal;color:var(--heather)}
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 11'%3E%3Cpath d='M0 5.5h14M9.5 1l4.5 4.5L9.5 10' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E") center/contain no-repeat}
 .btn.primary:hover::after{transform:translate(3px,var(--arrow-y,0))}
 .service,.step{position:relative}
-.service::after,.step::after,.nav a::after{content:"";position:absolute;left:0;right:0;background:var(--heather);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.service::after,.nav a::after{content:"";position:absolute;left:0;right:0;background:var(--heather);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
 .service::after{top:-1px;height:1px}
-.step::after{top:-2px;height:2px}
 .nav a::after{bottom:0;height:1px;background:currentColor}
-@media (hover:hover){.service:hover::after,.step:hover::after,.nav a:hover::after{transform:scaleX(1)}}
+@media (hover:hover){.service:hover::after,.nav a:hover::after{transform:scaleX(1)}}
 @media (max-width:860px){.hero .wrap{grid-template-columns:minmax(0,1fr)}}
 
 /* Live readout */
@@ -143,22 +143,23 @@ section.block + section.block .wrap{border-top:1px solid var(--rule)}
 .service{display:grid;gap:10px;padding-block:28px;border-top:1px solid var(--rule);align-content:start}
 .service h3{font-size:var(--s4);font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .service p{color:var(--ink);max-width:32em}
-.service .tag{font:500 .75rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--heather)}
+.service .tag{font:500 .75rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent,var(--heather));transition:color .35s ease}
 @media (max-width:760px){.services{grid-template-columns:minmax(0,1fr)}}
 
-.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px var(--gutter);counter-reset:step}
-.step{display:grid;gap:12px;align-content:start;padding-top:20px;border-top:2px solid var(--ink);counter-increment:step}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:40px var(--gutter);counter-reset:step}
+.step{display:grid;gap:12px;align-content:start;counter-increment:step}
 .step::before{content:counter(step,decimal-leading-zero);font:500 var(--s1)/1 var(--mono);color:var(--heather)}
 .step h3{font-size:1.25rem;font-weight:700;line-height:1.2}
 .step p{font-size:1.0625rem;color:var(--muted)}
-@media (max-width:960px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:540px){.steps{grid-template-columns:minmax(0,1fr)}}
 
 .table-scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:560px}
+table{width:100%;border-collapse:collapse;min-width:680px}
 th,td{text-align:left;padding:18px 16px 18px 0;border-bottom:1px solid var(--rule);vertical-align:baseline}
 table{table-layout:fixed}
-thead th:first-child{width:50%}
+thead th:first-child{width:32%}
+thead th.p{width:10.5rem}
+td.p{padding-left:var(--gutter);padding-right:0;vertical-align:middle}
+th.p{text-align:right;padding-left:var(--gutter);padding-right:0}
 thead th:nth-child(2),td.d{padding-left:calc(var(--gutter) / 2)}
 thead th.t{width:7.5rem}
 thead th{font:500 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:0}
@@ -167,12 +168,17 @@ td.m span{display:block;font:400 .75rem/1.4 var(--mono);color:var(--muted);margi
 td.d{color:var(--muted);font-size:1.0625rem}
 td.t{font:500 1.375rem/1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;padding-right:0}
 th.t{text-align:right;padding-right:0}
-@media (max-width:640px){
+@media (max-width:760px){
   table{min-width:0;table-layout:auto}
   thead{display:none}
   tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding-block:18px;border-bottom:1px solid var(--rule)}
   td{border:0;padding:0}
   td.d{grid-column:1/-1;padding-left:0}
+  td.p{grid-column:1/-1;padding-left:0}
+  .meter{grid-template-columns:minmax(0,1fr) auto;justify-items:stretch;align-items:baseline;row-gap:8px}
+  .meter .ph{display:block;font:400 .75rem/1 var(--mono);color:var(--muted)}
+  .meter .bar,.meter small{grid-column:1/-1}
+  .meter small{text-align:right}
 }
 .foot-note{margin-top:20px;font:400 .8125rem/1.6 var(--mono);color:var(--muted);max-width:60em}
 .psi{margin-top:clamp(40px,6vw,64px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px var(--gutter);align-items:end;padding:clamp(20px,3vw,32px);background:var(--surface);border:1px solid var(--rule);border-radius:3px}
@@ -199,6 +205,24 @@ th.t{text-align:right;padding-right:0}
 
 footer .wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px var(--gutter);padding-block:28px;border-top:1px solid var(--rule);font:400 .75rem/1.5 var(--mono);color:var(--muted)}
 footer a{color:var(--muted)}
+/* After the first Celebrate, its confetti drifts down and settles here, on the footer's top line, beside a small bin. Hold to gather pieces like a magnet; let go over the bin to drop them in. */
+footer .wrap{position:relative}
+.pile{position:absolute;left:0;right:0;bottom:100%;height:30px;display:none;touch-action:none;cursor:grab}
+.pile.on{display:block}
+.pile.grab{cursor:grabbing}
+.pile canvas{display:block;width:100%;height:100%}
+.bin{position:absolute;right:max(20px,env(safe-area-inset-right,0px));bottom:100%;width:40px;height:44px;margin-bottom:-2px;padding:8px 8px 0;border:0;background:none;color:var(--muted);cursor:pointer;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s,color .2s ease}
+.bin.on{opacity:1;visibility:visible;transition:opacity .5s ease,color .2s ease}
+.bin svg{display:block;width:24px;height:28px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.bin .lid{transform-box:fill-box;transform-origin:85% 100%}
+.bin:hover,.bin:focus-visible,.bin.near{color:var(--heather)}
+.bin.near .lid{transform:rotate(18deg)}
+.bin .lid{transition:transform .25s ease}
+.bin.gulp .lid{animation:gulp .4s ease}
+.bin.done{animation:bin-done .6s cubic-bezier(.2,.7,.2,1)}
+.bin:focus-visible{outline:2px solid var(--heather);outline-offset:2px;border-radius:4px}
+@keyframes gulp{40%{transform:rotate(26deg)}}
+@keyframes bin-done{40%{transform:translateY(-6px)}}
 footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px}
 @media (max-width:760px){footer .wrap{grid-template-columns:minmax(0,1fr)}}
 
@@ -208,33 +232,133 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
 #atmos-cv{position:absolute;inset:0;width:100%;height:100%}
 .hero.paused .atmos *{animation-play-state:paused!important}
 
-/* Side-by-side test */
-.demo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px var(--gutter);align-items:start}
-.demo-stage{position:relative;height:clamp(280px,34vw,420px);overflow:hidden;background:var(--surface);border:1px solid var(--rule);border-radius:3px;contain:strict}
-#demo-canvas,#demo-dom{position:absolute;inset:0;width:100%;height:100%}
-.dot{position:absolute;left:0;top:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%}
-.demo-main{display:grid;gap:10px;min-width:0}
-.demo-status{font:400 .75rem/1.5 var(--mono);color:var(--muted);min-height:3em}
-.demo-side{display:grid;gap:20px;min-width:0}
-.demo-buttons{display:flex;flex-wrap:wrap;gap:10px}
-.demo-buttons .btn{cursor:pointer;background:transparent;color:var(--ink)}
-.demo-buttons .btn[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
-.demo-buttons .btn:disabled{opacity:.4;cursor:default}
-.demo-count{display:grid;gap:8px}
-.demo-count-row{display:flex;justify-content:space-between;font:500 .75rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.demo-count-row output{font-variant-numeric:tabular-nums;color:var(--ink)}
-.demo-count input{width:100%;accent-color:var(--heather);min-height:24px}
-.demo-graph{display:block;width:100%;height:120px;background:var(--surface);border:1px solid var(--rule);border-radius:3px}
-.demo-legend{font:400 .75rem/1.5 var(--mono);color:var(--muted)}
-.demo-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0}
-.demo-stats div{display:grid;gap:4px;padding-top:10px;border-top:1px solid var(--rule)}
-.demo-stats dt{font:400 .75rem/1.3 var(--mono);color:var(--muted)}
-.demo-stats dd{margin:0;font:500 1.25rem/1 var(--mono);font-variant-numeric:tabular-nums}
-.demo-stats div[data-state="ok"] dd{color:var(--lichen)}
-.demo-stats div[data-state="over"] dd{color:var(--warn)}
-.demo-notes{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:1rem;color:var(--muted)}
-.demo-notes b{font-weight:400;color:var(--ink)}
-@media (max-width:860px){.demo{grid-template-columns:minmax(0,1fr)}}
+
+/* Torch: a soft circle of brighter contour lines follows the pointer, or a finger held on the map. The circle is a small layer moved by transform; the bright map inside it is drawn once, with the rest of the map. The soft mask alone does the clipping: a rounded clip as well would cost an extra pass every frame. */
+.torch{position:absolute;left:0;top:0;width:220px;height:220px;margin:-110px 0 0 -110px;display:none;opacity:0;transition:opacity .45s ease,display .45s allow-discrete;pointer-events:none;
+  -webkit-mask-image:radial-gradient(closest-side,#000,rgba(0,0,0,.82) 14%,rgba(0,0,0,.44) 36%,rgba(0,0,0,.15) 62%,transparent);mask-image:radial-gradient(closest-side,#000,rgba(0,0,0,.82) 14%,rgba(0,0,0,.44) 36%,rgba(0,0,0,.15) 62%,transparent)}
+.torch canvas{position:absolute;left:0;top:0;will-change:transform}
+/* While off, the circle is out of rendering altogether (display:none): even invisible, its layers cost the compositor on every frame. It fades in and out where browsers can animate display. */
+.hero.torch-on .torch{display:block;opacity:1;will-change:transform,opacity}
+@starting-style{.hero.torch-on .torch{opacity:0}}
+@media (pointer:coarse){.torch{width:170px;height:170px;margin:-85px 0 0 -85px}}
+
+/* Specifics: a ring button beside each service, which pulses gently whenever its panel is closed. Pressing it swaps the paragraph for that service's specifics, which decode into place. */
+.service{grid-template-columns:minmax(0,1fr) auto;column-gap:12px}
+.service>:not(.ring):not(.hint){grid-column:1}
+/* "Click me" is traced from the Caveat typeface (SIL Open Font License 1.1, copyright 2014 The Caveat Project Authors) into a single shape, so no extra font loads. */
+/* A hand-drawn note just above and left of the first button, its arrow curling under into the ring, fades once any panel has been opened. */
+.hint{position:absolute;right:24px;top:-2px;width:84px;height:52px;color:var(--heather);pointer-events:none;transition:opacity .4s ease}
+.hint .nt{fill:currentColor}
+.hint .na{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.services.tried .hint{opacity:0}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.ring{grid-column:2;grid-row:1/span 2;align-self:start;position:relative;display:grid;place-items:center;width:44px;height:44px;margin:-12px -11px 0 0;padding:0;border:0;border-radius:50%;background:none;color:var(--accent,var(--heather));cursor:pointer;transition:color .35s ease}
+.rg{position:relative;flex:none;width:22px;height:22px}
+.rg::after{content:"";position:absolute;inset:0;box-sizing:border-box;border:1.5px solid currentColor;border-radius:50%}
+.rg i.dot{position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:currentColor;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.halo{position:absolute;inset:0;border-radius:50%;pointer-events:none}
+.halo::before{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 1.5px var(--heather),0 0 12px 3px var(--glow);opacity:0}
+.services.in-view .ring[aria-expanded="false"] .halo::before{animation:ring-pulse 2.6s cubic-bezier(.2,.6,.3,1) infinite}
+.service:nth-child(2) .halo::before{animation-delay:.35s}.service:nth-child(3) .halo::before{animation-delay:.7s}.service:nth-child(4) .halo::before{animation-delay:1.05s}
+@keyframes ring-pulse{0%{transform:scale(1);opacity:.8}75%,100%{transform:scale(1.9);opacity:0}}
+.ring:hover .rg i.dot{transform:scale(1.35)}
+.service.open .rg i.dot{transform:scale(2.2)}
+.ring:focus-visible{outline:2px solid var(--heather);outline-offset:0}
+.swap{display:grid}
+.swap>*{grid-area:1/1}
+.desc{transition:opacity .3s ease,transform .3s cubic-bezier(.2,.7,.2,1)}
+.spec{margin:0;padding:0;list-style:none;display:grid;gap:6px;align-content:start;font:400 .875rem/1.5 var(--mono);color:var(--ink);visibility:hidden}
+.spec li{position:relative;white-space:pre-wrap;padding-left:2ch;text-indent:-2ch}
+.spec li::before{content:"+ ";color:var(--accent,var(--heather))}
+/* While a line decodes, the real text keeps its place (so nothing on the page moves) and the scrambled copy is drawn over it. */
+.spec li.dec .t{color:transparent}
+.spec .o{position:absolute;top:0;left:2ch;right:0;text-indent:0}
+.service.open .desc{opacity:0;transform:translateY(-6px);visibility:hidden;transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s}
+.service.open .spec{visibility:visible}
+/* Once opened, each card's label, button and list markers take one of the tracer colours that complement the heather. */
+.service.open:nth-child(1),.service.open:nth-child(4){--accent:var(--tr2)}.service.open:nth-child(2){--accent:var(--tr3)}.service.open:nth-child(3){--accent:var(--tr4-ink)}
+
+/* Celebrate: the last stage. Its title is a button that shines now and then, with sparkles twinkling around it, and bursts into confetti when pressed.
+   The sparkles only scale and fade (the graphics card's job), and they, like the shine, run only while the section is on screen. */
+.party{position:relative;padding:0;border:0;font:inherit;letter-spacing:inherit;cursor:pointer;color:var(--heather);
+  background:linear-gradient(100deg,var(--heather) 0 38%,var(--spark) 50%,var(--heather) 62% 100%);background-size:260% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.party:focus-visible{outline:2px solid var(--heather);outline-offset:3px}
+.celebrate h3::before{box-shadow:0 0 12px 4px var(--glow),0 0 0 3px var(--glow)}
+/* Sparkles sit around the word itself: at its corners and along its edges. */
+.sparkles{position:absolute;inset:-9px -12px;pointer-events:none}
+.sparkles i{position:absolute;width:12px;height:12px;background:var(--spark);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);opacity:0}
+.sparkles i:nth-child(1){left:0;top:0}
+.sparkles i:nth-child(2){left:44%;top:-3px;width:8px;height:8px}
+.sparkles i:nth-child(3){right:0;top:38%;width:11px;height:11px;background:var(--lichen)}
+.sparkles i:nth-child(4){left:22%;bottom:-2px;width:8px;height:8px}
+.sparkles i:nth-child(5){right:16%;bottom:-4px;width:7px;height:7px;background:var(--tr3)}
+.steps.in-view .sparkles i{animation:twinkle 2.4s ease-in-out infinite}
+.sparkles i:nth-child(2){animation-delay:.5s!important}.sparkles i:nth-child(3){animation-delay:1s!important}.sparkles i:nth-child(4){animation-delay:1.5s!important}.sparkles i:nth-child(5){animation-delay:2s!important}
+.steps.in-view .party{animation:shine 4s ease-in-out infinite}
+.sparkles{transition:transform .3s ease}
+.party:hover .sparkles{transform:scale(1.12)}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.3) rotate(0)}45%{opacity:1;transform:scale(1) rotate(45deg)}70%{opacity:0;transform:scale(.4) rotate(90deg)}}
+@keyframes shine{0%,55%{background-position:100% 0}85%,100%{background-position:0 0}}
+@media (forced-colors:active){.party{-webkit-text-fill-color:ButtonText;background:none}.sparkles{display:none}}
+
+/* Layers for the scroll-driven pieces are set up once the page has loaded and gone quiet (the script adds .settled), so they are ready before anyone scrolls to them without delaying the first paint. */
+.settled .trail-fill,.settled .trail-tip,.settled .halo::before{will-change:transform,opacity}
+.settled .step h3::before{will-change:opacity}
+/* Process trail: one line runs through the four stages, with a light at its tip. Each stage's marker lights as the trail reaches it. */
+.trail-wrap{position:relative}
+/* The line runs from the centre of the first marker to the centre of the last, so the segments are equal and the last marker is the end point. */
+.trail{position:absolute;left:6px;right:calc((100% - 4 * var(--gutter)) / 5 - 6px);top:0;height:2px;background:var(--rule);pointer-events:none}
+.trail-fill{position:absolute;inset:0;background:var(--heather);transform-origin:0 50%}
+.trail-tip{position:absolute;inset:0}
+.trail-tip::after{content:"";position:absolute;right:-5px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:var(--spark);box-shadow:0 0 0 3px var(--glow),0 0 16px 5px var(--glow)}
+.step{position:relative;border-top:0;padding-top:30px}
+.step::after,.step h3::before{content:"";position:absolute;left:0;top:-5px;width:12px;height:12px;border-radius:50%}
+/* The marker is two layers: a plain ring, and a lit dot over it that only changes opacity, so the graphics card can fade it in step with the trail. */
+.step::after{background:var(--ground);border:2px solid var(--rule)}
+.step h3::before{z-index:1;background:var(--heather);box-shadow:0 0 10px 2px var(--glow)}
+@media (max-width:1100px){
+  .steps{grid-template-columns:minmax(0,1fr);gap:36px;padding-left:36px}
+  .step{padding-top:0}
+  .step p{max-width:34em}
+  .trail{left:5px;right:auto;top:6px;bottom:var(--trail-end,0px);width:2px;height:auto}
+  .trail-fill{transform-origin:50% 0}
+  .trail-tip::after{right:auto;top:auto;left:50%;bottom:-5px;margin:0 0 0 -5px}
+  .step::after,.step h3::before{left:-36px;top:1px}
+}
+
+/* This page's own figures beside each budget */
+.meter{display:grid;gap:8px;justify-items:end}
+.meter b{font:500 1.0625rem/1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.meter small{font:400 .75rem/1.3 var(--mono);color:var(--muted);white-space:nowrap}
+.meter .ph{display:none}
+.bar{display:block;width:100%;height:5px;border-radius:2px;background:var(--rule);overflow:hidden}
+.bar span{display:block;height:100%;background:var(--lichen);transform-origin:0 50%;transform:scaleX(0);transition:transform 1.2s cubic-bezier(.2,.7,.2,1) .15s}
+.meter.shown .bar span{transform:scaleX(var(--v,0))}
+.meter[data-state="over"] .bar span{background:var(--warn)}
+
+/* Scroll-driven motion: the trail draws itself as it comes into view. Without support, or with reduced motion, they simply appear complete. */
+@media (prefers-reduced-motion:no-preference){@supports (animation-timeline:view()){
+  .trail-wrap{view-timeline:--steps block}
+  .trail-fill,.trail-tip,.step h3::before{animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--steps;animation-range:cover 20% cover 60%}
+  .trail-fill{animation-name:trail-x}
+  .trail-tip{animation-name:tip-x}
+  .step h3::before{animation-name:node;animation-range:cover calc(19% + 40% * var(--k,0)) cover calc(22% + 40% * var(--k,0))}
+  /* Where each marker sits along the line: evenly spaced from first to last */
+  .step:nth-child(2){--k:.25}.step:nth-child(3){--k:.5}.step:nth-child(4){--k:.75}.step:nth-child(5){--k:1}
+}}
+/* Phones: the tip sits 45% of the way down the screen. Measured from the top edge, so the toolbar appearing as you scroll up doesn't move it. */
+@media (prefers-reduced-motion:no-preference) and (max-width:1100px){@supports (animation-timeline:view()){
+  .trail-fill{animation-name:trail-y}
+  .trail-tip{animation-name:tip-y}
+  .trail-fill,.trail-tip{animation-range:exit-crossing -45vh exit-crossing calc(100% - 45vh)}
+  .step{view-timeline:--node block}
+  .step h3::before{animation-timeline:--node;animation-range:exit-crossing -45vh exit-crossing calc(-45vh + 90px)}
+}}
+@keyframes trail-x{from{transform:scaleX(0)}}
+@keyframes tip-x{from{transform:translateX(-100%);opacity:0}2%{opacity:1}}
+@keyframes trail-y{from{transform:scaleY(0)}}
+@keyframes tip-y{from{transform:translateY(-100%);opacity:0}2%{opacity:1}}
+@keyframes node{from{opacity:0}}
 
 /* High contrast preference: stronger secondary text and rules */
 @media (prefers-contrast:more){
@@ -244,15 +368,30 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
 @media (prefers-contrast:more) and (prefers-color-scheme:dark){:root:not([data-theme="light"]){--muted:#C6CDBE;--rule:#5E6757}}
 /* Windows High Contrast and other forced colour modes: hide decoration, keep the arrow visible */
 @media (forced-colors:active){
-  .contour-stack,.atmos,.demo-graph{display:none}
+  .contour-stack,.atmos,.trail,.bar,.halo{display:none}
   .btn.primary::after{forced-color-adjust:none;background:ButtonText}
   .btn.primary:hover::after{background:ButtonText}
 }
 /* Without JavaScript, controls that need it are hidden rather than left doing nothing */
 @media (scripting:none){
-  .theme-toggle,.copy,.readout,#demo,.nav a[href="#demo"]{display:none}
+  .theme-toggle,.copy,.readout,th.p,td.p{display:none}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* Sections below the first screen start out skipped, so the first paint lays out only the hero. The script lays each one out in a quiet moment after loading. Sizes are estimates from real layouts; browsers keep the true size once known. */
+.cv{content-visibility:auto;contain-intrinsic-size:auto var(--est,900px)}
+#work{--est:890px}#process{--est:600px}#budgets{--est:1160px}#contact{--est:540px}
+@media (max-width:1100px){#process{--est:980px}}
+@media (max-width:760px){#work{--est:1600px}#process{--est:1060px}#budgets{--est:1880px}#contact{--est:520px}}
+/* Depth: as the hero scrolls away, the colour fields and the map move a little slower than the page, so they sit further back. Driven by the scroll position in CSS and run by the graphics card, with no script. It moves only when the visitor scrolls, so Pause leaves it alone; reduced motion turns it off. */
+@media (prefers-reduced-motion:no-preference){@supports (animation-timeline:view()){
+  .hero{view-timeline:--hero block}
+  /* Longhands rather than the animation shorthand: the shorthand resets animation-timeline, and the minifier merges and reorders rules. */
+  .atmos,.contour-stack{animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--hero;animation-range:exit-crossing 0% exit-crossing 100%}
+  .atmos{animation-name:kin-far}
+  .contour-stack{animation-name:kin-mid}
+}}
+@keyframes kin-far{to{transform:translate3d(0,30%,0)}}
+@keyframes kin-mid{to{transform:translate3d(0,14%,0)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 <script>try{var t=localStorage.getItem('kinmoor-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 
@@ -265,7 +404,6 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
     <nav class="nav" aria-label="Sections">
       <a href="#work">Work</a>
       <a href="#process">Process</a>
-      <a href="#demo">Demo</a>
       <a href="#budgets">Budgets</a>
       <a class="keep" href="#contact">Contact</a>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode" title="Switch to dark mode">
@@ -285,6 +423,7 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
       <canvas class="contour" id="contours"></canvas>
       <canvas class="contour" id="contours-index"></canvas>
       <canvas class="contour" id="contours-lights"></canvas>
+      <div class="torch"><canvas id="contours-torch"></canvas></div>
     </div>
     <div class="wrap">
       <div class="hero-copy">
@@ -303,11 +442,11 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
           <span class="live">Live</span>
         </header>
         <dl class="metrics">
-          <div class="metric" id="m-fcp"><dt class="name">First content shown</dt><dd class="val">…</dd><dd class="budget">Budget 1.8 s · <b>measuring</b></dd></div>
-          <div class="metric" id="m-lcp"><dt class="name">Main content shown</dt><dd class="val">…</dd><dd class="budget">Budget 2.5 s · <b>measuring</b></dd></div>
+          <div class="metric" id="m-fcp"><dt class="name">First content shown</dt><dd class="val">…</dd><dd class="budget">Budget 1.8 s · <b>measuring</b></dd></div>
+          <div class="metric" id="m-lcp"><dt class="name">Main content shown</dt><dd class="val">…</dd><dd class="budget">Budget 2.5 s · <b>measuring</b></dd></div>
           <div class="metric" id="m-cls"><dt class="name">Layout shift</dt><dd class="val">…</dd><dd class="budget">Budget 0.1 · <b>measuring</b></dd></div>
-          <div class="metric" id="m-inp"><dt class="name">Response to a tap or click</dt><dd class="val">—</dd><dd class="budget">Budget 200 ms · <b>tap or click anything</b></dd></div>
-          <div class="metric" id="m-anim"><dt class="name">Background animation, work per frame</dt><dd class="val">…</dd><dd class="budget">Budget 2 ms · <b>measuring</b></dd></div>
+          <div class="metric" id="m-inp"><dt class="name">Response to a tap or click</dt><dd class="val">—</dd><dd class="budget">Budget 200 ms · <b>tap or click anything</b></dd></div>
+          <div class="metric" id="m-anim"><dt class="name">Background animation, work per frame</dt><dd class="val">…</dd><dd class="budget">Budget 2 ms · <b>measuring</b></dd></div>
           <div class="metric" id="m-kb"><dt class="name">Page weight</dt><dd class="val">…</dd><dd class="budget"><b>measuring</b></dd></div>
         </dl>
         <div class="ro-foot">
@@ -318,95 +457,62 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
     </div>
   </section>
 
-  <section class="block" id="work" aria-labelledby="work-h">
+  <section class="block cv" id="work" aria-labelledby="work-h">
     <div class="wrap">
       <div class="sec-head">
         <h2 id="work-h">What we build</h2>
         <p>We make online stores, the apps that extend them, and the back-office tools that keep a brand running. Each one is designed, measured, and tested before it ships.</p>
       </div>
-      <div class="services">
+      <div class="services" id="services">
         <article class="service">
+          <svg class="hint" viewBox="0 0 84 52" aria-hidden="true"><path class="nt" transform="translate(0 2) rotate(-4) scale(.42)" d="M12 57q-1 0-2-1q-1 0-2-1q0-1-1-2q-1-2-1-3q0-2 0-4q0-3 0-5q1-2 2-5q0 0 0-1q1 0 1-1q0-1 1-2q0-1 1-2q1-2 2-3q2-3 3-4q1-2 2-3q1-1 2-2q1-1 3-2q1-1 3-1q2 0 4 1q1 0 2 2q1 1 1 3q0 2-1 4q-1 2-1 3q-1 2-3 3q0 1-1 1q-1-1-2-2q-1-1-1-1q0 0 1 0q0 0 0-1q1-1 2-2q0-1 0-2q1-2 1-3q0-1 0-2q-1 0-1 0q0 0-1 1q-2 0-4 2q-1 2-3 4q-2 3-4 6q-1 2-2 4q0 0-1 1q0 1 0 1q0 0 0 1q0 1 0 1q-1 3-1 5q0 3 0 5q1 2 1 2q1 1 2 1q1 0 3-1q1-1 3-1q2-1 3-2q1 0 1-1q1 0 1 0q1-1 2-1q0 0 1 0q0 1 0 2q0 1-1 2q-1 1-2 2q-1 0-2 0q0 1-1 1q-1 1-3 2q-2 1-4 1q-1 1-3 0zm22-3q-1 0-2 0q0-1-1-3q0-1 1-4q0 0 0-1q0 0 0-1q0 0 1-2q0-1 0-2q1-1 1-2q1-1 1-1q0 0 0 0q0-1 0-1q0-1 0-1q1-1 1-1q0 0 0-1q0 0 0 0q0 0 0-1q0 0 0 0q1-1 1-2q1-2 2-4q1-2 1-4q1-2 1-3q1-1 1-2q0 0 0 0q0-1 1-1q0 0 0 0q1 0 1 0q0 0 0 0q1 0 1 1q1 0 1 1q0 0 0 1q0 1 0 1q0 1-1 2q0 1-1 3q-1 1-1 2q-1 1-1 2q0 0 0 0q0 1 0 1q-1 1-1 2q0 1-1 2q0 1 0 1q-1 1-1 1q0 0 0 1q0 0 0 0q0 0 0 0q0 1 0 1q0 0-1 3q-1 3-2 5q-1 3-1 4q0 2 0 2q0 1-1 1zm8-1q0-1 0-2q-1-1 0-1q0-1 0-2q0 0 0 0q0-1 0-1q0 0 0-1q0 0 1-1q0-1 0-2q1-1 1-3q1-1 1-2q0-1 0-1q0-1 1-1q1 0 2 0q1 1 1 2q1 0 0 1q0 1 0 2q-1 1-1 2q0 1 0 1q0 1-1 1q0 1 0 2q0 0-1 1q0 1 0 1q0 1 0 2q-1 2-2 2q-1 1-2 0zm6-23q0 0-1-1q0-1 0-1q0-1 0-1q1 0 1-1q1-1 1-2q0 0 0 0q0-1 1-1q0 0 1 0q1 1 2 2q0 1 0 2q0 1-1 2q-1 1-2 1q-1 1-2 0zm11 24q-1 0-3-1q-1 0-2-1q-1-2-1-3q0-2 0-4q1-3 2-5q1-2 2-4q1-1 2-2q1-1 2-2q1 0 2 0q1 0 1 0q1 0 2 0q1 1 1 1q0 0 1 1q0 0 0 0q0 0 0 1q1 0 1 1q0 1 0 2q0 1-1 2q-1 1-1 1q0 0-1 0q0 0 0 0q0 0 0 0q-1 0-1 0q-1 0-1 0q0-1 0-1q0-1 1-2q0-1 0-2q-1 0-2 0q-1 1-2 2q-1 1-2 3q-1 2-2 5q0 2 0 2q0 1 1 1q0 1 1 0q1 0 2 0q1-1 2-1q1-1 1-1q1-1 1-1q0 0 1-1q0 0 1 0q0 0 1 0q0 0 1 0q0 0 1 1q0 0-1 0q0 0 0 0q0 1 0 1q0 0 0 1q-1 0-2 1q-1 1-1 2q-1 0-2 0q0 0 0 1q0 0-1 0q-1 1-2 1q-1 1-2 1zm15 0q0 0-1-1q0-1-1-2q0 0 0-1q0-1 0-2q1-2 1-4q1 0 1-1q0-1 1-2q0-1 1-2q0-1 1-3q0-1 1-2q1-2 1-3q1-1 1-3q1-1 1-2q1-2 2-4q0-1 1-3q1-1 1-2q0 0 0 0q0 0 0 0q0-1 1-1q0 0 1 0q0 0 1 1q1 1 1 2q0 1-1 3q-1 3-3 6q-2 4-3 6q-1 3-1 4q-1 1-1 1q0 0 1 0q1 0 1-1q1 0 2-1q1 0 1-1q1 0 2 0q0-1 1-1q0 0 0-1q2 0 2 0q1 0 1 1q1 1 1 1q-1 1-2 2q-1 1-3 2q-1 1-3 1q-1 1-1 1q0 0 0 1q1 1 1 2q1 0 1 2q1 1 1 1q1 1 2 2q0 0 2 0q1 0 1 0q1 0 1 1q0 0 0 0q0 1 0 1q-2 1-3 2q-1 1-3 0q-1-1-2-2q-1-1-3-3q0 0 0-1q0-1 0-1q-1 0-1-1q0 0 0 0q0-1 0-1q-1 0-1 0q0 0-1 0q0 1 0 1q-1 1-1 2q0 1-1 2q0 1 0 2q0 1 0 1q-1 1-2 1zm59-2q0 0-1-1q-1 0-1-1q-1-2-1-3q0-2 0-3q1-1 0-1q0 0-1 1q-1 1-3 2q-1 1-3 3q0 1-1 1q-1 1-2 1q0 1-1 0l-1 0q0-1 0-1q0-1 0-1l1-4q1-2 1-3q1 0 1 0q0-1-1-1q0 0-1 1q-1 0-1 1q0 0 0 0q-1 1-1 1q-1 1-1 2q-1 1-2 2q-1 0-2 1q-1 1-2 2q0 1 0 1q-1 0-2-1q-1 0-1-1q0-1 0-2q0-2 1-5q0-1 0-2q1 0 1-1q0-1 0-1q1-1 1-2q0-1 0-2q0-1 0-1q0-1 1-1q0-1 1-1q1 0 1 0q1 0 2 1q0 1 0 2q0 0 0 1q0 1 0 1l-1 2q0 1-1 2q0 0 0 1q0 0 0 0q0 1 0 0q1 0 1-1q1 0 1-1q1-1 3-1q1-1 2-2q1-1 2-1q1 0 2 1q0 0 1 1q0 1 0 1q0 1 0 2q0 0 0 1q-1 0-1 1q0 0 0 0q0 0 0 0q1 0 1-1q1 0 2-1q2-2 4-2q1-1 3 1q0 0 0 1q1 1 1 3q0 1 0 2q0 1 0 1q0 1 0 1q0 0 1 1q0 0 1 0q0 0 1 1q0 1-1 2q-1 0-2 0q-1 0-2 0zm17 0q-2 1-4 1q-2 1-3 0q-2-1-3-2q0-1-1-2q0-2 0-5q0-2 2-5q1-2 3-4q2-2 4-3q0 0 1 0q1 0 2 0q1 0 2 0q1 1 2 1q1 1 1 2q0 1 0 2q0 1-2 3q-1 2-3 3q-1 1-3 1q-1 0-3-1q-1 0-1 1q-1 0-1 2q0 1 1 2q0 1 1 1q1 0 2 0q0 0 1 0q1-1 1-1q1 0 1 0q0-1 1-1q0 0 0 0q0 0 1 0q0 0 1 0q0 1 0 1q0 0 0 1q0 1-1 2q-1 1-2 1zm-1-12q1 0 1-1q1 0 2-1q0-1 0-1q0-1-1-1q0-1-2 0q0 0-1 0q-1 1-1 2q-1 0-1 1q-1 0-1 1q0 0 1 0q1 0 2 0q0 0 1 0z"/><path class="na" d="M35 27c2 8 9 13 21 14 10 1 18 0 26-1"/><path class="na" d="M75.8 36.7c2.2.9 4.2 2 6.2 3.3-1.6 1.6-3.3 3.1-5.2 4.7"/></svg>
+          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-themes"><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span><span class="vh">Specifics: Shopify storefronts</span></button>
           <span class="tag">Themes</span>
           <h3>Shopify storefronts</h3>
-          <p>We design custom themes for your brand on Shopify's Online Store 2.0. Your team can edit every section without calling a developer.</p>
+          <div class="swap"><p class="desc">We design custom themes for your brand on Shopify's Online Store 2.0. Your team can edit every section without calling a developer.</p><ul class="spec" id="spec-themes"><li><span class="t">A custom theme built for your brand</span></li><li><span class="t">Your team can edit any page without code</span></li><li><span class="t">Main content appears in under 2.5 seconds</span></li><li><span class="t">Buttons respond in under 200 milliseconds</span></li><li><span class="t">Meets the WCAG 2.2 AA accessibility standard</span></li></ul></div>
         </article>
         <article class="service">
+          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-audits"><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span><span class="vh">Specifics: Store audits</span></button>
           <span class="tag">Audits</span>
           <h3>Store audits</h3>
-          <p>We check speed, accessibility, search, and every installed app, with evidence behind each finding. You get a ranked list of fixes, whether or not you rebuild.</p>
+          <div class="swap"><p class="desc">We check speed, accessibility, search, and every installed app, with evidence behind each finding. You get a ranked list of fixes, whether or not you rebuild.</p><ul class="spec" id="spec-audits"><li><span class="t">Field and lab speed data, on mobile and desktop</span></li><li><span class="t">The speed cost of every installed app, measured</span></li><li><span class="t">WCAG 2.2 accessibility and technical SEO review</span></li><li><span class="t">Findings ranked by impact, each with evidence</span></li></ul></div>
         </article>
         <article class="service">
+          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-apps"><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span><span class="vh">Specifics: Shopify apps and integrations</span></button>
           <span class="tag">Apps</span>
           <h3>Shopify apps and integrations</h3>
-          <p>We build checkout extensions, admin tools, and connections to your other systems. They're for when an off-the-shelf app is too slow, costs too much, or doesn't fit how you work.</p>
+          <div class="swap"><p class="desc">We build checkout extensions, admin tools, and connections to your other systems. They're for when an off-the-shelf app is too slow, costs too much, or doesn't fit how you work.</p><ul class="spec" id="spec-apps"><li><span class="t">Custom features in your checkout</span></li><li><span class="t">Tools for your team inside the Shopify admin</span></li><li><span class="t">Connections to your other software</span></li><li><span class="t">As fast as the rest of your store</span></li></ul></div>
         </article>
         <article class="service">
+          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-software"><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span><span class="vh">Specifics: Back-office software</span></button>
           <span class="tag">Software</span>
           <h3>Back-office software</h3>
-          <p>Our first product, now in private development, brings Shopify payouts into QuickBooks. It prepares each payout automatically, but nothing is posted until a person approves it.</p>
+          <div class="swap"><p class="desc">Our first product, now in private development, brings Shopify payouts into QuickBooks. It prepares each payout automatically, but nothing is posted until a person approves it.</p><ul class="spec" id="spec-software"><li><span class="t">Sends your Shopify payouts to QuickBooks</span></li><li><span class="t">Prepares each payout for you</span></li><li><span class="t">Nothing is recorded until you approve it</span></li><li><span class="t">In private development</span></li></ul></div>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="block" id="process" aria-labelledby="process-h">
+  <section class="block cv" id="process" aria-labelledby="process-h">
     <div class="wrap">
       <div class="sec-head">
         <h2 id="process-h">How a project runs</h2>
         <p>You see a working store before you commit to building one.</p>
       </div>
+      <div class="trail-wrap">
+      <div class="trail" aria-hidden="true"><div class="trail-fill"></div><div class="trail-tip"></div></div>
       <ol class="steps">
-        <li class="step"><h3>Audit</h3><p>We test your current store on real phones and computers, then write up what's slow, what's broken, and what to fix first.</p></li>
+        <li class="step"><h3>Audit</h3><p>We benchmark your store's speed, accessibility, and search on the devices your customers use, then rank every issue by impact.</p></li>
         <li class="step"><h3>Concept</h3><p>We build a working concept on a private development store with your real products. You can click through it before you sign off on the build.</p></li>
         <li class="step"><h3>Build</h3><p>The theme is kept in version control. Every change has to pass the performance budget and an accessibility scan before it goes live.</p></li>
-        <li class="step"><h3>Launch and handover</h3><p>We set up redirects, check every app, and watch the site after launch. You get the code, the documentation, and full admin access.</p></li>
+        <li class="step"><h3>Launch</h3><p>We set up redirects, check every app, and watch the site after launch. You get the code, the documentation, and full admin access.</p></li>
+        <li class="step celebrate"><h3><button class="party" type="button">Celebrate<span class="sparkles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></button></h3><p>Your new store is live, and faster than before.</p></li>
       </ol>
-    </div>
-  </section>
-
-  <section class="block" id="demo" aria-labelledby="demo-h">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 id="demo-h">See the difference</h2>
-        <p>The same glowing dots, built two ways. Nothing in the second is a secret technique. The difference is holding every build to a budget. Turn up the count and see which one holds.</p>
-      </div>
-      <div class="demo">
-        <div class="demo-main">
-          <div class="demo-stage" id="demo-stage">
-            <canvas id="demo-canvas" aria-hidden="true"></canvas>
-            <div id="demo-dom" aria-hidden="true"></div>
-          </div>
-          <p class="demo-status"><span id="demo-status" role="status">Choose a way to run it.</span> <span id="demo-countdown" aria-hidden="true"></span></p>
-        </div>
-        <div class="demo-side">
-          <div class="demo-buttons" role="group" aria-label="Run the test">
-            <button class="btn" id="demo-usual" type="button" aria-pressed="false">Common shortcuts</button>
-            <button class="btn" id="demo-ours" type="button" aria-pressed="false">Built to budget</button>
-            <button class="btn" id="demo-stop" type="button" disabled>Stop</button>
-          </div>
-          <div class="demo-count">
-            <div class="demo-count-row"><label for="demo-count">Dots</label><output id="demo-count-out" for="demo-count">300</output></div>
-            <input id="demo-count" type="range" min="50" max="1500" step="50" value="300">
-          </div>
-          <canvas class="demo-graph" id="demo-graph" aria-hidden="true"></canvas>
-          <p class="demo-legend">Line: time between frames, green under the dashed 60 fps line and amber over it. Shaded: script time per frame.</p>
-          <dl class="demo-stats">
-            <div><dt>Typical frame</dt><dd id="demo-med">—</dd></div>
-            <div><dt>Slow frames</dt><dd id="demo-slow">—</dd></div>
-            <div><dt>Script per frame</dt><dd id="demo-work">—</dd></div>
-          </dl>
-          <p class="demo-legend" id="demo-cause" hidden></p>
-          <p class="demo-legend" id="demo-compare" aria-live="polite">Common shortcuts: not run yet · Built to budget: not run yet</p>
-          <ul class="demo-notes">
-            <li><b>Common shortcuts</b> give every dot its own element with a live glow, move it by its position on the page, and check the layout after each move. Each is an everyday habit; together they add up.</li>
-            <li><b>Built to budget</b> paints each glow once and copies it into a single canvas, so the browser only moves pixels.</li>
-          </ul>
-        </div>
       </div>
     </div>
   </section>
 
-  <section class="block" id="budgets" aria-labelledby="budgets-h">
+  <section class="block cv" id="budgets" aria-labelledby="budgets-h">
     <div class="wrap">
       <div class="sec-head">
         <h2 id="budgets-h">The budgets we build to</h2>
@@ -414,16 +520,16 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
       </div>
       <div class="table-scroll">
         <table>
-          <thead><tr><th scope="col">Measure</th><th scope="col">What a shopper notices</th><th scope="col" class="t">Budget</th></tr></thead>
+          <thead><tr><th scope="col">Measure</th><th scope="col">What a shopper notices</th><th scope="col" class="t">Budget</th><th scope="col" class="p">This page</th></tr></thead>
           <tbody>
-            <tr><td class="m">Largest Contentful Paint<span>LCP</span></td><td class="d">How long until the main image or headline appears</td><td class="t">≤ 2.5 s</td></tr>
-            <tr><td class="m">Interaction to Next Paint<span>INP</span></td><td class="d">How quickly the page reacts to a tap, a filter, or Add to cart</td><td class="t">≤ 200 ms</td></tr>
-            <tr><td class="m">Cumulative Layout Shift<span>CLS</span></td><td class="d">Whether buttons and text jump around while the page loads</td><td class="t">≤ 0.1</td></tr>
-            <tr><td class="m">Accessibility<span>WCAG</span></td><td class="d">Keyboard use, screen readers, readable contrast, and labels</td><td class="t">2.2 AA</td></tr>
+            <tr><td class="m">Largest Contentful Paint<span>LCP</span></td><td class="d">How long until the main image or headline appears</td><td class="t">≤ 2.5 s</td><td class="p"><span class="meter" data-meter="lcp" data-max="2500"><span class="ph">This page</span><b>…</b><span class="bar"><span></span></span><small>measuring</small></span></td></tr>
+            <tr><td class="m">Interaction to Next Paint<span>INP</span></td><td class="d">How quickly the page reacts to a tap, a filter, or Add to cart</td><td class="t">≤ 200 ms</td><td class="p"><span class="meter" data-meter="inp" data-max="200"><span class="ph">This page</span><b>—</b><span class="bar"><span></span></span><small>waiting for a tap</small></span></td></tr>
+            <tr><td class="m">Cumulative Layout Shift<span>CLS</span></td><td class="d">Whether buttons and text jump around while the page loads</td><td class="t">≤ 0.1</td><td class="p"><span class="meter" data-meter="cls" data-max="0.1"><span class="ph">This page</span><b>…</b><span class="bar"><span></span></span><small>measuring</small></span></td></tr>
+            <tr><td class="m">Accessibility<span>WCAG</span></td><td class="d">Keyboard use, screen readers, readable contrast, and labels</td><td class="t">2.2 AA</td><td class="p"><span class="meter"><span class="ph">This page</span><b>Passes</b><small>automated scan</small></span></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="foot-note">The first three are Google's thresholds for a good score, measured at the 75th percentile of real visits on phones and computers.</p>
+      <p class="foot-note">The first three are Google's thresholds for a good score, measured at the 75th percentile of real visits on phones and computers. The bars show this page's own figures, measured in your browser, as a share of each budget. Response appears after your first tap or click.</p>
       <div class="psi">
         <div>
           <h3>How does your store measure up?</h3>
@@ -442,7 +548,7 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
   </section>
 
 
-  <section class="contact" id="contact" aria-labelledby="contact-h">
+  <section class="contact cv" id="contact" aria-labelledby="contact-h">
     <div class="wrap">
       <p class="eyebrow">Contact</p>
       <h2 id="contact-h" class="ol-S">Start with an audit.</h2>
@@ -457,10 +563,11 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
 
 <footer>
   <div class="wrap">
+    <div class="pile" aria-hidden="true"><canvas></canvas></div>
+    <button class="bin" type="button" aria-label="Tidy up the confetti" title="Tidy up the confetti"><svg viewBox="0 0 24 28" aria-hidden="true"><g class="lid"><path d="M3 6.5h18M9.5 6.5V4.2c0-.7.6-1.2 1.2-1.2h2.6c.7 0 1.2.5 1.2 1.2v2.3"/></g><path d="M5 9.5l1.4 14.3c.1.9.8 1.5 1.7 1.5h7.8c.9 0 1.6-.6 1.7-1.5L19 9.5"/><path d="M10 12.5v9M14 12.5v9"/></svg></button>
     <span>© 2026 Kinmoor Studios, LLC</span>
     <div class="meta">
       <span>No cookies. No trackers. <a href="/privacy">Privacy</a></span>
-      <a href="https://kinmoor.games" rel="noopener">Games at kinmoor.games</a>
     </div>
   </div>
 </footer>
@@ -472,7 +579,7 @@ function kinmoorBoot(){
   var ac=new AbortController(),sig={signal:ac.signal},obs=[];
   /* ---------- Live performance readout ---------- */
   var budgets={fcp:1800,lcp:2500,cls:0.1};
-  function fmtMs(v){return v<1000?Math.round(v)+' ms':(v/1000).toFixed(2)+' s'}
+  function fmtMs(v){return v<1000?Math.round(v)+' ms':(v/1000).toFixed(2)+' s'}
   function set(id,val,state,budgetText){
     var el=document.getElementById(id); if(!el) return;
     el.querySelector('.val').textContent=val;
@@ -481,25 +588,33 @@ function kinmoorBoot(){
     var label=state==='ok'?'within budget':state==='over'?'over budget':state==='na'?'not supported here':state==='wait'?'tap or click anything':state==='info'?'':'measuring';
     b.textContent=label&&budgetText?budgetText+' · ':label?'':budgetText||'';if(label){var em=document.createElement('b');em.textContent=label;b.appendChild(em)}
   }
+  // The budgets table shows the same figures as bars: this page's value as a share of each budget, filling when the row comes into view.
+  var meters={};[].forEach.call(document.querySelectorAll('.meter[data-meter]'),function(m){meters[m.dataset.meter]={el:m,out:m.querySelector('b'),sub:m.querySelector('small'),max:+m.dataset.max}});
+  function meter(k,v,txt){var m=meters[k];if(!m)return;m.out.textContent=txt;
+    if(v==null){m.el.style.setProperty('--v','0');m.el.dataset.state='';m.sub.textContent='not supported here';return}
+    var share=v/m.max;m.el.style.setProperty('--v',Math.min(1,share).toFixed(3));m.el.dataset.state=share<=1?'ok':'over';
+    m.sub.textContent=(share<.01&&share>0?'under 1':Math.round(share*100))+'% of budget'}
+  try{var mIO=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('shown');mIO.unobserve(e.target)}})},{rootMargin:'0px 0px -12% 0px'});
+    obs.push(mIO);[].forEach.call(document.querySelectorAll('.meter[data-meter]'),function(m){mIO.observe(m)})}catch(e){}
   var cls=0, lcp=null;
   function po(type,cb){try{var o=new PerformanceObserver(function(l){l.getEntries().forEach(cb)});obs.push(o);o.observe({type:type,buffered:true});return true}catch(e){return false}}
 
-  var hasPaint=po('paint',function(e){if(e.name==='first-contentful-paint'){set('m-fcp',fmtMs(e.startTime),e.startTime<=budgets.fcp?'ok':'over','Budget 1.8 s')}});
-  var hasLcp=po('largest-contentful-paint',function(e){lcp=e.startTime;set('m-lcp',fmtMs(lcp),lcp<=budgets.lcp?'ok':'over','Budget 2.5 s')});
-  // Scored the way Google scores it: the worst burst of shifts (each less than 1 s apart, at most 5 s long), not a running total.
+  var hasPaint=po('paint',function(e){if(e.name==='first-contentful-paint'){set('m-fcp',fmtMs(e.startTime),e.startTime<=budgets.fcp?'ok':'over','Budget 1.8 s')}});
+  var hasLcp=po('largest-contentful-paint',function(e){lcp=e.startTime;set('m-lcp',fmtMs(lcp),lcp<=budgets.lcp?'ok':'over','Budget 2.5 s');meter('lcp',lcp,fmtMs(lcp))});
+  // Scored the way Google scores it: the worst burst of shifts (each less than 1 s apart, at most 5 s long), not a running total.
   var clsWin=0,clsStart=0,clsLast=0;
   var hasCls=po('layout-shift',function(e){if(e.hadRecentInput)return;
     if(clsWin&&e.startTime-clsLast<1000&&e.startTime-clsStart<5000){clsWin+=e.value}else{clsWin=e.value;clsStart=e.startTime}
-    clsLast=e.startTime;if(clsWin>cls)cls=clsWin;set('m-cls',cls.toFixed(3),cls<=budgets.cls?'ok':'over','Budget 0.1')});
+    clsLast=e.startTime;if(clsWin>cls)cls=clsWin;set('m-cls',cls.toFixed(3),cls<=budgets.cls?'ok':'over','Budget 0.1');meter('cls',cls,cls.toFixed(3))});
 
   // Response: the slowest tap, click, or key press so far, from the Event Timing API (how Interaction to Next Paint is measured).
   var inpWorst=-1,hasEvents=false;
   try{hasEvents=PerformanceObserver.supportedEntryTypes.indexOf('event')>=0}catch(e){}
   if(hasEvents){try{var eo=new PerformanceObserver(function(l){l.getEntries().forEach(function(e){if(!e.interactionId)return;
-      if(e.duration>inpWorst){inpWorst=e.duration;set('m-inp',fmtMs(inpWorst),inpWorst<=200?'ok':'over','Budget 200 ms')}})});
+      if(e.duration>inpWorst){inpWorst=e.duration;set('m-inp',fmtMs(inpWorst),inpWorst<=200?'ok':'over','Budget 200 ms');meter('inp',inpWorst,fmtMs(inpWorst))}})});
     obs.push(eo);eo.observe({type:'event',durationThreshold:16,buffered:true})}catch(e){hasEvents=false}}
-  // Interactions faster than 16 ms are below what browsers report, so a tap with no report is under 16 ms.
-  function tapped(){if(!hasEvents)return;setTimeout(function(){if(inpWorst<0)set('m-inp','< 16 ms','ok','Budget 200 ms')},400)}
+  // Interactions faster than 16 ms are below what browsers report, so a tap with no report is under 16 ms.
+  function tapped(){if(!hasEvents)return;setTimeout(function(){if(inpWorst<0){set('m-inp','< 16 ms','ok','Budget 200 ms');meter('inp',16,'< 16 ms')}},400)}
   addEventListener('pointerup',tapped,sig);addEventListener('keyup',tapped,sig);
 
   function weigh(){
@@ -510,16 +625,16 @@ function kinmoorBoot(){
       var bytes=0;
       // Compressed size of every file, so the figure is the same on a first visit and a cached one.
       list.forEach(function(e){bytes+=(e.encodedBodySize||e.transferSize||0)});
-      if(bytes>0){set('m-kb',(bytes/1024).toFixed(0)+' KB','info', list.length+' files, compressed')}
+      if(bytes>0){set('m-kb',(bytes/1024).toFixed(0)+' KB','info', list.length+' files, compressed')}
       else{set('m-kb','—','na','')}
     }catch(e){set('m-kb','—','na','')}
   }
   function finish(){
-    if(!hasPaint) set('m-fcp','—','na','Budget 1.8 s');
-    if(!hasLcp) set('m-lcp','—','na','Budget 2.5 s');
-    if(hasCls && document.querySelector('#m-cls .val').textContent==='…') set('m-cls','0.000','ok','Budget 0.1');
-    if(!hasCls) set('m-cls','—','na','Budget 0.1');
-    if(!hasEvents) set('m-inp','—','na','Budget 200 ms');
+    if(!hasPaint) set('m-fcp','—','na','Budget 1.8 s');
+    if(!hasLcp){set('m-lcp','—','na','Budget 2.5 s');meter('lcp',null,'—')}
+    if(hasCls && document.querySelector('#m-cls .val').textContent==='…'){set('m-cls','0.000','ok','Budget 0.1');meter('cls',0,'0.000')}
+    if(!hasCls){set('m-cls','—','na','Budget 0.1');meter('cls',null,'—')}
+    if(!hasEvents) set('m-inp','—','na','Budget 200 ms');
     weigh();
   }
   if(document.readyState==='complete') setTimeout(finish,300); else addEventListener('load',function(){setTimeout(finish,300)},sig);
@@ -562,8 +677,8 @@ function kinmoorBoot(){
      the hand-off between threads cost more than it saved, so it runs on the page's own thread. */
   function kinHero(scope,isWorker){
     var cb,ci,cl,ca,bx,ix,lx,ax,W=0,H=0,DPR=1,LDPR=1,col=null,reduce=false,still=false,on=false,raf=0;
-    var paths=[],lights=[],pal=[],aCols=[],aW=0,aH=0,T=30,lastT=0,lastLight=0,lastAtm=0,dirty=[],scrolling=false;
-    var workAcc=0,workN=0,lastReport=0,quality=0,winN=0,winSlow=0,calm=0,buildId=0,built=false,cbr=null,cir=null;
+    var paths=[],lights=[],pal=[],aCols=[],aW=0,aH=0,T=30,lastT=0,lastLight=0,lastAtm=0,dirty=[],cover=null,scrolling=false,LH=0;
+    var workAcc=0,workN=0,lastReport=0,quality=0,winN=0,winSlow=0,calm=0,buildId=0,built=false,cbr=null,cir=null,ct=null,ctr=null,tcx=null;
     var rAF=(typeof requestAnimationFrame==='function')?function(f){return requestAnimationFrame(f)}:function(f){return setTimeout(function(){f(performance.now())},16)};
     var cAF=(typeof cancelAnimationFrame==='function')?function(h){cancelAnimationFrame(h)}:function(h){clearTimeout(h)};
     function post(m){scope.postMessage(m)}
@@ -628,6 +743,16 @@ function kinmoorBoot(){
       fadeEdges(bx,false);fadeEdges(ix,false);
     }
 
+    /* Torch map: the two contour layers recoloured in one bright colour over a soft glow, at the same resolution as the map itself so it stays as sharp. Made once per build. */
+    // Each layer is copied at two small offsets to thicken the lines slightly, over a blurred copy of the strong lines for a glow, then everything drawn is recoloured.
+    function paintTorch(c,b,i){var w=c.canvas.width,h=c.canvas.height,k=w/W;c.clearRect(0,0,w,h);c.filter='blur('+(3*k).toFixed(1)+'px)';c.drawImage(i,0,0,w,h);c.filter='none';
+      for(var n=0;n<3;n++){var o=(n-1)*.4*k;c.drawImage(b,o,-o,w,h);c.drawImage(i,o,-o,w,h)}
+      c.globalCompositeOperation='source-in';c.fillStyle=col.torch||'#C99FCF';c.fillRect(0,0,w,h);c.globalCompositeOperation='source-over';
+      // A secret: a small smiley in the bottom-right corner, below the readout panel. It exists only in this bright map, so it shows only under the torch.
+      var x=(W-58)*k,y=(H-(W<700?26:30))*k,r=13*k;c.save();c.strokeStyle=c.fillStyle;c.lineWidth=1.5*k;c.lineCap='round';c.shadowColor=c.fillStyle;c.shadowBlur=5*k;
+      c.beginPath();c.arc(x,y,r,0,6.2832);c.stroke();c.beginPath();c.arc(x,y+1*k,7.5*k,.55,2.59);c.stroke();
+      c.beginPath();c.arc(x-4.5*k,y-3.5*k,1.6*k,0,6.2832);c.arc(x+4.5*k,y-3.5*k,1.6*k,0,6.2832);c.fill();c.restore()}
+
     /* Colour fields: painted into a canvas one sixth the hero's size, which the browser scales up. */
     var FIELDS=[
       {c:1,x:.12,y:.10,r:.42,ax:.08,ay:.10,px:86,py:70,p:0,o:0},
@@ -648,16 +773,20 @@ function kinmoorBoot(){
       fadeEdges(ax,true)}
 
     /* Lights: one per line, each blending between palette colours now and then. */
-    function pick(){var tot=0,i,free=[];for(i=0;i<paths.length;i++)if(!paths[i].busy){free.push(paths[i]);tot+=paths[i].t}
-      if(!free.length)return null;var r=Math.random()*tot;for(i=0;i<free.length;i++){r-=free[i].t;if(r<=0)return free[i]}return free[free.length-1]}
+    // How much of a line can actually be seen: not under the readout panel, and above the faded bottom edge.
+    function vis(c){if(c.vis!==undefined)return c.vis;var n=0,k=0;for(var i=0;i<c.n;i+=4){var x=c.p[2*i],y=c.p[2*i+1];k++;
+        if(y<Math.min(H*.8,LH-14)&&!(cover&&x>cover[0]&&x<cover[0]+cover[2]&&y>cover[1]&&y<cover[1]+cover[3]))n++}
+      return c.vis=k?n/k:0}
+    function pick(){var tot=0,i,free=[];for(i=0;i<paths.length;i++)if(!paths[i].busy&&vis(paths[i])>.3){free.push(paths[i]);tot+=paths[i].t*vis(paths[i])}
+      if(!free.length)return null;var r=Math.random()*tot;for(i=0;i<free.length;i++){r-=free[i].t*vis(free[i]);if(r<=0)return free[i]}return free[free.length-1]}
     function spawn(Lt){if(Lt.c)Lt.c.busy=false;var c=pick();if(!c){Lt.c=null;return}c.busy=true;Lt.c=c;Lt.dir=Math.random()<.5?1:-1;Lt.v=18+Math.random()*18;Lt.trail=70+Math.random()*50;
       Lt.s=Lt.trail+Math.random()*Math.max(1,c.t-2*Lt.trail);Lt.run=220+Math.random()*380;Lt.age=0;
-      if(Lt.to===undefined){Lt.from=Lt.to=Math.floor(Math.random()*4);Lt.k=1;Lt.next=3+Math.random()*6}}
-    function lightColour(Lt,dt){Lt.next-=dt;if(Lt.next<=0&&Lt.k>=1){Lt.from=Lt.to;do{Lt.to=Math.floor(Math.random()*pal.length)}while(Lt.to===Lt.from&&pal.length>1);Lt.k=0;Lt.next=4+Math.random()*6}
-      Lt.k=Math.min(1,Lt.k+dt/2.4);var e=ease(Lt.k),A=pal[Lt.from]||[0,0,0],B=pal[Lt.to]||A;
+      if(Lt.to===undefined){Lt.from=Lt.to=Math.floor(Math.random()*4);Lt.k=1;Lt.next=1+Math.random()*3}}
+    function lightColour(Lt,dt){Lt.next-=dt;if(Lt.next<=0&&Lt.k>=1){Lt.from=Lt.to;do{Lt.to=Math.floor(Math.random()*pal.length)}while(Lt.to===Lt.from&&pal.length>1);Lt.k=0;Lt.next=2.5+Math.random()*3}
+      Lt.k=Math.min(1,Lt.k+dt/1.5);var e=ease(Lt.k),A=pal[Lt.from]||[0,0,0],B=pal[Lt.to]||A;
       return Math.round(A[0]+(B[0]-A[0])*e)+','+Math.round(A[1]+(B[1]-A[1])*e)+','+Math.round(A[2]+(B[2]-A[2])*e)}
-    function seedLights(){if(!lx)return;var cap=quality>=2?3:6,n=Math.min(paths.length,Math.round(Math.min(cap,Math.max(3,W/240))));
-      paths.forEach(function(p){p.busy=false});lights=[];for(var z=0;z<n;z++){var Lt={};spawn(Lt);Lt.age=-z*1.6-Math.random()*1.2;lights.push(Lt)}}
+    function seedLights(){if(!lx)return;var cap=quality>=2?3:7,n=Math.min(paths.length,Math.round(Math.min(cap,Math.max(4,W/200))));
+      paths.forEach(function(p){p.busy=false});lights=[];for(var z=0;z<n;z++){var Lt={};spawn(Lt);Lt.age=-z*.7-Math.random()*.6;lights.push(Lt)}}
     // Only the patches the lights touched last frame are cleared, instead of the whole hero.
     function stepLights(dt){
       for(var d=0;d<dirty.length;d++){var r=dirty[d];lx.clearRect(r[0],r[1],r[2],r[3])}
@@ -669,26 +798,28 @@ function kinmoorBoot(){
         var toEnd=Lt.c.closed?Infinity:(Lt.dir>0?Lt.c.t-Lt.s:Lt.s),left=Math.min(toEnd,Lt.run);
         if(left<=0){spawn(Lt);continue}
         var hp=at(Lt.c,Lt.s),lc=lightColour(Lt,dt);
-        var a=ease(Lt.age/2)*ease(left/90)*ease((H*.9-hp[1])/(H*.35));
+        var a=ease(Lt.age/1.2)*ease(left/90)*ease((H*.9-hp[1])/(H*.35))*ease((LH-8-hp[1])/40);
         if(a<=.005)continue;
         var tailD=Lt.s-Lt.dir*Lt.trail,tp=at(Lt.c,tailD),c=Lt.c,x0=hp[0],y0=hp[1],x1=hp[0],y1=hp[1];
         var g=lx.createLinearGradient(tp[0],tp[1],hp[0],hp[1]);
-        g.addColorStop(0,'rgba('+lc+',0)');g.addColorStop(.55,'rgba('+lc+','+(.16*a).toFixed(3)+')');g.addColorStop(1,'rgba('+lc+','+(.5*a).toFixed(3)+')');
+        g.addColorStop(0,'rgba('+lc+',0)');g.addColorStop(.55,'rgba('+lc+','+(.2*a).toFixed(3)+')');g.addColorStop(1,'rgba('+lc+','+(.62*a).toFixed(3)+')');
         lx.strokeStyle=g;lx.lineWidth=1.3;lx.beginPath();lx.moveTo(tp[0],tp[1]);
         for(var dd=c.step;dd<Lt.trail;dd+=c.step){var pp=at(c,tailD+Lt.dir*dd);lx.lineTo(pp[0],pp[1]);
           if(pp[0]<x0)x0=pp[0];if(pp[0]>x1)x1=pp[0];if(pp[1]<y0)y0=pp[1];if(pp[1]>y1)y1=pp[1]}
         lx.lineTo(hp[0],hp[1]);lx.stroke();
-        var hg=lx.createRadialGradient(hp[0],hp[1],0,hp[0],hp[1],10),ha=a*.8;
-        hg.addColorStop(0,'rgba('+lc+','+ha.toFixed(3)+')');hg.addColorStop(.1,'rgba('+lc+','+(ha*.75).toFixed(3)+')');hg.addColorStop(.3,'rgba('+lc+','+(ha*.22).toFixed(3)+')');hg.addColorStop(.6,'rgba('+lc+','+(ha*.06).toFixed(3)+')');hg.addColorStop(1,'rgba('+lc+',0)');
-        lx.fillStyle=hg;lx.fillRect(hp[0]-10,hp[1]-10,20,20);
-        dirty.push([Math.floor(x0-12),Math.floor(y0-12),Math.ceil(x1-x0+24),Math.ceil(y1-y0+24)]);
+        var hg=lx.createRadialGradient(hp[0],hp[1],0,hp[0],hp[1],13),ha=Math.min(1,a*1.05);
+        hg.addColorStop(0,'rgba('+lc+','+ha.toFixed(3)+')');hg.addColorStop(.12,'rgba('+lc+','+(ha*.85).toFixed(3)+')');hg.addColorStop(.3,'rgba('+lc+','+(ha*.32).toFixed(3)+')');hg.addColorStop(.6,'rgba('+lc+','+(ha*.09).toFixed(3)+')');hg.addColorStop(1,'rgba('+lc+',0)');
+        lx.fillStyle=hg;lx.fillRect(hp[0]-13,hp[1]-13,26,26);
+        dirty.push([Math.floor(x0-15),Math.floor(y0-15),Math.ceil(x1-x0+30),Math.ceil(y1-y0+30)]);
       }
     }
     function clearLights(){if(lx){lx.clearRect(0,0,W,H)}dirty=[]}
+    // The lights layer only needs to reach as far down as a light can be seen: above the readout panel when it spans the hero (phones), otherwise to where the lights fade out.
+    function lightsH(){var lim=H*.9;if(cover&&cover[0]<W*.25&&cover[1]>0)lim=Math.min(lim,cover[1]+12);return Math.max(1,Math.round(lim))}
 
     /* Quality governor: if this device keeps missing frames, lower the cost; when it recovers, restore it.
        Level 1 draws the lights at standard resolution and the colour 20 times a second; level 2 also halves the lights' update rate and count. */
-    function setQuality(q){if(q===quality)return;quality=q;LDPR=quality>=1?1:DPR;cl.width=Math.max(1,Math.round(W*LDPR));cl.height=Math.max(1,Math.round(H*LDPR));
+    function setQuality(q){if(q===quality)return;quality=q;LDPR=quality>=1?1:Math.min(DPR,1.5);cl.width=Math.max(1,Math.round(W*LDPR));cl.height=Math.max(1,Math.round(LH*LDPR));
       lx.setTransform(LDPR,0,0,LDPR,0,0);lx.lineCap=lx.lineJoin='round';dirty=[];if(quality>=2&&lights.length>3)lights.length=3;post({type:'quality',q:quality})}
     function govern(interval){winN++;if(interval>26)winSlow++;
       if(winN>=90){var share=winSlow/winN;
@@ -700,18 +831,18 @@ function kinmoorBoot(){
       var interval=lastT?now-lastT:0;lastT=now;if(interval)govern(interval);
       var w0=performance.now();
       // Frame pacing: the lights move a few pixels a second, so they update at most 60 times a second (30 at level 2), even on 120 Hz screens.
-      var gap=quality>=2?32:15.5;
-      // While the page is being scrolled the lights hold still, so the browser only has to move finished layers.
-      if(scrolling){lastLight=now;lastAtm=now}
-      else if(!still&&now-lastLight>=gap){var dt=lastLight?Math.min(1/20,(now-lastLight)/1000):0;lastLight=now;T+=dt;stepLights(dt)}
-      if(now-lastAtm>=(quality>=1?48:32)){if(!lastLight)T+=lastAtm?(now-lastAtm)/1000:0;lastAtm=now;paintAtmos(T)}
+      // While the page scrolls they keep moving, at 30 updates a second: at a few pixels a second the difference can't be seen, and it halves their share of each scrolling frame.
+      var gap=quality>=2||scrolling?32:15.5;
+      if(!still&&now-lastLight>=gap){var dt=lastLight?Math.min(1/20,(now-lastLight)/1000):0;lastLight=now;T+=dt;stepLights(dt)}
+      // The colour drifts too slowly for a pause to show, so it waits while the page scrolls; the lights keep moving.
+      if(!scrolling&&now-lastAtm>=(quality>=1?48:32)){if(!lastLight)T+=lastAtm?(now-lastAtm)/1000:0;lastAtm=now;paintAtmos(T)}
       workAcc+=performance.now()-w0;workN++;
       if(now-lastReport>=1000&&workN){post({type:'stats',work:workAcc/workN,q:quality});workAcc=0;workN=0;lastReport=now}
       raf=rAF(frame)}
-    function sizeAll(z){W=z.W;H=z.H;DPR=z.DPR;LDPR=quality>=1?1:DPR;
+    function sizeAll(z){W=z.W;H=z.H;DPR=z.DPR;LDPR=quality>=1?1:Math.min(DPR,1.5);
       if(bx){[[cb,DPR],[ci,DPR]].forEach(function(e){e[0].width=Math.max(1,Math.round(W*e[1]));e[0].height=Math.max(1,Math.round(H*e[1]))});
         bx.setTransform(DPR,0,0,DPR,0,0);ix.setTransform(DPR,0,0,DPR,0,0)}
-      cl.width=Math.max(1,Math.round(W*LDPR));cl.height=Math.max(1,Math.round(H*LDPR));
+      LH=lightsH();cl.width=Math.max(1,Math.round(W*LDPR));cl.height=Math.max(1,Math.round(LH*LDPR));if(cl.style)cl.style.height=LH+'px';
       lx.setTransform(LDPR,0,0,LDPR,0,0);lx.lineCap=lx.lineJoin='round';
       aW=Math.max(2,Math.round(W/6));aH=Math.max(2,Math.round(H/6));ca.width=aW;ca.height=aH;dirty=[]}
     function setColours(c){col=c;pal=c.tr.map(rgb);aCols=c.atm.map(rgba)}
@@ -719,22 +850,24 @@ function kinmoorBoot(){
        which sends back two finished images and the light paths; otherwise it is drawn here. */
     function requestBuild(){buildId++;
       if(scope.build)scope.build({type:'build',id:buildId,size:{W:W,H:H,DPR:DPR},col:col,reduce:reduce});
-      else{drawContours();onBuilt()}}
+      else{drawContours();if(tcx){ct.width=Math.max(1,Math.round(W*DPR));ct.height=Math.max(1,Math.round(H*DPR));paintTorch(tcx,cb,ci)}onBuilt()}}
     function onBuilt(){if(!reduce)seedLights();post({type:built?'drawn':'ready'});built=true}
     function handle(m){
       if(m.type==='build'){W=m.size.W;H=m.size.H;DPR=m.size.DPR;col=m.col;reduce=m.reduce;
         var ob=new OffscreenCanvas(Math.max(1,Math.round(W*DPR)),Math.max(1,Math.round(H*DPR))),oi=new OffscreenCanvas(ob.width,ob.height);
         bx=ob.getContext('2d');ix=oi.getContext('2d');bx.setTransform(DPR,0,0,DPR,0,0);ix.setTransform(DPR,0,0,DPR,0,0);drawContours();
-        var b1=ob.transferToImageBitmap(),b2=oi.transferToImageBitmap(),list=[b1,b2],ps=paths.map(function(p){list.push(p.p.buffer);return{p:p.p,n:p.n,step:p.step,t:p.t,closed:p.closed}});
-        scope.postMessage({type:'built',id:m.id,base:b1,idx:b2,paths:ps},list);return}
-      if(m.type==='built'){if(m.id!==buildId){m.base.close();m.idx.close();return}
-        cbr.transferFromImageBitmap(m.base);cir.transferFromImageBitmap(m.idx);paths=m.paths;onBuilt();return}
+        var ot=new OffscreenCanvas(ob.width,ob.height);paintTorch(ot.getContext('2d'),ob,oi);
+        var b1=ob.transferToImageBitmap(),b2=oi.transferToImageBitmap(),b3=ot.transferToImageBitmap(),list=[b1,b2,b3],ps=paths.map(function(p){list.push(p.p.buffer);return{p:p.p,n:p.n,step:p.step,t:p.t,closed:p.closed}});
+        scope.postMessage({type:'built',id:m.id,base:b1,idx:b2,lit:b3,paths:ps},list);return}
+      if(m.type==='built'){if(m.id!==buildId){m.base.close();m.idx.close();m.lit.close();return}
+        cbr.transferFromImageBitmap(m.base);cir.transferFromImageBitmap(m.idx);if(ctr)ctr.transferFromImageBitmap(m.lit);else m.lit.close();paths=m.paths;onBuilt();return}
       if(m.type==='init'){cb=m.base;ci=m.idx;cl=m.lit;ca=m.atm;lx=cl.getContext('2d');ax=ca.getContext('2d');
-        if(scope.build){cbr=cb.getContext('bitmaprenderer');cir=ci.getContext('bitmaprenderer')}else{bx=cb.getContext('2d');ix=ci.getContext('2d')}
+        ct=m.torch||null;if(scope.build){cbr=cb.getContext('bitmaprenderer');cir=ci.getContext('bitmaprenderer');if(ct)ctr=ct.getContext('bitmaprenderer')}else{bx=cb.getContext('2d');ix=ci.getContext('2d');if(ct)tcx=ct.getContext('2d')}
         reduce=!!m.reduce;still=!!m.still;setColours(m.col);sizeAll(m.size);paintAtmos(T);requestBuild()}
       else if(m.type==='size'){sizeAll(m.size);paintAtmos(T);requestBuild()}
       else if(m.type==='col'){setColours(m.col);paintAtmos(T);clearLights();requestBuild()}
       else if(m.type==='scroll'){scrolling=!!m.on}
+      else if(m.type==='cover'){cover=m.r;paths.forEach(function(p){p.vis=undefined})}
       else if(m.type==='still'){still=!!m.on;if(still)clearLights();lastLight=0}
       else if(m.type==='run'){var want=!!m.on&&!reduce;if(want&&!on){on=true;lastT=0;lastLight=0;lastAtm=0;raf=rAF(frame)}else if(!want&&on){on=false;if(raf)cAF(raf);raf=0}}
     }
@@ -748,32 +881,36 @@ function kinmoorBoot(){
   // A visitor's data-saver setting (Chromium) gets the same still map as reduced motion.
   var saveData=!!(navigator.connection&&navigator.connection.saveData);if(saveData)reduce=true;
   function tok(n){return getComputedStyle(root).getPropertyValue(n).trim()}
-  function colours(){return{contour:tok('--contour'),strong:tok('--contour-strong'),glow:tok('--glow'),
+  function colours(){return{contour:tok('--contour'),strong:tok('--contour-strong'),glow:tok('--glow'),torch:tok('--torch'),
     tr:['--tr1','--tr2','--tr3','--tr4'].map(tok),atm:['--atm1','--atm2','--atm3','--atm4','--atm5','--atm6','--atm7'].map(tok)}}
-  function measure(){var r=hero.getBoundingClientRect();return{W:r.width,H:r.height,DPR:Math.min(window.devicePixelRatio||1,2)}}
+  function measure(){var r=hero.getBoundingClientRect(),tc=document.getElementById('contours-torch');
+    // The torch map is drawn at the hero's size in CSS pixels; a bitmap canvas needs that size set explicitly.
+    if(tc){tc.style.width=r.width+'px';tc.style.height=r.height+'px'}
+    var ro=document.querySelector('.readout');if(ro&&send){var q=ro.getBoundingClientRect();send({type:'cover',r:[q.left-r.left,q.top-r.top,q.width,q.height]})}
+    return{W:r.width,H:r.height,DPR:Math.min(window.devicePixelRatio||1,2)}}
   var send=null,ready=false,onScreen=true,dead=false,quality=0,builder=null;
   // A visible control to stop the background (WCAG 2.2.2), remembered for the next visit.
   var still=false,mbtn=document.getElementById('motion');try{still=localStorage.getItem('kinmoor-motion')==='paused'}catch(e){}
-  function budgetText(){return 'Budget 2 ms'}
+  function budgetText(){return 'Budget 2 ms'}
   function onStats(m){
     if(m.type==='ready'){ready=true;hero.classList.add('drawn');begin()}
     else if(m.type==='drawn'){stack.classList.remove('swap')}
     else if(m.type==='quality'){quality=m.q;hero.dataset.quality=m.q}
-    else if(m.type==='stats'&&!still&&!reduce){set('m-anim',m.work.toFixed(2)+' ms',m.work<=2?'ok':'over',budgetText())}}
+    else if(m.type==='stats'&&!still&&!reduce){set('m-anim',m.work.toFixed(2)+' ms',m.work<=2?'ok':'over',budgetText())}}
   function showMotion(){mbtn.setAttribute('aria-pressed',still?'true':'false');mbtn.textContent=still?'Play animation':'Pause animation';hero.classList.toggle('still',still);
-    if(still)set('m-anim','0.00 ms','info','Paused')}
+    if(still)set('m-anim','0.00 ms','info','Paused')}
   if(reduce){mbtn.hidden=true;hero.classList.add('still');set('m-anim','Off','info',saveData?'Data saver is on':'Reduced motion is on')}else showMotion();
   function boot(){
     if(dead)return;
     var cvB=document.getElementById('contours'),cvI=document.getElementById('contours-index'),cvL=document.getElementById('contours-lights'),cvA=document.getElementById('atmos-cv');
     var msg={type:'init',size:measure(),col:colours(),reduce:reduce,still:still};
-    // The map's one-off build (about 150 ms on a mid-range phone) runs in a worker. The per-frame lights stay here, where they measured smoothest.
+    // The map's one-off build (about 150 ms on a mid-range phone) runs in a worker. The per-frame lights stay here, where they measured smoothest.
     var scope={postMessage:onStats},h;
     if(window.Worker&&window.OffscreenCanvas&&OffscreenCanvas.prototype.transferToImageBitmap&&window.ImageBitmapRenderingContext){
       try{var src='('+kinHero.toString()+')(self,true)',blob=URL.createObjectURL(new Blob([src],{type:'text/javascript'}));
         var url=window.trustedTypes?trustedTypes.createPolicy('kinmoor',{createScriptURL:function(u){if(u===blob)return u;throw new Error('blocked')}}).createScriptURL(blob):blob;
         builder=new Worker(url);builder.onmessage=function(e){if(h)h(e.data)};scope.build=function(r){builder.postMessage(r)}}catch(e){builder=null}}
-    h=kinHero(scope,false);send=h;msg.base=cvB;msg.idx=cvI;msg.lit=cvL;msg.atm=cvA;h(msg);
+    h=kinHero(scope,false);send=h;var ro=document.querySelector('.readout');if(ro){var q=ro.getBoundingClientRect(),hr=hero.getBoundingClientRect();h({type:'cover',r:[q.left-hr.left,q.top-hr.top,q.width,q.height]})}msg.base=cvB;msg.idx=cvI;msg.lit=cvL;msg.atm=cvA;msg.torch=document.getElementById('contours-torch');h(msg);
   }
   function start(){if(dead||!ready||still||reduce||!onScreen||document.hidden)return;send({type:'run',on:true})}
   function stop(){if(send)send({type:'run',on:false})}
@@ -797,90 +934,130 @@ function kinmoorBoot(){
   try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',themeRedraw,sig)}catch(e){}
   try{(obs[obs.length]=new MutationObserver(themeRedraw)).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
 
-  /* ---------- Frame-time graph for the side-by-side test ---------- */
-  var gcol=null;
-  function graphColours(){gcol={ink:tok('--muted'),rule:tok('--rule'),ok:tok('--lichen'),over:tok('--warn'),area:tok('--heather')}}
-  function recolour(){if(gcol){graphColours();drawGraph(dgraph,dF,dW,50,true)}}
-  try{(obs[obs.length]=new MutationObserver(recolour)).observe(root,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
-  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',recolour,sig)}catch(e){}
-  // Draws frame times as a line (green under the 60 fps line, amber over it), with script time per frame as a shaded area underneath.
-  function drawGraph(cv,frames,work,maxMs,label){if(!gcol)graphColours();
-    var dpr=Math.min(window.devicePixelRatio||1,2),w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;
-    if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}
-    var c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);
-    var n=frames.length,cap=cv._cap||240,step=w/(cap-1),y=function(ms){return h-2-Math.min(ms,maxMs)/maxMs*(h-4)};
-    var ry=Math.round(y(16.7))+.5;c.strokeStyle=gcol.rule;c.lineWidth=1;c.setLineDash([3,3]);c.beginPath();c.moveTo(0,ry);c.lineTo(w,ry);c.stroke();c.setLineDash([]);
-    if(label){c.fillStyle=gcol.ink;c.font='500 10px "IBM Plex Mono","Plex Mono Fallback",monospace';c.textBaseline='bottom';c.fillText('60 fps',4,ry-2)}
-    if(!n)return;var x0=w-(n-1)*step;
-    if(work&&work.length){c.globalAlpha=.28;c.fillStyle=gcol.area;c.beginPath();c.moveTo(x0,h);for(var i=0;i<work.length;i++)c.lineTo(x0+i*step,y(work[i]));c.lineTo(x0+(work.length-1)*step,h);c.closePath();c.fill();c.globalAlpha=1}
-    c.lineWidth=1.4;c.lineJoin='round';
-    // Two strokes in total, one per colour, rather than one per segment.
-    var okP=new Path2D(),overP=new Path2D();
-    for(var j=1;j<n;j++){var P=(frames[j]>20||frames[j-1]>20)?overP:okP;P.moveTo(x0+(j-1)*step,y(frames[j-1]));P.lineTo(x0+j*step,y(frames[j]))}
-    c.strokeStyle=gcol.ok;c.stroke(okP);c.strokeStyle=gcol.over;c.stroke(overP);
-  }
-  function push(arr,v,cap){arr.push(v);if(arr.length>cap)arr.shift()}
+  /* ---------- Torch: brighter lines follow the pointer, or a finger on the map ---------- */
+  // Each frame moves two layers by transform: the circle, and the bright map inside it the opposite way, so the lines stay in register.
+  // The map's position is read once when the torch lights and again after scrolling, not on every frame.
+  var torchEl=stack.querySelector('.torch'),torchCv=document.getElementById('contours-torch'),tX=0,tY=0,gX=0,gY=0,tFirst=true,tRaf=0,tOn=false,tOff=0,tR=110,tBox=null;
+  function torchMove(){tRaf=0;if(!tOn)return;if(!tBox)tBox=stack.getBoundingClientRect();var x=tX-tBox.left,y=tY-tBox.top;
+    if(tFirst||reduce){gX=x;gY=y;tFirst=false}else{gX+=(x-gX)*.35;gY+=(y-gY)*.35}
+    torchEl.style.transform='translate3d('+gX.toFixed(1)+'px,'+gY.toFixed(1)+'px,0)';torchCv.style.transform='translate3d('+(tR-gX).toFixed(1)+'px,'+(tR-gY).toFixed(1)+'px,0)';
+    if(Math.abs(x-gX)+Math.abs(y-gY)>.4)tRaf=requestAnimationFrame(torchMove)}
+  function torchAt(x,y){if(!ready||!torchEl)return;tX=x;tY=y;clearTimeout(tOff);
+    if(!tOn){tOn=true;tFirst=true;tBox=null;hero.classList.add('torch-on');tR=torchEl.offsetWidth/2}if(!tRaf)tRaf=requestAnimationFrame(torchMove)}
+  function torchHide(ms){clearTimeout(tOff);tOff=setTimeout(function(){tOn=false;hero.classList.remove('torch-on')},ms)}
+  // Mouse and pen: it follows the pointer across the map.
+  hero.addEventListener('pointermove',function(e){if(e.pointerType!=='touch')torchAt(e.clientX,e.clientY)},sig);
+  hero.addEventListener('pointerleave',function(e){if(e.pointerType!=='touch')torchHide(0)},sig);
+  // Touch: it lights under the finger and follows it, and fades when the finger lifts or the page starts to scroll, so swipes don't keep it running. Passive listeners never hold up scrolling.
+  var pas={passive:true,signal:ac.signal};
+  var tTouch=false;
+  hero.addEventListener('touchstart',function(e){var t=e.touches[0];tTouch=true;if(t)torchAt(t.clientX,t.clientY)},pas);
+  hero.addEventListener('touchmove',function(e){var t=e.touches[0];if(t&&tTouch)torchAt(t.clientX,t.clientY)},pas);
+  hero.addEventListener('touchend',function(e){if(!e.touches.length)torchHide(450)},pas);
+  hero.addEventListener('touchcancel',function(){torchHide(250)},pas);
+  // Scrolling moves the map under a still pointer, so its position is read again.
+  addEventListener('scroll',function(){if(!tOn)return;if(tTouch){tTouch=false;torchHide(0);return}tBox=null;if(!tRaf)tRaf=requestAnimationFrame(torchMove)},pas);
 
-  /* ---------- Side-by-side test: the same dots, drawn with common shortcuts and built to budget ---------- */
-  var stage=document.getElementById('demo-stage'),dcv=document.getElementById('demo-canvas'),ddom=document.getElementById('demo-dom'),dgraph=document.getElementById('demo-graph');
-  var dCount=document.getElementById('demo-count'),dCountOut=document.getElementById('demo-count-out'),dStatus=document.getElementById('demo-status'),dCountdown=document.getElementById('demo-countdown'),dCause=document.getElementById('demo-cause');
-  var bUsual=document.getElementById('demo-usual'),bOurs=document.getElementById('demo-ours'),bStop=document.getElementById('demo-stop');
-  var sMed=document.getElementById('demo-med'),sSlow=document.getElementById('demo-slow'),sWork=document.getElementById('demo-work');
-  var dMode=null,dRaf=0,dLast=0,dT0=0,N=+dCount.value,px,py,vx,vy,pc,dF=[],dW=[],dEls=[],dSprites=[],dOn=true;
-  if(dgraph)dgraph._cap=240;
-  function demoPalette(){return['--tr1','--tr2','--tr3','--tr4'].map(function(n){return tok(n)})}
-  function seed(){var r=stage.getBoundingClientRect();px=new Float32Array(N);py=new Float32Array(N);vx=new Float32Array(N);vy=new Float32Array(N);pc=new Uint8Array(N);
-    for(var i=0;i<N;i++){px[i]=Math.random()*r.width;py[i]=Math.random()*r.height;var a=Math.random()*6.283,s=30+Math.random()*60;vx[i]=Math.cos(a)*s;vy[i]=Math.sin(a)*s;pc[i]=i%4}}
-  function move(dt,w,h){for(var i=0;i<N;i++){var x=px[i]+vx[i]*dt,y=py[i]+vy[i]*dt;if(x<0||x>w){vx[i]=-vx[i];x=x<0?0:w}if(y<0||y>h){vy[i]=-vy[i];y=y<0?0:h}px[i]=x;py[i]=y}}
-  // Built to budget: one glow per colour painted once, then each dot is a single image copy into one canvas.
-  function buildSprites(){var dpr=Math.min(window.devicePixelRatio||1,2),pal=demoPalette();dSprites=pal.map(function(col){var s=document.createElement('canvas'),z=Math.round(24*dpr);s.width=s.height=z;
-    var c=s.getContext('2d'),g=c.createRadialGradient(z/2,z/2,0,z/2,z/2,z/2);g.addColorStop(0,col);g.addColorStop(.18,col);g.addColorStop(.4,col+'40');g.addColorStop(1,col+'00');c.fillStyle=g;c.fillRect(0,0,z,z);return s})}
-  // Common shortcuts: one element per dot with a live glow, moved by its page position, measuring the page after every move.
-  function buildDom(){var pal=demoPalette(),f=document.createDocumentFragment();dEls=[];
-    for(var i=0;i<N;i++){var e=document.createElement('i');e.className='dot';e.style.background=pal[pc[i]];e.style.boxShadow='0 0 9px 3px '+pal[pc[i]]+'66';f.appendChild(e);dEls.push(e)}
-    ddom.textContent='';ddom.appendChild(f)}
-  function stat(){if(!dF.length)return;var s=dF.slice().sort(function(a,b){return a-b}),med=s[s.length>>1],slow=0,wk=0;for(var i=0;i<dF.length;i++)if(dF[i]>20)slow++;for(i=0;i<dW.length;i++)wk+=dW[i];
-    sMed.textContent=med.toFixed(1)+' ms';sSlow.textContent=Math.round(slow/dF.length*100)+'%';sWork.textContent=(wk/dW.length).toFixed(2)+' ms';
-    if(dMode){results[dMode]={med:med,slow:Math.round(slow/dF.length*100),n:N};showCompare()}
-    sMed.parentNode.dataset.state=med>20?'over':'ok';sSlow.parentNode.dataset.state=slow/dF.length>.05?'over':'ok';sWork.parentNode.dataset.state=wk/dW.length>8?'over':'ok'}
-  function demoFrame(t){dRaf=0;if(!dMode)return;
-    var r=stage.getBoundingClientRect(),w=r.width,h=r.height,dt=dLast?Math.min(.05,(t-dLast)/1000):0;if(dLast)push(dF,t-dLast,240);dLast=t;
-    var w0=performance.now();move(dt,w,h);
-    if(dMode==='usual'){for(var i=0;i<N;i++){var e=dEls[i];e.style.left=px[i]+'px';e.style.top=py[i]+'px';e.getBoundingClientRect()}}
-    else{var dpr=Math.min(window.devicePixelRatio||1,2);if(dcv.width!==Math.round(w*dpr)){dcv.width=Math.round(w*dpr);dcv.height=Math.round(h*dpr)}
-      var c=dcv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);for(var j=0;j<N;j++)c.drawImage(dSprites[pc[j]],px[j]-12,py[j]-12,24,24)}
-    var work=performance.now()-w0;push(dW,work,240);drawGraph(dgraph,dF,dW,50,true);if(dF.length%10===0)stat();
-    if(dMode==='usual'){var el=(t-dT0)/1000;
-      if(work>800)push(dF,work,240);
-      if(work>800||el>10){drawGraph(dgraph,dF,dW,50,true);demoStop(work>800?'Stopped: one frame took '+Math.round(work).toLocaleString('en-US')+' ms, so the page froze for that long.':'Stopped after 10 seconds so it doesn’t slow the rest of the page.');return}
-      dCountdown.textContent='Stops by itself in '+Math.max(0,Math.ceil(10-el))+' s.'}
-    dRaf=requestAnimationFrame(demoFrame)}
-  var results={usual:null,ours:null},dCmp=document.getElementById('demo-compare');
-  function showCompare(){var f=function(k,name){var r=results[k];return r?name+': '+r.med.toFixed(1)+' ms per frame, '+r.slow+'% slow ('+r.n+' dots)':name+': not run yet'};
-    dCmp.textContent=f('usual','Common shortcuts')+' · '+f('ours','Built to budget')}
-  function demoRun(mode){demoStop('');dMode=mode;N=+dCount.value;seed();dF=[];dW=[];dLast=0;dT0=performance.now();
-    stage.dataset.mode=mode;bUsual.setAttribute('aria-pressed',mode==='usual');bOurs.setAttribute('aria-pressed',mode==='ours');bStop.disabled=false;
-    loafWorst=null;dCause.hidden=true;
-    if(mode==='usual'){buildDom();dcv.getContext('2d').clearRect(0,0,dcv.width,dcv.height);dStatus.textContent='Running common shortcuts.'}else{ddom.textContent='';dEls=[];buildSprites();dStatus.textContent='Running built to budget. Press Stop when you’ve seen enough.'}
-    stat();if(dOn)dRaf=requestAnimationFrame(demoFrame)}
-  function demoStop(msg){if(dRaf)cancelAnimationFrame(dRaf);dRaf=0;if(dMode)stat();dMode=null;bUsual.setAttribute('aria-pressed','false');bOurs.setAttribute('aria-pressed','false');bStop.disabled=true;
-    ddom.textContent='';dEls=[];dCountdown.textContent='';if(msg!=='')dStatus.textContent=msg||'Stopped.';showCause()}
-  /* Where the browser reports Long Animation Frames (Chrome, Edge), name what made the slowest frame slow. */
-  var loafWorst=null;
-  try{if(PerformanceObserver.supportedEntryTypes.indexOf('long-animation-frame')>=0){var lo=new PerformanceObserver(function(l){if(!dMode)return;l.getEntries().forEach(function(e){if(!loafWorst||e.duration>loafWorst.duration)loafWorst=e})});obs.push(lo);lo.observe({type:'long-animation-frame'})}}catch(e){}
-  function showCause(){if(!loafWorst)return;var forced=0,script=0;(loafWorst.scripts||[]).forEach(function(sc){forced+=sc.forcedStyleAndLayoutDuration||0;script+=sc.duration||0});
-    var styleLayout=loafWorst.renderStart&&loafWorst.styleAndLayoutStart?Math.max(0,loafWorst.startTime+loafWorst.duration-loafWorst.styleAndLayoutStart):0;
-    var parts=[];if(forced>=1)parts.push(Math.round(forced).toLocaleString('en-US')+' ms recalculating layout because the page’s script asked for it mid-frame');
-    else if(script>=1)parts.push(Math.round(script).toLocaleString('en-US')+' ms running script');
-    if(styleLayout>=1)parts.push(Math.round(styleLayout).toLocaleString('en-US')+' ms on the final style, layout and paint');
-    dCause.textContent='Slowest frame: '+Math.round(loafWorst.duration).toLocaleString('en-US')+' ms'+(parts.length?', of which '+parts.join(' and ')+'.':'.');dCause.hidden=false}
-  bUsual.onclick=function(){demoRun('usual')};bOurs.onclick=function(){demoRun('ours')};bStop.onclick=function(){demoStop()};
-  dCount.addEventListener('input',function(){dCountOut.textContent=dCount.value;if(dMode)demoRun(dMode)},sig);
-  try{(obs[obs.length]=new IntersectionObserver(function(es){dOn=es[es.length-1].isIntersecting;if(!dOn&&dMode)demoStop('Stopped when you scrolled away.')})).observe(stage)}catch(e){}
-  document.addEventListener('visibilitychange',function(){if(document.hidden&&dMode)demoStop('Stopped while the tab was in the background.')},sig);
-  // Draw the empty graph only when the section comes near the screen.
-  try{var gIO=new IntersectionObserver(function(es){if(es[es.length-1].isIntersecting){gIO.disconnect();drawGraph(dgraph,dF,dW,50,true)}},{rootMargin:'300px'});obs.push(gIO);gIO.observe(dgraph)}catch(e){}
-  window.__kinmoorTeardown=function(){ac.abort();obs.forEach(function(o){try{o.disconnect()}catch(e){}});kill();demoStop('')};
+  /* ---------- Service specifics: each button swaps its paragraph for a short list that decodes into place ---------- */
+  // A scrambled copy of each line is drawn over the real text, which keeps its place, so nothing on the page moves.
+  // Lines type in from the left, led by a few scrambled characters, in the mono font (whose trimmed character set covers everything used here).
+  var SCR='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&*+=/<>';
+  function scramble(lines,closing,done){var t0=performance.now(),parts=lines.map(function(li){var t=li.querySelector('.t'),o=li.querySelector('.o');
+      if(!o){o=document.createElement('span');o.className='o';o.setAttribute('aria-hidden','true');li.appendChild(o)}li.classList.add('dec');return{li:li,o:o,txt:t.textContent}});
+    // Opening, each line's progress p runs 0 to 1 (characters revealed); closing, it runs 1 to 0, last line first.
+    function f(now){var more=false;
+      for(var i=0;i<parts.length;i++){var q=parts[i],n=q.txt.length,dur=closing?160+n*3:260+n*9,lag=(closing?parts.length-1-i:i)*(closing?40:90),u=Math.max(0,Math.min(1,(now-t0-lag)/dur)),p=closing?1-u:u,k=Math.floor(p*n),out=q.txt.slice(0,k);
+        if(u>0&&u<1){more=true;for(var j=k;j<Math.min(n,k+5);j++)out+=q.txt[j]===' '?' ':SCR[Math.random()*SCR.length|0]}
+        else if(u===0)more=true;
+        q.o.textContent=out}
+      if(more)requestAnimationFrame(f);else{parts.forEach(function(q){q.li.classList.remove('dec');q.o.textContent=''});if(done)done()}}
+    requestAnimationFrame(f)}
+  var svcs=document.getElementById('services');
+  [].forEach.call(document.querySelectorAll('.ring'),function(b){var card=b.closest('.service'),lines=[].slice.call(card.querySelectorAll('.spec li')),busy=false;
+    b.addEventListener('click',function(){if(busy)return;var open=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',open?'true':'false');if(svcs)svcs.classList.add('tried');
+      var calm=false;try{calm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+      if(calm){card.classList.toggle('open',open);return}
+      if(open){card.classList.add('open');scramble(lines,false)}
+      // Closing: the lines scramble away from the bottom up, then the paragraph eases back in.
+      else{busy=true;scramble(lines,true,function(){card.classList.remove('open');busy=false})}},sig)});
+  // The rings pulse only while the section is on screen.
+  try{var sIO=new IntersectionObserver(function(es){svcs.classList.toggle('in-view',es[es.length-1].isIntersecting)});obs.push(sIO);sIO.observe(svcs)}catch(e){}
+
+  /* ---------- Process trail: on phones the line ends at the last marker, whose distance from the bottom depends on how its text wraps ---------- */
+  var stepsEl=document.querySelector('.steps'),trailWrap=document.querySelector('.trail-wrap');
+  function trailEnd(){var last=stepsEl&&stepsEl.lastElementChild;if(last)trailWrap.style.setProperty('--trail-end',Math.max(0,last.offsetHeight-7)+'px')}
+  try{var tRO=new ResizeObserver(trailEnd);obs.push(tRO);tRO.observe(stepsEl)}catch(e){trailEnd()}
+
+  /* ---------- Celebrate: confetti, and a pile to tidy up ---------- */
+  // Pieces in the air are drawn on one screen-sized canvas that exists only while something is flying; settled pieces on a small canvas on the footer's line.
+  // The air canvas sits behind the page's content (z-index -1), so confetti falls behind text and boxes, which gives the fall some depth.
+  // The first burst's pieces fall all the way down and settle there. Later bursts fade as they fall. With reduced motion, pieces appear and fade in place.
+  var party=document.querySelector('.party'),pileEl=document.querySelector('.pile'),pileCv=pileEl&&pileEl.querySelector('canvas'),binEl=document.querySelector('.bin'),
+      air=null,bits=[],ground=[],aRaf=0,fell=false,ptr=null,heldN=0,binned=0;
+  function dprC(){return Math.min(window.devicePixelRatio||1,2)}
+  function gauss(){return Math.random()+Math.random()+Math.random()-1.5}
+  function lineBox(){var w=pileEl.parentNode.getBoundingClientRect();return{l:w.left+scrollX,r:w.right+scrollX,y:w.top+scrollY}}
+  function binXY(){var r=binEl.getBoundingClientRect();return[r.left+scrollX+r.width/2,r.top+scrollY+r.height*.55]}
+  function drawPiece(c,b,x,y){c.save();c.translate(x,y);c.rotate(b.r);c.scale(1,b.flat!==undefined?b.flat:Math.cos(b.r*1.7));c.fillStyle=b.c;c.fillRect(-b.w/2,-b.h/2,b.w,b.h);c.restore()}
+  function drawPile(){if(!pileCv)return;var d=dprC(),w=pileEl.clientWidth,h=pileEl.clientHeight;if(pileCv.width!==Math.round(w*d)){pileCv.width=Math.round(w*d);pileCv.height=Math.round(h*d)}
+    var c=pileCv.getContext('2d');c.setTransform(d,0,0,d,0,0);c.clearRect(0,0,w,h);c.globalAlpha=1;
+    for(var i=0;i<ground.length;i++){var g=ground[i];drawPiece(c,g,g.x,h-g.y)}
+    pileEl.classList.toggle('on',ground.length>0)}
+  try{var pRO=new ResizeObserver(function(){if(ground.length)drawPile()});obs.push(pRO);pRO.observe(pileEl)}catch(e){}
+  function settle(b){var L=lineBox(),g={x:Math.max(4,Math.min(L.r-L.l-4,b.x-L.l)),y:1+Math.random()*3+Math.min(6,ground.length*.02),r:(Math.random()<.5?0:Math.PI)+gauss()*.5,flat:.35+Math.random()*.65,w:b.w,h:b.h,c:b.c};
+    ground.push(g);drawPile();if(binEl&&!binEl.classList.contains('on')){binEl.classList.remove('done');binEl.classList.add('on')}}
+  function ensureAir(){if(air)return;air=document.createElement('canvas');air.setAttribute('aria-hidden','true');air.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1';document.body.appendChild(air)}
+  function run(){if(aRaf)return;var last=performance.now();aRaf=requestAnimationFrame(function step(now){var dt=Math.min(.05,(now-last)/1000);last=now;
+      ensureAir();var d=dprC(),W=innerWidth,H=innerHeight;if(air.width!==Math.round(W*d)||air.height!==Math.round(H*d)){air.width=Math.round(W*d);air.height=Math.round(H*d)}
+      var c=air.getContext('2d');c.setTransform(d,0,0,d,0,0);c.clearRect(0,0,W,H);var sx=scrollX,sy=scrollY,L=null,bx=null;
+      bits=bits.filter(function(b){b.life+=dt;if(b.life<0)return true;
+        if(b.mode==='held'){var tx=ptr.x+b.ox,ty=ptr.y+b.oy;b.vx=(tx-b.x)*14;b.vy=(ty-b.y)*14;b.x+=b.vx*dt;b.y+=b.vy*dt;b.r+=b.vr*dt*.3}
+        else if(b.mode==='bin'){bx=bx||binXY();var px=bx[0]-b.x,py=bx[1]-b.y,dd=Math.hypot(px,py);b.t=(b.t||0)+dt;var sp=Math.min(1,b.t*3)*900*dt;
+          if(dd<=sp+2){binned++;if(binEl){binEl.classList.remove('gulp');void binEl.offsetWidth;binEl.classList.add('gulp')}return false}b.x+=px/dd*sp;b.y+=py/dd*sp;b.r+=b.vr*dt;b.s=Math.max(.35,(b.s||1)-dt*.8)}
+        else if(b.calm){if(b.life>b.max)return false}
+        else{b.vx-=b.vx*b.k*dt;b.vy+=(620-b.vy*b.k)*dt;var sway=Math.sin(b.life*b.ff+b.fp)*b.fa*Math.min(1,b.life*1.5);b.x+=(b.vx+sway)*dt;b.y+=b.vy*dt;b.r+=b.vr*dt;
+          if(b.mode==='fall'){L=L||lineBox();if(b.x<L.l+6){b.x=L.l+6;b.vx=Math.abs(b.vx)}if(b.x>L.r-6){b.x=L.r-6;b.vx=-Math.abs(b.vx)}
+            if(b.y>=L.y-2||b.life>30){settle(b);return false}}
+          else if(b.life>b.max)return false}
+        var vy=b.y-sy;if(vy>-20&&vy<H+20){var f=b.mode==='fade'?b.life/b.max:0;c.globalAlpha=b.calm?Math.sin(b.life/b.max*Math.PI):(b.mode==='fade'?Math.min(1,(1-f)*3):1);
+          c.save();c.translate(b.x-sx,vy);if(b.s)c.scale(b.s,b.s);drawPiece(c,b,0,0);c.restore()}
+        return true});
+      if(bits.length)aRaf=requestAnimationFrame(step);else{aRaf=0;if(air){air.remove();air=null}tidyCheck()}})}
+  function burst(){var calm=false;try{calm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+    var r=party.getBoundingClientRect(),ox=r.left+r.width/2+scrollX,oy=r.top+r.height/2+scrollY,cols=['--tr1','--tr2','--tr3','--tr4','--heather','--spark'].map(tok),mode=calm?'calm':(!fell?'fall':'fade');if(!calm)fell=true;
+    // A loose upward cone with launch speeds from slow to fast, so the burst fills in rather than forming an arch. Each piece has its own air drag
+    // (some hang, some drop) and a gentle side-to-side flutter as it falls, like paper.
+    for(var i=0;i<150;i++){var a=-Math.PI/2+gauss()*1.05,v=calm?0:90+Math.pow(Math.random(),.8)*720;
+      bits.push({mode:mode,calm:calm,x:calm?ox+(Math.random()-.5)*260:ox+(Math.random()-.5)*16,y:calm?oy+(Math.random()-.5)*140:oy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:Math.random()*6.28,vr:(Math.random()-.5)*12,
+        w:4+Math.random()*5,h:2.5+Math.random()*3,c:cols[i%cols.length],life:-Math.random()*.06,max:calm?1.1:1.9+Math.random()*1.1,
+        k:1.3+Math.random()*1.9,fa:15+Math.random()*45,ff:3+Math.random()*4,fp:Math.random()*6.28})}
+    run()}
+  if(party)party.addEventListener('click',burst,sig);
+  // The magnet: pressing near the pile picks up nearby pieces, and sweeping picks up more; letting go over the bin drops them in, anywhere else and they flutter back down.
+  function grab(x,y){var L=lineBox(),h=pileEl.clientHeight,n=0;for(var i=ground.length-1;i>=0;i--){var g=ground[i],gx=L.l+g.x,gy=L.y-g.y;
+      if(Math.hypot(gx-x,gy-y)<46){ground.splice(i,1);n++;var a=Math.random()*6.28,rr=Math.random()*12;
+        bits.push({mode:'held',x:gx,y:gy,vx:0,vy:0,ox:Math.cos(a)*rr,oy:Math.sin(a)*rr,r:g.r,vr:(Math.random()-.5)*6,w:g.w,h:g.h,c:g.c,life:0,k:1.3+Math.random()*1.9,fa:15+Math.random()*30,ff:3+Math.random()*4,fp:Math.random()*6.28})}}
+    if(n){heldN+=n;drawPile();run()}}
+  function nearBin(x,y){var b=binXY();return Math.hypot(b[0]-x,b[1]-y)<38}
+  function release(){var into=ptr&&nearBin(ptr.x,ptr.y);bits.forEach(function(b){if(b.mode==='held'){b.mode=into?'bin':'fall';b.life=0;b.vy=Math.min(b.vy,0)*.3;b.vx*=.3}});
+    heldN=0;ptr=null;pileEl.classList.remove('grab');if(binEl)binEl.classList.remove('near')}
+  if(pileEl){
+    pileEl.addEventListener('pointerdown',function(e){if(!ground.length)return;e.preventDefault();try{pileEl.setPointerCapture(e.pointerId)}catch(x){}
+      ptr={x:e.clientX+scrollX,y:e.clientY+scrollY};pileEl.classList.add('grab');grab(ptr.x,ptr.y)},sig);
+    pileEl.addEventListener('pointermove',function(e){if(!ptr)return;ptr.x=e.clientX+scrollX;ptr.y=e.clientY+scrollY;grab(ptr.x,ptr.y);if(binEl)binEl.classList.toggle('near',nearBin(ptr.x,ptr.y))},sig);
+    pileEl.addEventListener('pointerup',release,sig);pileEl.addEventListener('pointercancel',release,sig)}
+  // The bin is also a button: it sweeps the whole pile in, for keyboards and for anyone who'd rather not gather by hand.
+  if(binEl)binEl.addEventListener('click',function(){var L=lineBox();ground.forEach(function(g,i){bits.push({mode:'bin',x:L.l+g.x,y:L.y-g.y,vx:0,vy:0,r:g.r,vr:(Math.random()-.5)*8,w:g.w,h:g.h,c:g.c,life:-i*.008,k:2})});ground=[];drawPile();run()},sig);
+  function tidyCheck(){if(binEl&&binEl.classList.contains('on')&&!ground.length&&!bits.length){fell=false;binEl.classList.add('done');setTimeout(function(){if(!ground.length&&!bits.length)binEl.classList.remove('on')},1400)}}
+  try{var stepsIO=new IntersectionObserver(function(es){stepsEl.classList.toggle('in-view',es[es.length-1].isIntersecting)});obs.push(stepsIO);stepsIO.observe(stepsEl)}catch(e){}
+
+  /* ---------- Sections below the first screen ---------- */
+  // They start out skipped (see .cv), so the first paint is quicker. After loading, each is laid out in its own quiet moment, within half a second even if the page stays busy, so scrolling rarely has to do it.
+  var later=[].slice.call(document.querySelectorAll('.cv')),idleCb=window.requestIdleCallback||function(fn){return setTimeout(fn,60)};
+  function unskip(){var s=later.shift();if(!s){root.classList.add('settled');return}s.classList.remove('cv');void s.offsetHeight;idleCb(unskip,{timeout:500})}
+  function afterLoad(){setTimeout(function(){idleCb(unskip,{timeout:500})},300)}
+  if(document.readyState==='complete')afterLoad();else addEventListener('load',afterLoad,sig);
+  window.__kinmoorTeardown=function(){ac.abort();obs.forEach(function(o){try{o.disconnect()}catch(e){}});kill()};
 }
 if(window.claude&&window.claude.hot&&window.claude.hot.ready)window.claude.hot.ready(kinmoorBoot);else kinmoorBoot();
 </script>

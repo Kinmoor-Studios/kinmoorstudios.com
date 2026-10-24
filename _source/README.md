@@ -20,8 +20,9 @@ The build:
 
 - `page.html`: the home page source (styles, markup and script in one file).
 - `build.py`: builds `index.html`, `404.html` and `privacy.html`.
-- `parts/`: earlier working copies of the hero and test-section scripts, kept for reference. `page.html` is the source of truth.
 - `tools/local-server.py`: serves the site locally the way GitHub Pages does (gzip, 10-minute cache): `python3 _source/tools/local-server.py . 8766`.
 - `tools/scroll-benchmark.py`: the scrolling smoothness test used to compare versions (needs Playwright).
 
-Fonts in `/fonts` are referenced with a `?v=` version tag. If a font file changes, update its tag in `page.html` and `build.py` so a long cache can't serve the old copy.
+Fonts in `/fonts` are referenced with a `?v=` version tag. If a font file changes, update its tag in `page.html` and `build.py` so a long cache can't serve the old copy, and in the Cloudflare response header rule "Font hints" (its `Link` header names the same tags).
+
+The "Click me" lettering is traced from the Caveat typeface (SIL Open Font License 1.1, copyright 2014 The Caveat Project Authors) into an SVG shape in `page.html`; no font file is loaded.
