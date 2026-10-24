@@ -718,7 +718,7 @@ function kinmoorBoot(){
      the hand-off between threads cost more than it saved, so it runs on the page's own thread. */
   function kinHero(scope,isWorker){
     var cb,ci,cl,ca,bx,ix,lx,ax,W=0,H=0,SL=0,DPR=1,LDPR=1,col=null,reduce=false,still=false,on=false,raf=0;
-    var paths=[],lights=[],pal=[],aCols=[],aW=0,aH=0,T=30,lastT=0,lastLight=0,lastAtm=0,dirty=[],cover=null,scrolling=false,LH=0;
+    var paths=[],tLines=[],lights=[],pal=[],aCols=[],aW=0,aH=0,T=30,lastT=0,lastLight=0,lastAtm=0,dirty=[],cover=null,scrolling=false,LH=0;
     var workAcc=0,workN=0,lastReport=0,quality=0,winN=0,winSlow=0,calm=0,buildId=0,built=false,cbr=null,cir=null,ct=null,ctr=null,tcx=null;
     var rAF=(typeof requestAnimationFrame==='function')?function(f){return requestAnimationFrame(f)}:function(f){return setTimeout(function(){f(performance.now())},16)};
     var cAF=(typeof cancelAnimationFrame==='function')?function(h){cancelAnimationFrame(h)}:function(h){clearTimeout(h)};
@@ -765,7 +765,7 @@ function kinmoorBoot(){
       bx.clearRect(0,0,W,H);ix.clearRect(0,0,W,H);
       bx.strokeStyle=col.contour;bx.lineWidth=.9;bx.lineCap=bx.lineJoin='round';
       ix.strokeStyle=col.strong;ix.lineWidth=1.4;ix.lineCap=ix.lineJoin='round';ix.shadowColor=col.glow;ix.shadowBlur=5;
-      paths=[];
+      paths=[];tLines=[];
       for(var k=0,L=.22;L<.8;L+=.035,k++){
         var seg=[];
         for(j=0;j<ny-1;j++)for(i=0;i<nx-1;i++){
@@ -775,19 +775,24 @@ function kinmoorBoot(){
           E[0]=x0+s*(L-a)/(b-a);E[1]=y0;E[2]=x0+s;E[3]=y0+s*(L-b)/(c-b);E[4]=x0+s*(L-d)/(c-d);E[5]=y0+s;E[6]=x0;E[7]=y0+s*(L-a)/(d-a);
           var cs=CASES[idx];for(var q=0;q<cs.length;q+=2)seg.push(E[2*cs[q]],E[2*cs[q]+1],E[2*cs[q+1]],E[2*cs[q+1]+1]);
         }
-        var isIdx=k%4===0,ctx=isIdx?ix:bx,lines=chainUp(seg);
+        var isIdx=k%4===0,ctx=isIdx?ix:bx,lines=chainUp(seg),P2=typeof Path2D==='function'?new Path2D():null;
         ctx.beginPath();
         for(var m=0;m<lines.length;m++){var p=chaikin(lines[m],3);ctx.moveTo(p[0],p[1]);for(var r=2;r<p.length;r+=2)ctx.lineTo(p[r],p[r+1]);
+          if(P2){P2.moveTo(p[0],p[1]);for(r=2;r<p.length;r+=2)P2.lineTo(p[r],p[r+1])}
           if(isIdx&&!reduce){var rs=resample(p,2);rs.closed=Math.hypot(p[0]-p[p.length-2],p[1]-p[p.length-1])<3;if(rs.t>260)paths.push(rs)}}
-        ctx.stroke();
+        ctx.stroke();if(P2)tLines.push({p:P2,idx:isIdx});
       }
       fadeEdges(bx,false);fadeEdges(ix,false);
     }
 
-    /* Torch map: the two contour layers recoloured in one bright colour over a soft glow, at the same resolution as the map itself so it stays as sharp. Made once per build. */
-    // Each layer is copied at two small offsets to thicken the lines slightly, over a blurred copy of the strong lines for a glow, then everything drawn is recoloured.
+    /* Torch map: the two contour layers recoloured in one bright colour over a soft glow, at the same resolution as the map itself. Made once per build, in the worker. */
+    // The lines are stroked again, slightly thicker, from the same paths, so their edges are cleanly antialiased (copying the map at small offsets to thicken it left ragged edges at 1x).
+    // Each stroke is laid three times to build up the same brightness the offset copies gave. Without Path2D, it falls back to the offset copies.
     function paintTorch(c,b,i){var w=c.canvas.width,h=c.canvas.height,k=w/W;c.clearRect(0,0,w,h);c.filter='blur('+(3*k).toFixed(1)+'px)';c.drawImage(i,0,0,w,h);c.filter='none';
-      for(var n=0;n<3;n++){var o=(n-1)*.4*k;c.drawImage(b,o,-o,w,h);c.drawImage(i,o,-o,w,h)}
+      if(tLines.length){c.save();c.setTransform(k,0,0,k,0,0);c.lineCap=c.lineJoin='round';
+        for(var n=0;n<tLines.length;n++){var L=tLines[n];c.strokeStyle=L.idx?col.strong:col.contour;c.lineWidth=L.idx?1.9:1.3;c.stroke(L.p);c.stroke(L.p);c.stroke(L.p)}
+        c.restore();c.save();c.globalCompositeOperation='destination-in';var g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,'#000');g.addColorStop(.55,'#000');g.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g;c.fillRect(0,0,w,h);c.restore()}
+      else for(var n=0;n<3;n++){var o=(n-1)*.4*k;c.drawImage(b,o,-o,w,h);c.drawImage(i,o,-o,w,h)}
       c.globalCompositeOperation='source-in';c.fillStyle=col.torch||'#C99FCF';c.fillRect(0,0,w,h);c.globalCompositeOperation='source-over';
       // A secret: a small smiley in the bottom-right corner, below the readout panel. It exists only in this bright map, so it shows only under the torch.
       // SL lifts it by as much as the depth effect will have pushed the map down by the time the hero's bottom edge scrolls into view.
