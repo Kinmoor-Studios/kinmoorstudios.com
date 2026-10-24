@@ -910,11 +910,15 @@ function kinmoorBoot(){
       if(m.type==='build'){W=m.size.W;H=m.size.H;DPR=m.size.DPR;col=m.col;reduce=m.reduce;
         var ob=new OffscreenCanvas(Math.max(1,Math.round(W*DPR)),Math.max(1,Math.round(H*DPR))),oi=new OffscreenCanvas(ob.width,ob.height);
         bx=ob.getContext('2d');ix=oi.getContext('2d');bx.setTransform(DPR,0,0,DPR,0,0);ix.setTransform(DPR,0,0,DPR,0,0);drawContours();
-        var ot=new OffscreenCanvas(ob.width,ob.height);paintTorch(ot.getContext('2d'),ob,oi);
-        var b1=ob.transferToImageBitmap(),b2=oi.transferToImageBitmap(),b3=ot.transferToImageBitmap(),list=[b1,b2,b3],ps=paths.map(function(p){list.push(p.p.buffer);return{p:p.p,n:p.n,step:p.step,t:p.t,closed:p.closed}});
-        scope.postMessage({type:'built',id:m.id,base:b1,idx:b2,lit:b3,paths:ps},list);return}
-      if(m.type==='built'){if(m.id!==buildId){m.base.close();m.idx.close();m.lit.close();return}
-        cbr.transferFromImageBitmap(m.base);cir.transferFromImageBitmap(m.idx);if(ctr)ctr.transferFromImageBitmap(m.lit);else m.lit.close();paths=m.paths;onBuilt();return}
+        // The map goes back first, so it reappears as soon as it can (after a theme switch, say); the torch's bright map, which shows only under the pointer, follows.
+        var ic=new OffscreenCanvas(ob.width,ob.height);ic.getContext('2d').drawImage(oi,0,0);
+        var b1=ob.transferToImageBitmap(),b2=oi.transferToImageBitmap(),list=[b1,b2],ps=paths.map(function(p){list.push(p.p.buffer);return{p:p.p,n:p.n,step:p.step,t:p.t,closed:p.closed}});
+        scope.postMessage({type:'built',id:m.id,base:b1,idx:b2,paths:ps},list);
+        var ot=new OffscreenCanvas(ic.width,ic.height);paintTorch(ot.getContext('2d'),ic,ic);ic.width=ic.height=0;
+        var b3=ot.transferToImageBitmap();scope.postMessage({type:'lit',id:m.id,lit:b3},[b3]);return}
+      if(m.type==='built'){if(m.id!==buildId){m.base.close();m.idx.close();return}
+        cbr.transferFromImageBitmap(m.base);cir.transferFromImageBitmap(m.idx);paths=m.paths;onBuilt();return}
+      if(m.type==='lit'){if(m.id===buildId&&ctr)ctr.transferFromImageBitmap(m.lit);else m.lit.close();return}
       if(m.type==='init'){cb=m.base;ci=m.idx;cl=m.lit;ca=m.atm;lx=cl.getContext('2d');ax=ca.getContext('2d');
         ct=m.torch||null;if(scope.build){cbr=cb.getContext('bitmaprenderer');cir=ci.getContext('bitmaprenderer');if(ct)ctr=ct.getContext('bitmaprenderer')}else{bx=cb.getContext('2d');ix=ci.getContext('2d');if(ct)tcx=ct.getContext('2d')}
         reduce=!!m.reduce;still=!!m.still;setColours(m.col);sizeAll(m.size);paintAtmos(T);requestBuild()}
