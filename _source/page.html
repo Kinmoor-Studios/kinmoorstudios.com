@@ -221,7 +221,7 @@ th.t{text-align:right;padding-right:0}
 .mail:focus-visible{outline:2px solid var(--heather);outline-offset:4px;border-radius:2px}
 .copy-state{font:500 .75rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--lichen)}
 
-footer .wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px var(--gutter);padding-block:28px;border-top:1px solid var(--rule);font:400 .75rem/1.5 var(--mono);color:var(--muted)}
+footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px var(--gutter);padding-block:28px;border-top:1px solid var(--rule);font:400 .75rem/1.5 var(--mono);color:var(--muted)}
 footer a{color:var(--muted)}
 /* After the first Celebrate, its confetti drifts down and settles here, on the footer's top line, beside a small bin. Hold to gather pieces like a magnet; let go over the bin to drop them in. */
 footer .wrap{position:relative}
@@ -247,8 +247,8 @@ footer .wrap{position:relative}
 .bin-note.show{opacity:1;transform:translateY(0) rotate(-7deg)}
 @media (forced-colors:active){.bin-note{fill:CanvasText}}
 @keyframes bin-done{40%{transform:translateY(-6px)}}
-footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px}
-@media (max-width:760px){footer .wrap{grid-template-columns:minmax(0,1fr)}}
+footer .meta{grid-column:2}
+@media (max-width:760px){footer .wrap{grid-template-columns:minmax(0,1fr)}footer .meta{grid-column:auto}}
 
 
 /* Atmosphere: soft colour fields painted into one small canvas that the browser scales up. Smooth gradients survive the scaling, so each frame costs a fraction of a millisecond. */
