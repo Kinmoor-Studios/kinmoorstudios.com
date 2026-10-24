@@ -5,20 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Kinmoor Studios designs and builds fast, polished Shopify storefronts, apps, and back-office software for consumer brands.">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ECEEE8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111310" media="(prefers-color-scheme: dark)">
 <meta property="og:title" content="Kinmoor Studios">
 <meta property="og:description" content="Shopify storefronts, apps, and software. Design that doesn't slow you down.">
 <meta property="og:url" content="https://kinmoorstudios.com/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://kinmoorstudios.com/">
 <title>Kinmoor Studios</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' rx='5' fill='%231A1D17'/%3E%3Cpath d='M4 20c4-6 7-9 10-9s6 3 10 9' fill='none' stroke='%23ECEEE8' stroke-width='1.8'/%3E%3Cpath d='M8 20c2.5-3.5 4.3-5 6-5s3.5 1.5 6 5' fill='none' stroke='%23C99FCF' stroke-width='1.8'/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/archivo-display.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/kinmoor-text.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-/* Width-matched fallbacks so the page does not reflow when web fonts arrive */
+/* Fonts are served from this site, trimmed to the weights and characters the page uses: about 53 KB for all four files. */
+@font-face{font-family:"Archivo";src:url("fonts/archivo-display.woff2") format("woff2");font-weight:700 800;font-stretch:112% 125%;font-display:swap}
+@font-face{font-family:"Kinmoor Text";src:url("fonts/kinmoor-text.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url("fonts/ibm-plex-mono-400.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url("fonts/ibm-plex-mono-500.woff2") format("woff2");font-weight:500;font-display:swap}
+/* Width-matched fallbacks so the page does not reflow when the fonts arrive */
 @font-face{font-family:"Archivo Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:500 900;size-adjust:126%}
-@font-face{font-family:"Source Serif Fallback";src:local("Times New Roman"),local("TimesNewRomanPSMT");font-weight:400;size-adjust:101%}
-@font-face{font-family:"Source Serif Fallback";src:local("Times New Roman Bold"),local("TimesNewRomanPS-BoldMT");font-weight:600 700;size-adjust:101%}
+@font-face{font-family:"Kinmoor Text Fallback";src:local("Times New Roman"),local("TimesNewRomanPSMT");font-weight:400;size-adjust:101%}
 @font-face{font-family:"Plex Mono Fallback";src:local("Courier New"),local("CourierNewPSMT");font-weight:400 500;size-adjust:100%}
 /* Layout: moorland survey sheet. Contour lines behind an expanded grotesk headline, a live measurement panel as the one framed object, then plain ruled sections. */
 :root{
@@ -39,7 +45,7 @@
   --lichen:#56661B;
   --warn:#9A4A16;
   --display:"Archivo","Archivo Fallback","Helvetica Neue",Arial,sans-serif;
-  --serif:"Source Serif 4","Source Serif Fallback",Georgia,"Times New Roman",serif;
+  --serif:"Kinmoor Text","Kinmoor Text Fallback",Georgia,"Times New Roman",serif;
   --mono:"IBM Plex Mono","Plex Mono Fallback",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
   --gutter:32px;
   --s1:.8125rem; --s2:1rem; --s3:1.1875rem; --s4:1.5rem; --s5:clamp(1.9rem,4vw,2.75rem); --s6:clamp(2.6rem,6.4vw,5.2rem);
@@ -56,6 +62,8 @@
 }
 
 *,*::before,*::after{box-sizing:border-box}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+html{scroll-padding-top:16px}
 body{background:var(--ground);color:var(--ink);font:400 var(--s3)/1.6 var(--serif);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--heather);outline-offset:3px;border-radius:2px}
@@ -114,16 +122,20 @@ h1 em{font-style:normal;color:var(--heather)}
 .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lichen);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.25}}
 .metrics{display:grid;margin:0;padding:0;list-style:none}
-.metric{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding-block:12px;border-top:1px solid var(--rule)}
+.metric{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding-block:10px;border-top:1px solid var(--rule)}
 .metric dd{margin:0}
 .metric dt,.metric .name{font:500 var(--s1)/1.35 var(--mono);color:var(--muted)}
-.metric .val{grid-row:span 2;min-width:6.5ch;align-self:center;font:500 1.75rem/1 var(--mono);font-variant-numeric:tabular-nums;text-align:right;letter-spacing:-.02em}
+.metric .val{grid-row:span 2;min-width:6.5ch;align-self:center;font:500 1.5rem/1 var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;letter-spacing:-.02em}
 .metric .budget{font:400 .75rem/1.35 var(--mono);color:var(--muted);min-height:2.7em}
 .metric .budget b{font-weight:500}
 .metric[data-state="ok"] .budget b{color:var(--lichen)}
 .metric[data-state="over"] .budget b{color:var(--warn)}
-@media (max-width:480px){.metric .val{font-size:1.375rem}}
-.readout .note{font:400 .75rem/1.5 var(--mono);color:var(--muted)}
+@media (max-width:480px){.metric .val{font-size:1.25rem}}
+.readout .note{font:400 .75rem/1.5 var(--mono);color:var(--muted);max-width:34em}
+.ro-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px}
+.motion-toggle{min-height:32px;padding:6px 12px;font:500 .75rem/1 var(--mono);letter-spacing:.04em;color:var(--ink);background:transparent;border:1px solid var(--muted);border-radius:2px;cursor:pointer;transition:border-color .2s}
+.motion-toggle:hover{border-color:var(--ink)}
+.hero.still #contours-index{animation-play-state:paused}
 
 /* Sections */
 section.block .wrap{padding-block:clamp(64px,9vw,112px)}
@@ -168,6 +180,17 @@ th.t{text-align:right;padding-right:0}
   td.d{grid-column:1/-1;padding-left:0}
 }
 .foot-note{margin-top:20px;font:400 .8125rem/1.6 var(--mono);color:var(--muted);max-width:60em}
+.psi{margin-top:clamp(40px,6vw,64px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px var(--gutter);align-items:end;padding:clamp(20px,3vw,32px);background:var(--surface);border:1px solid var(--rule);border-radius:3px}
+.psi h3{font-size:var(--s4);font-weight:700;line-height:1.15;margin-bottom:8px}
+.psi p{color:var(--muted);font-size:1.0625rem}
+.psi form{display:grid;gap:10px;min-width:0}
+.psi label{font:500 .75rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.psi .row{display:flex;flex-wrap:wrap;gap:10px}
+.psi input{flex:1 1 220px;min-width:0;min-height:48px;padding:0 14px;font:400 1.0625rem/1 var(--serif);color:var(--ink);background:var(--ground);border:1px solid var(--muted);border-radius:2px}
+.psi input:focus-visible{outline:2px solid var(--heather);outline-offset:2px}
+.psi .btn{min-height:48px;cursor:pointer}
+.psi small{font:400 .75rem/1.5 var(--mono);color:var(--muted)}
+@media (max-width:760px){.psi{grid-template-columns:minmax(0,1fr)}}
 
 
 /* Contact */
@@ -235,19 +258,24 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
         </div>
       </div>
 
-      <aside class="readout" aria-labelledby="ro-title">
+      <section class="readout" aria-labelledby="ro-title">
         <header>
-          <p class="eyebrow" id="ro-title">This page, measured just now</p>
-          <span class="live">In your browser</span>
+          <p class="eyebrow" id="ro-title">This page, measured in your browser</p>
+          <span class="live">Live</span>
         </header>
         <dl class="metrics">
-          <div class="metric" id="m-fcp"><dt class="name">First paint</dt><dd class="val">…</dd><dd class="budget">Budget 1.8 s · <b>measuring</b></dd></div>
+          <div class="metric" id="m-fcp"><dt class="name">First content shown</dt><dd class="val">…</dd><dd class="budget">Budget 1.8 s · <b>measuring</b></dd></div>
           <div class="metric" id="m-lcp"><dt class="name">Main content shown</dt><dd class="val">…</dd><dd class="budget">Budget 2.5 s · <b>measuring</b></dd></div>
           <div class="metric" id="m-cls"><dt class="name">Layout shift</dt><dd class="val">…</dd><dd class="budget">Budget 0.1 · <b>measuring</b></dd></div>
-          <div class="metric" id="m-kb"><dt class="name">Transferred</dt><dd class="val">…</dd><dd class="budget"><b>measuring</b></dd></div>
+          <div class="metric" id="m-inp"><dt class="name">Response to a tap or click</dt><dd class="val">—</dd><dd class="budget">Budget 200 ms · <b>tap or click anything</b></dd></div>
+          <div class="metric" id="m-anim"><dt class="name">Background animation, work per frame</dt><dd class="val">…</dd><dd class="budget">Budget 2 ms · <b>measuring</b></dd></div>
+          <div class="metric" id="m-kb"><dt class="name">Page weight</dt><dd class="val">…</dd><dd class="budget"><b>measuring</b></dd></div>
         </dl>
-        <p class="note">Measured by your browser's Performance API while this page loaded. Reload to measure again.</p>
-      </aside>
+        <div class="ro-foot">
+          <p class="note">From your browser's Performance API. Response and animation figures keep updating as you use the page.</p>
+          <button class="motion-toggle" id="motion" type="button" aria-pressed="false">Pause animation</button>
+        </div>
+      </section>
     </div>
   </section>
 
@@ -301,7 +329,7 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
     <div class="wrap">
       <div class="sec-head">
         <h2 id="budgets-h">The budgets we build to</h2>
-        <p>Every design decision has to fit within these limits. The panel at the top of this page measured the same things while it loaded.</p>
+        <p>Every design decision has to fit within these limits. The panel at the top of this page measures the same things, live, in your browser.</p>
       </div>
       <div class="table-scroll">
         <table>
@@ -315,6 +343,20 @@ footer .meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 
         </table>
       </div>
       <p class="foot-note">The first three are Google's thresholds for a good score, measured at the 75th percentile of real visits on phones and computers.</p>
+      <div class="psi">
+        <div>
+          <h3>How does your store measure up?</h3>
+          <p>Run Google's PageSpeed Insights on your store. It checks the same measures as this table, and the report opens in a new tab.</p>
+        </div>
+        <form id="psi-form" novalidate>
+          <label for="psi-url">Your store's address</label>
+          <div class="row">
+            <input id="psi-url" name="url" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="yourstore.com">
+            <a class="btn primary" id="psi-go" href="https://pagespeed.web.dev/" target="_blank" rel="noopener">Run the test</a>
+          </div>
+          <small>PageSpeed Insights is a free tool from Google. Your address goes straight to Google; we don't see it.</small>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -355,7 +397,7 @@ function kinmoorBoot(){
     el.querySelector('.val').textContent=val;
     el.dataset.state=state||'';
     var b=el.querySelector('.budget');
-    var label=state==='ok'?'within budget':state==='over'?'over budget':state==='na'?'not supported here':state==='info'?'':'measuring';
+    var label=state==='ok'?'within budget':state==='over'?'over budget':state==='na'?'not supported here':state==='wait'?'tap or click anything':state==='info'?'':'measuring';
     b.innerHTML=label?(budgetText?budgetText+' · ':'')+'<b>'+label+'</b>':budgetText;
   }
   var cls=0, lcp=null;
@@ -363,7 +405,21 @@ function kinmoorBoot(){
 
   var hasPaint=po('paint',function(e){if(e.name==='first-contentful-paint'){set('m-fcp',fmtMs(e.startTime),e.startTime<=budgets.fcp?'ok':'over','Budget 1.8 s')}});
   var hasLcp=po('largest-contentful-paint',function(e){lcp=e.startTime;set('m-lcp',fmtMs(lcp),lcp<=budgets.lcp?'ok':'over','Budget 2.5 s')});
-  var hasCls=po('layout-shift',function(e){if(!e.hadRecentInput){cls+=e.value}set('m-cls',cls.toFixed(3),cls<=budgets.cls?'ok':'over','Budget 0.1')});
+  // Scored the way Google scores it: the worst burst of shifts (each less than 1 s apart, at most 5 s long), not a running total.
+  var clsWin=0,clsStart=0,clsLast=0;
+  var hasCls=po('layout-shift',function(e){if(e.hadRecentInput)return;
+    if(clsWin&&e.startTime-clsLast<1000&&e.startTime-clsStart<5000){clsWin+=e.value}else{clsWin=e.value;clsStart=e.startTime}
+    clsLast=e.startTime;if(clsWin>cls)cls=clsWin;set('m-cls',cls.toFixed(3),cls<=budgets.cls?'ok':'over','Budget 0.1')});
+
+  // Response: the slowest tap, click, or key press so far, from the Event Timing API (how Interaction to Next Paint is measured).
+  var inpWorst=-1,hasEvents=false;
+  try{hasEvents=PerformanceObserver.supportedEntryTypes.indexOf('event')>=0}catch(e){}
+  if(hasEvents){try{var eo=new PerformanceObserver(function(l){l.getEntries().forEach(function(e){if(!e.interactionId)return;
+      if(e.duration>inpWorst){inpWorst=e.duration;set('m-inp',fmtMs(inpWorst),inpWorst<=200?'ok':'over','Budget 200 ms')}})});
+    obs.push(eo);eo.observe({type:'event',durationThreshold:16,buffered:true})}catch(e){hasEvents=false}}
+  // Interactions faster than 16 ms are below what browsers report, so a tap with no report is under 16 ms.
+  function tapped(){if(!hasEvents)return;setTimeout(function(){if(inpWorst<0)set('m-inp','< 16 ms','ok','Budget 200 ms')},400)}
+  addEventListener('pointerup',tapped,sig);addEventListener('keyup',tapped,sig);
 
   function weigh(){
     try{
@@ -371,8 +427,9 @@ function kinmoorBoot(){
       var list=performance.getEntriesByType('resource').slice();
       if(nav) list.unshift(nav);
       var bytes=0;
-      list.forEach(function(e){bytes+=(e.transferSize||e.encodedBodySize||0)});
-      if(bytes>0){set('m-kb',(bytes/1024).toFixed(0)+' KB','info', list.length+' files')}
+      // Compressed size of every file, so the figure is the same on a first visit and a cached one.
+      list.forEach(function(e){bytes+=(e.encodedBodySize||e.transferSize||0)});
+      if(bytes>0){set('m-kb',(bytes/1024).toFixed(0)+' KB','info', list.length+' files, compressed')}
       else{set('m-kb','—','na','')}
     }catch(e){set('m-kb','—','na','')}
   }
@@ -381,10 +438,17 @@ function kinmoorBoot(){
     if(!hasLcp) set('m-lcp','—','na','Budget 2.5 s');
     if(hasCls && document.querySelector('#m-cls .val').textContent==='…') set('m-cls','0.000','ok','Budget 0.1');
     if(!hasCls) set('m-cls','—','na','Budget 0.1');
+    if(!hasEvents) set('m-inp','—','na','Budget 200 ms');
     weigh();
   }
   if(document.readyState==='complete') setTimeout(finish,300); else addEventListener('load',function(){setTimeout(finish,300)},sig);
   setTimeout(weigh,2500);
+
+  /* ---------- Store test: links to Google's PageSpeed Insights with the visitor's address filled in ---------- */
+  var psiIn=document.getElementById('psi-url'),psiGo=document.getElementById('psi-go');
+  function psiHref(){var v=(psiIn.value||'').trim();if(!v)return 'https://pagespeed.web.dev/';if(!/^https?:\/\//i.test(v))v='https://'+v;return 'https://pagespeed.web.dev/report?url='+encodeURIComponent(v)}
+  psiIn.addEventListener('input',function(){psiGo.href=psiHref()},sig);
+  document.getElementById('psi-form').addEventListener('submit',function(e){e.preventDefault();psiGo.href=psiHref();psiGo.click()},sig);
 
   /* ---------- Copy address ---------- */
   var btn=document.getElementById('copy'), mail=document.getElementById('mail');
@@ -488,7 +552,7 @@ function kinmoorBoot(){
     actx.fillStyle=fg;actx.fillRect(0,0,aW,aH);actx.globalCompositeOperation='source-over';
   }
   // The fields move a few pixels a second, so 30 updates a second is indistinguishable from 60.
-  function atmosFrame(now){aRaf=0;if(!aOn)return;if(now-aLast>=32){aLast=now;paintAtmos(now)}aRaf=requestAnimationFrame(atmosFrame)}
+  function atmosFrame(now){aRaf=0;if(!aOn)return;if(now-aLast>=32){aLast=now;var w0=performance.now();paintAtmos(now);workMs+=performance.now()-w0}aRaf=requestAnimationFrame(atmosFrame)}
   function startAtmos(){if(!actx)return;if(reduce){paintAtmos(aT0+30000);return}if(aOn||!onScreen||document.hidden)return;aOn=true;aRaf=requestAnimationFrame(atmosFrame)}
   function stopAtmos(){aOn=false;if(aRaf)cancelAnimationFrame(aRaf);aRaf=0}
 
@@ -544,9 +608,16 @@ function kinmoorBoot(){
     Lt.k=Math.min(1,Lt.k+dt/2.4);var e=ease(Lt.k),A=pal[Lt.from]||[0,0,0],B=pal[Lt.to]||A;
     return Math.round(A[0]+(B[0]-A[0])*e)+','+Math.round(A[1]+(B[1]-A[1])*e)+','+Math.round(A[2]+(B[2]-A[2])*e)}
 
-  var raf=0,last=0,running=false,onScreen=true;
+  var raf=0,last=0,running=false,onScreen=true,workMs=0,workFrames=0,workShown=0;
+  // A visible control to stop the background (WCAG 2.2.2), remembered for the next visit.
+  var still=false,mbtn=document.getElementById('motion');try{still=localStorage.getItem('kinmoor-motion')==='paused'}catch(e){}
+  function showMotion(){mbtn.setAttribute('aria-pressed',still?'true':'false');mbtn.textContent=still?'Play animation':'Pause animation';hero.classList.toggle('still',still);
+    if(still)set('m-anim','0.00 ms','info','Paused')}
+  if(reduce){mbtn.hidden=true;set('m-anim','Off','info','Reduced motion is on')}else showMotion();
+  mbtn.onclick=function(){still=!still;try{localStorage.setItem('kinmoor-motion',still?'paused':'playing')}catch(e){}
+    showMotion();if(still){stop();if(lit)lit.clearRect(0,0,W,H)}else{workMs=0;workFrames=0;workShown=performance.now();set('m-anim','…','','Budget 2 ms');start()}};
   function frame(t){
-    raf=0;if(!running)return;
+    raf=0;if(!running)return;var w0=performance.now();
     var dt=last?Math.min(1/30,(t-last)/1000):0;last=t;
     lit.clearRect(0,0,W,H);
     for(var i=0;i<lights.length;i++){
@@ -569,9 +640,11 @@ function kinmoorBoot(){
       hg.addColorStop(0,'rgba('+lc+','+ha.toFixed(3)+')');hg.addColorStop(.1,'rgba('+lc+','+(ha*.75).toFixed(3)+')');hg.addColorStop(.3,'rgba('+lc+','+(ha*.22).toFixed(3)+')');hg.addColorStop(.6,'rgba('+lc+','+(ha*.06).toFixed(3)+')');hg.addColorStop(1,'rgba('+lc+',0)');
       lit.fillStyle=hg;lit.fillRect(hp[0]-10,hp[1]-10,20,20);
     }
+    workMs+=performance.now()-w0;workFrames++;
+    if(t-workShown>=1000&&workFrames){var avg=workMs/workFrames;set('m-anim',avg.toFixed(2)+' ms',avg<=2?'ok':'over','Budget 2 ms');workMs=0;workFrames=0;workShown=t}
     raf=requestAnimationFrame(frame);
   }
-  function start(){startAtmos();if(reduce||running||!paths.length||!onScreen||document.hidden)return;running=true;last=0;raf=requestAnimationFrame(frame)}
+  function start(){if(still)return;startAtmos();if(reduce||running||!paths.length||!onScreen||document.hidden)return;running=true;last=0;raf=requestAnimationFrame(frame)}
   function stop(){stopAtmos();running=false;if(raf)cancelAnimationFrame(raf);raf=0}
 
   var idle=window.requestIdleCallback||function(fn){return setTimeout(fn,60)};
