@@ -207,19 +207,21 @@ th.t{text-align:right;padding-right:0}
 .contact .wrap{display:grid;gap:28px;padding-block:clamp(72px,10vw,128px);border-top:1px solid var(--rule)}
 .contact h2{font-size:var(--s6);font-weight:800;line-height:.95;letter-spacing:-.025em}
 .contact p{max-width:36em;color:var(--muted)}
-.mailrow{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+/* The status sits beside the check (under the address on narrow phones) without moving anything, and the check and status are centred on the lowercase letters, not the line box. */
+.mailrow{--fs:clamp(1.125rem,2.4vw,1.5rem);position:relative;display:flex;align-items:center;width:fit-content;max-width:100%}
 /* The address is the button: clicking it copies it, and the icon beside it turns into a check. */
-.mail{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:0;border:0;background:none;cursor:pointer;text-align:left;font:500 clamp(1.125rem,2.4vw,1.5rem)/1.2 var(--mono);color:var(--ink);overflow-wrap:anywhere}
+.mail{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:0;border:0;background:none;cursor:pointer;text-align:left;font:500 var(--fs)/1.2 var(--mono);color:var(--ink);overflow-wrap:anywhere}
 .mail #mail{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;text-decoration-thickness:1px;transition:text-decoration-color .2s ease}
 .mail:hover #mail,.mail:focus-visible #mail{text-decoration-color:var(--heather)}
-.mail .ci{flex:none;width:20px;height:20px;fill:none;stroke:var(--muted);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s ease}
+.mail .ci{flex:none;width:20px;height:20px;transform:translateY(.09em);fill:none;stroke:var(--muted);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s ease}
 .mail:hover .ci,.mail:focus-visible .ci{stroke:var(--heather)}
 .mail .ci-done{display:none}
 .mail[data-done] .ci{stroke:var(--lichen)}
 .mail[data-done] .ci-copy{display:none}
 .mail[data-done] .ci-done{display:inline}
 .mail:focus-visible{outline:2px solid var(--heather);outline-offset:4px;border-radius:2px}
-.copy-state{font:500 .75rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--lichen)}
+.copy-state{position:absolute;left:100%;top:50%;margin-left:10px;transform:translateY(calc(.09 * var(--fs) - 50%));white-space:nowrap;font:500 .75rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--lichen)}
+@media (max-width:399px){.copy-state{left:0;top:100%;margin:2px 0 0;transform:none}}
 
 footer .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px var(--gutter);padding-block:28px;border-top:1px solid var(--rule);font:400 .75rem/1.5 var(--mono);color:var(--muted)}
 footer a{color:var(--muted)}
