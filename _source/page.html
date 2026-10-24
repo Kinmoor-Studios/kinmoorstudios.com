@@ -789,9 +789,12 @@ function kinmoorBoot(){
     // The lines are stroked again, slightly thicker, from the same paths, so their edges are cleanly antialiased (copying the map at small offsets to thicken it left ragged edges at 1x).
     // Each stroke is laid three times to build up the same brightness the offset copies gave. Without Path2D, it falls back to the offset copies.
     function paintTorch(c,b,i){var w=c.canvas.width,h=c.canvas.height,k=w/W;c.clearRect(0,0,w,h);c.filter='blur('+(3*k).toFixed(1)+'px)';c.drawImage(i,0,0,w,h);c.filter='none';
-      if(tLines.length){c.save();c.setTransform(k,0,0,k,0,0);c.lineCap=c.lineJoin='round';
-        for(var n=0;n<tLines.length;n++){var L=tLines[n];c.strokeStyle=L.idx?col.strong:col.contour;c.lineWidth=L.idx?1.9:1.3;c.stroke(L.p);c.stroke(L.p);c.stroke(L.p)}
-        c.restore();c.save();c.globalCompositeOperation='destination-in';var g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,'#000');g.addColorStop(.55,'#000');g.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g;c.fillRect(0,0,w,h);c.restore()}
+      if(tLines.length){
+        // On screens under 1.5x, the lines are drawn at twice the size and scaled down smoothly: a canvas shades a line's edge in only a few steps, which shows on nearly flat bright lines at 1x.
+        var ss=k<1.5?2:1,d=c;if(ss>1){var tc=typeof OffscreenCanvas==='function'?new OffscreenCanvas(w*ss,h*ss):document.createElement('canvas');tc.width=w*ss;tc.height=h*ss;d=tc.getContext('2d')}
+        d.save();d.setTransform(k*ss,0,0,k*ss,0,0);d.lineCap=d.lineJoin='round';
+        for(var n=0;n<tLines.length;n++){var L=tLines[n];d.strokeStyle=L.idx?col.strong:col.contour;d.lineWidth=L.idx?1.9:1.3;d.stroke(L.p);d.stroke(L.p);d.stroke(L.p)}
+        d.restore();if(ss>1){c.save();c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';c.drawImage(tc,0,0,w,h);c.restore();tc.width=tc.height=0}c.save();c.globalCompositeOperation='destination-in';var g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,'#000');g.addColorStop(.55,'#000');g.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g;c.fillRect(0,0,w,h);c.restore()}
       else for(var n=0;n<3;n++){var o=(n-1)*.4*k;c.drawImage(b,o,-o,w,h);c.drawImage(i,o,-o,w,h)}
       c.globalCompositeOperation='source-in';c.fillStyle=col.torch||'#C99FCF';c.fillRect(0,0,w,h);c.globalCompositeOperation='source-over';
       // A secret: a small smiley in the bottom-right corner, below the readout panel. It exists only in this bright map, so it shows only under the torch.
