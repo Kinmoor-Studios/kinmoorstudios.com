@@ -260,13 +260,14 @@ footer .meta{grid-column:2}
 
 
 /* Torch: a soft circle of brighter contour lines follows the pointer, or a finger held on the map. The circle is a small layer moved by transform; the bright map inside it is drawn once, with the rest of the map. The soft mask alone does the clipping: a rounded clip as well would cost an extra pass every frame. */
-.torch{position:absolute;left:0;top:0;width:220px;height:220px;margin:-110px 0 0 -110px;display:none;opacity:0;transition:opacity .45s ease,display .45s allow-discrete;pointer-events:none;
+/* The circle scales with the window: about 160 px at 1366 and 220 px at 1920. The mask uses closest-side, so it scales too. */
+.torch{--tsz:clamp(140px,11.5vw,240px);position:absolute;left:0;top:0;width:var(--tsz);height:var(--tsz);margin:calc(var(--tsz) / -2) 0 0 calc(var(--tsz) / -2);display:none;opacity:0;transition:opacity .45s ease,display .45s allow-discrete;pointer-events:none;
   -webkit-mask-image:radial-gradient(closest-side,#000,rgba(0,0,0,.82) 14%,rgba(0,0,0,.44) 36%,rgba(0,0,0,.15) 62%,transparent);mask-image:radial-gradient(closest-side,#000,rgba(0,0,0,.82) 14%,rgba(0,0,0,.44) 36%,rgba(0,0,0,.15) 62%,transparent)}
 .torch canvas{position:absolute;left:0;top:0;will-change:transform}
 /* While off, the circle is out of rendering altogether (display:none): even invisible, its layers cost the compositor on every frame. It fades in and out where browsers can animate display. */
 .hero.torch-on .torch{display:block;opacity:1;will-change:transform,opacity}
 @starting-style{.hero.torch-on .torch{opacity:0}}
-@media (pointer:coarse){.torch{width:170px;height:170px;margin:-85px 0 0 -85px}}
+@media (pointer:coarse){.torch{--tsz:170px}}
 
 /* Specifics: a ring button beside each service, which pulses gently whenever its panel is closed. Pressing it swaps the paragraph for that service's specifics, which decode into place. */
 .service{grid-template-columns:minmax(0,1fr) auto;column-gap:12px}
