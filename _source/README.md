@@ -22,6 +22,7 @@ The build:
 - `build.py`: builds `index.html`, `404.html` and `privacy.html`.
 - `tools/local-server.py`: serves the site locally the way GitHub Pages does (gzip, 10-minute cache): `python3 _source/tools/local-server.py . 8766`.
 - `tools/scroll-benchmark.py`: the scrolling smoothness test used to compare versions (needs Playwright).
+- `tools/og-image.py`: recaptures the social preview image (`og.jpg`, 1200 × 630) from a local copy of the site: `python3 _source/tools/og-image.py http://127.0.0.1:8766/ og.jpg` (needs Playwright and Pillow).
 
 Fonts in `/fonts` are referenced with a `?v=` version tag. If a font file changes, update its tag in `page.html` and `build.py` so a long cache can't serve the old copy, and in the Cloudflare response header rule "Font hints" (its `Link` header names the same tags).
 

@@ -31,7 +31,7 @@ HEAD_COMMON='''<meta charset="utf-8">
 <link rel="manifest" href="/site.webmanifest">'''
 
 ORG={"@context":"https://schema.org","@type":"Organization","name":"Kinmoor Studios","legalName":"Kinmoor Studios, LLC","url":SITE,
-     "logo":SITE+"icon-512.png","email":"hello@kinmoorstudios.com","sameAs":["https://kinmoor.games"],
+     "logo":SITE+"icon-512.png","email":"hello@kinmoorstudios.com",
      "description":"Kinmoor Studios designs and builds fast, polished Shopify storefronts, apps, and back-office software for consumer brands."}
 
 # ---------- index.html ----------
