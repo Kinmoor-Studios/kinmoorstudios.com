@@ -1,17 +1,17 @@
 <title>Kinmoor Studios</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' rx='5' fill='%231A1D17'/%3E%3Cpath d='M4 20c4-6 7-9 10-9s6 3 10 9' fill='none' stroke='%23ECEEE8' stroke-width='1.8'/%3E%3Cpath d='M8 20c2.5-3.5 4.3-5 6-5s3.5 1.5 6 5' fill='none' stroke='%23C99FCF' stroke-width='1.8'/%3E%3C/svg%3E">
-<link rel="preload" href="fonts/archivo-display.woff2?v=2607a15a" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/kinmoor-text.woff2?v=77a883ec" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/ibm-plex-mono-500.woff2?v=723c5326" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/ibm-plex-mono-400.woff2?v=6b380ffd" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/archivo-display.woff2?v=2607a15a" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/kinmoor-text.woff2?v=77a883ec" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-500.woff2?v=723c5326" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-mono-400.woff2?v=6b380ffd" as="font" type="font/woff2" crossorigin>
 <script type="speculationrules">{"prerender":[{"source":"list","urls":["/privacy"],"eagerness":"moderate"}]}</script>
 <style>
 /* Fonts are served from this site, trimmed to the weights and characters the page uses: about 53 KB for all four files. */
-@font-face{font-family:"Archivo";src:url("fonts/archivo-display.woff2?v=2607a15a") format("woff2");font-weight:700 800;font-stretch:112% 125%;font-display:swap}
-@font-face{font-family:"Kinmoor Text";src:url("fonts/kinmoor-text.woff2?v=77a883ec") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"IBM Plex Mono";src:url("fonts/ibm-plex-mono-400.woff2?v=6b380ffd") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"IBM Plex Mono";src:url("fonts/ibm-plex-mono-500.woff2?v=723c5326") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Archivo";src:url("/fonts/archivo-display.woff2?v=2607a15a") format("woff2");font-weight:700 800;font-stretch:112% 125%;font-display:swap}
+@font-face{font-family:"Kinmoor Text";src:url("/fonts/kinmoor-text.woff2?v=77a883ec") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url("/fonts/ibm-plex-mono-400.woff2?v=6b380ffd") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url("/fonts/ibm-plex-mono-500.woff2?v=723c5326") format("woff2");font-weight:500;font-display:swap}
 /* Width-matched fallbacks so the page does not reflow when the fonts arrive */
 @font-face{font-family:"Archivo Fallback";src:local("Arial Bold"),local("Arial-BoldMT"),local("Arial");font-weight:500 900;size-adjust:126%}
 @font-face{font-family:"Kinmoor Text Fallback";src:local("Times New Roman"),local("TimesNewRomanPSMT");font-weight:400;size-adjust:101%}
@@ -68,6 +68,26 @@ p{margin:0;text-wrap:pretty}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.0625rem/1 var(--display);font-stretch:125%;letter-spacing:.06em;text-transform:uppercase}
 .brand svg{width:28px;height:28px;flex:none}
 .nav{display:flex;align-items:center;gap:28px;font:500 var(--s1)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.lang{position:relative}
+.lang summary{list-style:none;display:inline-flex;align-items:center;height:36px;padding:0 12px;border:1px solid var(--rule);border-radius:18px;color:var(--ink);cursor:pointer;transition:border-color .2s}
+.lang summary::-webkit-details-marker{display:none}
+.lang summary:hover,.lang[open] summary{border-color:var(--ink)}
+.lang ul{position:absolute;right:0;top:calc(100% + 8px);z-index:20;min-width:160px;margin:0;padding:6px;list-style:none;background:var(--ground);border:1px solid var(--rule);border-radius:4px;box-shadow:0 8px 28px rgb(0 0 0 / .16);text-transform:none;letter-spacing:0}
+.nav .lang li a{display:block;padding:10px 12px;border-radius:2px;color:var(--ink)}
+.nav .lang li a::after{content:none}
+.nav .lang li a:hover{background:var(--surface)}
+.nav .lang li a[aria-current]{color:var(--heather)}
+/* Offers the visitor's own language once, a moment after load. Fixed to the window, so it never moves the page. */
+.lang-note{position:fixed;left:50%;bottom:16px;z-index:30;display:flex;align-items:center;gap:14px;width:max-content;max-width:calc(100% - 32px);padding:10px 8px 10px 16px;background:var(--ground);border:1px solid var(--rule);border-radius:4px;box-shadow:0 8px 28px rgb(0 0 0 / .18);font:400 .8125rem/1.4 var(--mono);color:var(--ink);transform:translateX(-50%)}
+.lang-note[hidden]{display:none}
+.lang-note{flex-wrap:wrap;row-gap:4px}
+.lang-note p{flex:1 1 15em;margin:0}
+.lang-note button{margin-left:auto}
+.lang-note a{color:var(--heather);font-weight:500;white-space:nowrap;text-underline-offset:3px}
+.lang-note button{flex:none;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:none;color:var(--muted);font:400 1.125rem/1 var(--mono);cursor:pointer}
+.lang-note button:hover{color:var(--ink);background:var(--surface)}
+@media (prefers-reduced-motion:no-preference){.lang-note{animation:note-in .4s cubic-bezier(.2,.7,.2,1)}}
+@keyframes note-in{from{opacity:0;transform:translate(-50%,10px)}}
 .theme-toggle{display:inline-grid;place-items:center;width:36px;height:36px;padding:0;border:1px solid var(--rule);border-radius:50%;background:transparent;color:var(--ink);cursor:pointer;transition:border-color .2s}
 .theme-toggle:hover{border-color:var(--ink)}
 .theme-toggle svg{width:18px;height:18px;transition:transform .4s ease}
@@ -75,7 +95,11 @@ p{margin:0;text-wrap:pretty}
 .nav a{position:relative;text-decoration:none;color:var(--muted);padding-block:6px}
 .nav a:hover{color:var(--ink)}
 @media (max-width:720px){.nav a:not(.keep){display:none}}
-@media (max-width:380px){.top .wrap{gap:12px}.nav{gap:14px}.brand{gap:8px}}
+/* Nothing in the header wraps, in any language; on phones the gaps tighten, and below 360 px the Contact link gives way (the page's own buttons lead there too). */
+.brand,.nav a,.lang summary{white-space:nowrap}
+@media (max-width:480px){.nav{gap:14px}.lang summary{padding:0 10px}}
+@media (max-width:380px){.top .wrap{gap:12px}.nav{gap:10px}.brand{gap:8px}}
+@media (max-width:360px){.nav:has(.lang) a.keep{display:none}}
 
 /* Hero */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
@@ -148,7 +172,7 @@ html:active-view-transition-type(page)::view-transition-new(root){animation:vt-i
 section.block .wrap{padding-block:clamp(64px,9vw,112px)}
 section.block + section.block .wrap{border-top:1px solid var(--rule)}
 .sec-head{display:grid;gap:16px;justify-items:start;margin-bottom:clamp(36px,5vw,56px)}
-.sec-head h2{font-size:var(--s5);font-weight:750;line-height:1.02;letter-spacing:-.02em}
+.sec-head h2{overflow-wrap:break-word;font-size:var(--s5);font-weight:750;line-height:1.02;letter-spacing:-.02em}
 .sec-head p{color:var(--muted);max-width:32em;font-size:clamp(1.125rem,1.6vw,1.3125rem);text-wrap:pretty}
 
 .services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--gutter)}
@@ -208,7 +232,8 @@ th.t{text-align:right;padding-right:0}
 
 /* Contact */
 .contact .wrap{display:grid;gap:28px;padding-block:clamp(72px,10vw,128px);border-top:1px solid var(--rule)}
-.contact h2{font-size:var(--s6);font-weight:800;line-height:.95;letter-spacing:-.025em}
+/* Capped by the column's width like the hero headline, so a long word ("Commencez") fits at 320 px. */
+.contact h2{font-size:var(--s6);font-size:min(var(--s6),11.5cqi);overflow-wrap:break-word;font-weight:800;line-height:.95;letter-spacing:-.025em}
 .contact p{max-width:36em;color:var(--muted)}
 /* The status sits beside the check (under the address on narrow phones) without moving anything, and the check and status are centred on the lowercase letters, not the line box. */
 .mailrow{--fs:clamp(1.125rem,2.4vw,1.5rem);position:relative;display:flex;align-items:center;width:fit-content;max-width:100%}
@@ -285,7 +310,7 @@ footer .meta{grid-column:2}
 .service>:not(.ring):not(.hint){grid-column:1}
 /* "Click me" is traced from the Caveat typeface (SIL Open Font License 1.1, copyright 2014 The Caveat Project Authors) into a single shape, so no extra font loads. */
 /* A hand-drawn note just above and left of the first button, its arrow curling under into the ring, fades once any panel has been opened. */
-.hint{position:absolute;right:24px;top:-2px;width:84px;height:52px;color:var(--heather);pointer-events:none;transition:opacity .4s ease}
+.hint{position:absolute;right:24px;top:-2px;width:84px;height:52px;color:var(--heather);pointer-events:none;transition:opacity .4s ease;overflow:visible}
 .hint .nt{fill:currentColor}
 .hint .na{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .services.tried .hint{opacity:0}
@@ -371,7 +396,8 @@ footer .meta{grid-column:2}
 /* This page's own figures beside each budget */
 .meter{display:grid;gap:8px;justify-items:end}
 .meter b{font:500 1.0625rem/1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
-.meter small{font:400 .75rem/1.3 var(--mono);color:var(--muted);white-space:nowrap}
+/* The note under each bar wraps inside the column's fixed width, so a longer language never widens the table. */
+.meter small{font:400 .75rem/1.3 var(--mono);color:var(--muted);text-align:right;text-wrap:balance}
 .meter .ph{display:none}
 .bar{display:block;width:100%;height:5px;border-radius:2px;background:var(--rule);overflow:hidden}
 .bar span{display:block;height:100%;background:var(--lichen);transform-origin:0 50%;transform:scaleX(0);transition:transform 1.2s cubic-bezier(.2,.7,.2,1) .15s}
@@ -451,6 +477,7 @@ footer .meta{grid-column:2}
       <a href="#process">Process</a>
       <a href="#budgets">Budgets</a>
       <a class="keep" href="#contact">Contact</a>
+      <!--LANG-->
       <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode" title="Switch to dark mode">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>
       </button>
@@ -617,29 +644,35 @@ footer .meta{grid-column:2}
     </div>
   </div>
 </footer>
+<aside class="lang-note" id="lang-note" hidden><p></p><a href="/"></a><button type="button">×</button></aside>
 
 <script>
 function kinmoorBoot(){
   // If the page is started again in place (for example after a live update), clean up the previous run first.
   if(window.__kinmoorTeardown){try{window.__kinmoorTeardown()}catch(e){}}
   var ac=new AbortController(),sig={signal:ac.signal},obs=[];
+  // Every phrase the script shows, in one table that each language version replaces at build time. Numbers follow the page's language (1.8 s, 1,8 s).
+  var LANG=document.documentElement.lang||'en',T=I18N_T,NB='\u00a0';
+  function num(v,d){try{return v.toLocaleString(LANG,{minimumFractionDigits:d,maximumFractionDigits:d})}catch(e){return v.toFixed(d)}}
+  function fill(t,n){return t.replace('{n}',n)}
   /* ---------- Live performance readout ---------- */
   var budgets={fcp:1800,lcp:2500,cls:0.1};
-  function fmtMs(v){return v<1000?Math.round(v)+' ms':(v/1000).toFixed(2)+' s'}
+  var BT={fcp:fill(T.budget,num(1.8,1)+NB+T.sec),lcp:fill(T.budget,num(2.5,1)+NB+T.sec),cls:fill(T.budget,num(0.1,1)),inp:fill(T.budget,'200'+NB+T.ms),anim:fill(T.budget,'2'+NB+T.ms)};
+  function fmtMs(v){return v<1000?Math.round(v)+NB+T.ms:num(v/1000,2)+NB+T.sec}
   function set(id,val,state,budgetText){
     var el=document.getElementById(id); if(!el) return;
     el.querySelector('.val').textContent=val;
     el.dataset.state=state||'';
     var b=el.querySelector('.budget');
-    var label=state==='ok'?'within budget':state==='over'?'over budget':state==='na'?'not supported here':state==='bg'?'opened in a background tab':state==='skip'?'not measured this visit':state==='wait'?'tap or click anything':state==='info'?'':'measuring';
+    var label=state==='ok'?T.within:state==='over'?T.over:state==='na'?T.na:state==='bg'?T.bg:state==='skip'?T.skip:state==='wait'?T.wait:state==='info'?'':T.measuring;
     b.textContent=label&&budgetText?budgetText+' · ':label?'':budgetText||'';if(label){var em=document.createElement('b');em.textContent=label;b.appendChild(em)}
   }
   // The budgets table shows the same figures as bars: this page's value as a share of each budget, filling when the row comes into view.
   var meters={};[].forEach.call(document.querySelectorAll('.meter[data-meter]'),function(m){meters[m.dataset.meter]={el:m,out:m.querySelector('b'),sub:m.querySelector('small'),max:+m.dataset.max}});
   function meter(k,v,txt,note){var m=meters[k];if(!m)return;m.out.textContent=txt;
-    if(v==null){m.el.style.setProperty('--v','0');m.el.dataset.state='';m.sub.textContent=note||'not supported here';return}
+    if(v==null){m.el.style.setProperty('--v','0');m.el.dataset.state='';m.sub.textContent=note||T.na;return}
     var share=v/m.max;m.el.style.setProperty('--v',Math.min(1,share).toFixed(3));m.el.dataset.state=share<=1?'ok':'over';
-    m.sub.textContent=(share<.01&&share>0?'under 1':Math.round(share*100))+'% of budget'}
+    m.sub.textContent=share<.01&&share>0?T.pctUnder:fill(T.pct,Math.round(share*100))}
   try{var mIO=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('shown');mIO.unobserve(e.target)}})},{rootMargin:'0px 0px -12% 0px'});
     obs.push(mIO);[].forEach.call(document.querySelectorAll('.meter[data-meter]'),function(m){mIO.observe(m)})}catch(e){}
   // Browsers don't report paint timings for a page that loads in a background tab, and stop reporting the main-content time after the first tap,
@@ -649,22 +682,22 @@ function kinmoorBoot(){
   var cls=0, lcp=null;
   function po(type,cb){try{var o=new PerformanceObserver(function(l){l.getEntries().forEach(cb)});obs.push(o);o.observe({type:type,buffered:true});return true}catch(e){return false}}
 
-  var hasPaint=po('paint',function(e){if(e.name==='first-contentful-paint'){fcpSeen=true;set('m-fcp',fmtMs(e.startTime),e.startTime<=budgets.fcp?'ok':'over','Budget 1.8 s')}});
-  var hasLcp=po('largest-contentful-paint',function(e){lcp=e.startTime;set('m-lcp',fmtMs(lcp),lcp<=budgets.lcp?'ok':'over','Budget 2.5 s');meter('lcp',lcp,fmtMs(lcp))});
+  var hasPaint=po('paint',function(e){if(e.name==='first-contentful-paint'){fcpSeen=true;set('m-fcp',fmtMs(e.startTime),e.startTime<=budgets.fcp?'ok':'over',BT.fcp)}});
+  var hasLcp=po('largest-contentful-paint',function(e){lcp=e.startTime;set('m-lcp',fmtMs(lcp),lcp<=budgets.lcp?'ok':'over',BT.lcp);meter('lcp',lcp,fmtMs(lcp))});
   // Scored the way Google scores it: the worst burst of shifts (each less than 1 s apart, at most 5 s long), not a running total.
   var clsWin=0,clsStart=0,clsLast=0;
   var hasCls=po('layout-shift',function(e){if(e.hadRecentInput)return;
     if(clsWin&&e.startTime-clsLast<1000&&e.startTime-clsStart<5000){clsWin+=e.value}else{clsWin=e.value;clsStart=e.startTime}
-    clsLast=e.startTime;if(clsWin>cls)cls=clsWin;set('m-cls',cls.toFixed(3),cls<=budgets.cls?'ok':'over','Budget 0.1');meter('cls',cls,cls.toFixed(3))});
+    clsLast=e.startTime;if(clsWin>cls)cls=clsWin;set('m-cls',num(cls,3),cls<=budgets.cls?'ok':'over',BT.cls);meter('cls',cls,num(cls,3))});
 
   // Response: the slowest tap, click, or key press so far, from the Event Timing API (how Interaction to Next Paint is measured).
   var inpWorst=-1,hasEvents=false;
   try{hasEvents=PerformanceObserver.supportedEntryTypes.indexOf('event')>=0}catch(e){}
   if(hasEvents){try{var eo=new PerformanceObserver(function(l){l.getEntries().forEach(function(e){if(!e.interactionId)return;
-      if(e.duration>inpWorst){inpWorst=e.duration;set('m-inp',fmtMs(inpWorst),inpWorst<=200?'ok':'over','Budget 200 ms');meter('inp',inpWorst,fmtMs(inpWorst))}})});
+      if(e.duration>inpWorst){inpWorst=e.duration;set('m-inp',fmtMs(inpWorst),inpWorst<=200?'ok':'over',BT.inp);meter('inp',inpWorst,fmtMs(inpWorst))}})});
     obs.push(eo);eo.observe({type:'event',durationThreshold:16,buffered:true})}catch(e){hasEvents=false}}
   // Interactions faster than 16 ms are below what browsers report, so a tap with no report is under 16 ms.
-  function tapped(){if(!hasEvents)return;setTimeout(function(){if(inpWorst<0){set('m-inp','< 16 ms','ok','Budget 200 ms');meter('inp',16,'< 16 ms')}},400)}
+  function tapped(){if(!hasEvents)return;setTimeout(function(){if(inpWorst<0){set('m-inp','<'+NB+'16'+NB+T.ms,'ok',BT.inp);meter('inp',16,'<'+NB+'16'+NB+T.ms)}},400)}
   addEventListener('pointerup',tapped,sig);addEventListener('keyup',tapped,sig);
 
   function weigh(){
@@ -675,20 +708,20 @@ function kinmoorBoot(){
       var bytes=0;
       // Compressed size of every file, so the figure is the same on a first visit and a cached one.
       list.forEach(function(e){bytes+=(e.encodedBodySize||e.transferSize||0)});
-      if(bytes>0){set('m-kb',(bytes/1024).toFixed(0)+' KB','info', list.length+' files, compressed')}
+      if(bytes>0){set('m-kb',num(bytes/1024,0)+NB+'KB','info',fill(T.files,list.length))}
       else{set('m-kb','—','na','')}
     }catch(e){set('m-kb','—','na','')}
   }
   function finish(){
-    if(!hasPaint) set('m-fcp','—','na','Budget 1.8 s');
-    if(!hasLcp){set('m-lcp','—','na','Budget 2.5 s');meter('lcp',null,'—')}
+    if(!hasPaint) set('m-fcp','—','na',BT.fcp);
+    if(!hasLcp){set('m-lcp','—','na',BT.lcp);meter('lcp',null,'—')}
     // Supported, but nothing came: say why (a background tab, or an early tap or scroll), rather than "measuring" for ever.
-    setTimeout(function(){var why=hiddenEarly?'bg':'skip',note=hiddenEarly?'background tab':'not measured';
-      if(hasPaint&&!fcpSeen)set('m-fcp','—',why,'Budget 1.8 s');
-      if(hasLcp&&lcp===null){set('m-lcp','—',why,'Budget 2.5 s');meter('lcp',null,'—',note)}},2500);
-    if(hasCls && document.querySelector('#m-cls .val').textContent==='…'){set('m-cls','0.000','ok','Budget 0.1');meter('cls',0,'0.000')}
-    if(!hasCls){set('m-cls','—','na','Budget 0.1');meter('cls',null,'—')}
-    if(!hasEvents) set('m-inp','—','na','Budget 200 ms');
+    setTimeout(function(){var why=hiddenEarly?'bg':'skip',note=hiddenEarly?T.bgShort:T.skipShort;
+      if(hasPaint&&!fcpSeen)set('m-fcp','—',why,BT.fcp);
+      if(hasLcp&&lcp===null){set('m-lcp','—',why,BT.lcp);meter('lcp',null,'—',note)}},2500);
+    if(hasCls && document.querySelector('#m-cls .val').textContent==='…'){set('m-cls',num(0,3),'ok',BT.cls);meter('cls',0,num(0,3))}
+    if(!hasCls){set('m-cls','—','na',BT.cls);meter('cls',null,'—')}
+    if(!hasEvents) set('m-inp','—','na',BT.inp);
     weigh();
   }
   if(document.readyState==='complete') setTimeout(finish,300); else addEventListener('load',function(){setTimeout(finish,300)},sig);
@@ -696,7 +729,8 @@ function kinmoorBoot(){
 
   /* ---------- Store test: links to Google's PageSpeed Insights with the visitor's address filled in ---------- */
   var psiIn=document.getElementById('psi-url'),psiGo=document.getElementById('psi-go');
-  function psiHref(){var v=(psiIn.value||'').trim();if(!v)return 'https://pagespeed.web.dev/';if(!/^https?:\/\//i.test(v))v='https://'+v;return 'https://pagespeed.web.dev/report?url='+encodeURIComponent(v)}
+  // PageSpeed Insights opens in the page's language (hl).
+  function psiHref(){var v=(psiIn.value||'').trim(),hl=LANG==='en'?'':'hl='+LANG;if(!v)return 'https://pagespeed.web.dev/'+(hl?'?'+hl:'');if(!/^https?:\/\//i.test(v))v='https://'+v;return 'https://pagespeed.web.dev/report?url='+encodeURIComponent(v)+(hl?'&'+hl:'')}
   psiIn.addEventListener('input',function(){psiGo.href=psiHref()},sig);
   psiIn.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();psiGo.href=psiHref();psiGo.click()}},sig);
 
@@ -705,15 +739,28 @@ function kinmoorBoot(){
   function selectMail(){var r=document.createRange();r.selectNodeContents(mail);var s=getSelection();s.removeAllRanges();s.addRange(r)}
   function copyNote(t,ok){clearTimeout(copyT);copyState.textContent=t;if(ok)btn.setAttribute('data-done','');copyT=setTimeout(function(){copyState.textContent='';btn.removeAttribute('data-done')},2200)}
   btn.onclick=function(){
-    var fallback=function(){selectMail();copyNote('Selected: press Ctrl+C or Cmd+C',false)};
-    try{navigator.clipboard.writeText(mail.textContent.trim()).then(function(){copyNote('Copied',true)},fallback)}catch(e){fallback()}
+    var fallback=function(){selectMail();copyNote(T.selected,false)};
+    try{navigator.clipboard.writeText(mail.textContent.trim()).then(function(){copyNote(T.copied,true)},fallback)}catch(e){fallback()}
   };
+
+  /* ---------- Languages: the switcher closes on an outside click or Escape; a note offers the visitor's own language, once ---------- */
+  var langEl=document.querySelector('.lang');
+  if(langEl){document.addEventListener('click',function(e){if(langEl.open&&!langEl.contains(e.target))langEl.open=false},sig);
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&langEl.open){langEl.open=false;langEl.querySelector('summary').focus()}},sig)}
+  // The first of the browser's preferred languages that the site has wins; if that is this page's language, no note. It never redirects.
+  (function(){var note=document.getElementById('lang-note');if(!note||!T.sug)return;var seen=null;try{seen=localStorage.getItem('kinmoor-lang-note')}catch(e){}if(seen)return;
+    var ls=navigator.languages||[navigator.language||''],want=null;
+    for(var i=0;i<ls.length&&!want;i++){var p=String(ls[i]||'').toLowerCase().split('-')[0];if(p===LANG)return;if(T.sug[p])want=p}
+    if(!want)return;var g=T.sug[want],a=note.querySelector('a'),x=note.querySelector('button');
+    note.lang=want;note.querySelector('p').textContent=g.note;a.textContent=g.go;a.href=g.href;a.hreflang=want;x.setAttribute('aria-label',g.close);x.title=g.close;
+    function done(){note.hidden=true;try{localStorage.setItem('kinmoor-lang-note','1')}catch(e){}}
+    x.addEventListener('click',done,sig);a.addEventListener('click',done,sig);setTimeout(function(){note.hidden=false},1200)})();
 
   /* ---------- Light / dark toggle (follows the device until the visitor chooses) ---------- */
   var root=document.documentElement, tbtn=document.getElementById('theme-toggle');
   var mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
   function effective(){var a=root.getAttribute('data-theme');return(a==='light'||a==='dark')?a:(mq&&mq.matches?'dark':'light')}
-  function syncToggle(){var dark=effective()==='dark',label=dark?'Switch to light mode':'Switch to dark mode';
+  function syncToggle(){var dark=effective()==='dark',label=dark?T.toLight:T.toDark;
     tbtn.setAttribute('aria-pressed',dark?'true':'false');tbtn.setAttribute('aria-label',label);tbtn.title=label}
   tbtn.onclick=function(){
     var next=effective()==='dark'?'light':'dark';
@@ -964,15 +1011,15 @@ function kinmoorBoot(){
   var send=null,ready=false,onScreen=true,dead=false,quality=0,builder=null;
   // A visible control to stop the background (WCAG 2.2.2), remembered for the next visit.
   var still=false,mbtn=document.getElementById('motion');try{still=localStorage.getItem('kinmoor-motion')==='paused'}catch(e){}
-  function budgetText(){return 'Budget 2 ms'}
+  function budgetText(){return BT.anim}
   function onStats(m){
     if(m.type==='ready'){ready=true;hero.classList.add('drawn');begin()}
     else if(m.type==='drawn'){stack.classList.remove('redraw')}
     else if(m.type==='quality'){quality=m.q;hero.dataset.quality=m.q}
-    else if(m.type==='stats'&&!still&&!reduce){set('m-anim',m.work.toFixed(2)+' ms',m.work<=2?'ok':'over',budgetText())}}
-  function showMotion(){mbtn.setAttribute('aria-pressed',still?'true':'false');mbtn.textContent=still?'Play animation':'Pause animation';hero.classList.toggle('still',still);
-    if(still)set('m-anim','0.00 ms','info','Paused')}
-  if(reduce){mbtn.hidden=true;hero.classList.add('still');set('m-anim','Off','info',saveData?'Data saver is on':'Reduced motion is on')}else showMotion();
+    else if(m.type==='stats'&&!still&&!reduce){set('m-anim',num(m.work,2)+NB+T.ms,m.work<=2?'ok':'over',budgetText())}}
+  function showMotion(){mbtn.setAttribute('aria-pressed',still?'true':'false');mbtn.textContent=still?T.play:T.pause;hero.classList.toggle('still',still);
+    if(still)set('m-anim',num(0,2)+NB+T.ms,'info',T.paused)}
+  if(reduce){mbtn.hidden=true;hero.classList.add('still');set('m-anim',T.off,'info',saveData?T.saver:T.reduced)}else showMotion();
   function boot(){
     if(dead)return;
     var cvB=document.getElementById('contours'),cvI=document.getElementById('contours-index'),cvL=document.getElementById('contours-lights'),cvA=document.getElementById('atmos-cv');
@@ -1034,7 +1081,7 @@ function kinmoorBoot(){
   /* ---------- Service specifics: each button swaps its paragraph for a short list that decodes into place ---------- */
   // A scrambled copy of each line is drawn over the real text, which keeps its place, so nothing on the page moves.
   // Lines type in from the left, led by a few scrambled characters, in the mono font (whose trimmed character set covers everything used here).
-  var SCR='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&*+=/<>';
+  var SCR=T.scr;
   function scramble(lines,closing,done){var t0=performance.now(),parts=lines.map(function(li){var t=li.querySelector('.t'),o=li.querySelector('.o');
       if(!o){o=document.createElement('span');o.className='o';o.setAttribute('aria-hidden','true');li.appendChild(o)}li.classList.add('dec');return{li:li,o:o,txt:t.textContent}});
     // Opening, each line's progress p runs 0 to 1 (characters revealed); closing, it runs 1 to 0, last line first.

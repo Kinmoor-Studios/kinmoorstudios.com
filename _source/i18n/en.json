@@ -1,0 +1,76 @@
+{
+ "lang": "en",
+ "name": "English",
+ "reviewed": true,
+ "og_locale": "en_US",
+ "meta": {
+  "title": "Kinmoor Studios",
+  "description": "Kinmoor Studios designs and builds fast, polished Shopify storefronts, apps, and back-office software for consumer brands.",
+  "og_description": "Shopify storefronts, apps, and software. Design that doesn't slow you down.",
+  "og_image_alt": "Kinmoor Studios: Design that doesn't slow you down, over a contour map.",
+  "privacy_title": "Privacy · Kinmoor Studios",
+  "privacy_description": "How kinmoorstudios.com handles information.",
+  "notfound_title": "Page not found · Kinmoor Studios"
+ },
+ "ui": {
+  "language": "Language",
+  "note": "This page is also in English.",
+  "go": "Read it in English",
+  "close": "Close"
+ },
+ "hand": {
+  "click": "Click me",
+  "w1": "Yum!",
+  "w2": "Tasty!"
+ },
+ "t": {
+  "within": "within budget",
+  "over": "over budget",
+  "na": "not supported here",
+  "bg": "opened in a background tab",
+  "skip": "not measured this visit",
+  "wait": "tap or click anything",
+  "measuring": "measuring",
+  "pct": "{n}% of budget",
+  "pctUnder": "under 1% of budget",
+  "budget": "Budget {n}",
+  "sec": "s",
+  "ms": "ms",
+  "files": "{n} files, compressed",
+  "bgShort": "background tab",
+  "skipShort": "not measured",
+  "selected": "Selected: press Ctrl+C or Cmd+C",
+  "copied": "Copied",
+  "toLight": "Switch to light mode",
+  "toDark": "Switch to dark mode",
+  "play": "Play animation",
+  "pause": "Pause animation",
+  "paused": "Paused",
+  "off": "Off",
+  "saver": "Data saver is on",
+  "reduced": "Reduced motion is on",
+  "scr": "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&*+=/<>"
+ },
+ "keep": [
+  "Kinmoor",
+  "Kinmoor Studios",
+  "hello@kinmoorstudios.com",
+  "LCP",
+  "INP",
+  "CLS",
+  "WCAG",
+  "2.2 AA",
+  "…",
+  "—",
+  "yourstore.com",
+  "Shopify",
+  "QuickBooks",
+  "Kinmoor Studios · 404"
+ ],
+ "notfound": {
+  "eyebrow": "Kinmoor Studios · 404",
+  "h1": "This page isn't here.",
+  "p": "The address may have a typo, or the page may have moved.",
+  "home": "Back to Kinmoor Studios"
+ }
+}

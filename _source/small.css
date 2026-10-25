@@ -1,0 +1,23 @@
+@font-face{font-family:"Archivo";src:url("/fonts/archivo-display.woff2?v=2607a15a") format("woff2");font-weight:700 800;font-stretch:112% 125%;font-display:swap}
+@font-face{font-family:"Kinmoor Text";src:url("/fonts/kinmoor-text.woff2?v=77a883ec") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url("/fonts/ibm-plex-mono-500.woff2?v=723c5326") format("woff2");font-weight:500;font-display:swap}
+:root{--display:"Archivo","Helvetica Neue",Arial,sans-serif;--serif:"Kinmoor Text",Georgia,"Times New Roman",serif;--mono:"IBM Plex Mono",ui-monospace,monospace;--ground:#ECEEE8;--ink:#1A1D17;--muted:#596155;--rule:#CBD1C4;--heather:#6B3D71}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#111310;--ink:#E8EBE2;--muted:#9BA394;--rule:#2D3229;--heather:#C99FCF;color-scheme:dark}}
+:root[data-theme="dark"]{--ground:#111310;--ink:#E8EBE2;--muted:#9BA394;--rule:#2D3229;--heather:#C99FCF;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 1.125rem/1.65 var(--serif)}
+main{max-width:44rem;margin:0 auto;padding:clamp(48px,10vw,120px) max(20px,env(safe-area-inset-right,0px)) 64px max(20px,env(safe-area-inset-left,0px))}
+.eyebrow{font:500 .8125rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 20px}
+h1{font:800 clamp(2.4rem,7vw,4rem)/1 var(--display);font-stretch:125%;letter-spacing:-.02em;margin:0 0 28px;text-wrap:balance}
+h2{font:700 1.25rem/1.25 var(--display);font-stretch:112%;margin:40px 0 10px}
+p,li{text-wrap:pretty}p{margin:0 0 14px}ul{padding-left:1.2em;margin:0 0 14px}
+a{color:var(--heather);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--heather);outline-offset:3px}
+.home{display:inline-block;margin-top:24px;font:500 .8125rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);border:1px solid var(--ink);padding:14px 20px;text-decoration:none}
+.updated{font:500 .8125rem/1.5 var(--mono);color:var(--muted)}
+/* Moving between pages: the old page eases up and fades while the new one rises in (Chrome, Edge, and Safari 18.2 and later; other browsers switch instantly). Off with reduced motion. */
+@media (prefers-reduced-motion:no-preference){@view-transition{navigation:auto;types:page}}
+html:active-view-transition-type(page)::view-transition-old(root){animation:vt-out .26s cubic-bezier(.4,0,1,1) both}
+html:active-view-transition-type(page)::view-transition-new(root){animation:vt-in .42s cubic-bezier(.2,.7,.2,1) both}
+@keyframes vt-out{to{opacity:0;transform:translateY(-12px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(16px)}}
