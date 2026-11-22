@@ -71,11 +71,12 @@ p{margin:0;text-wrap:pretty}
 .lang{position:relative}
 .lang summary{list-style:none;display:inline-flex;align-items:center;height:36px;padding:0 12px;border:1px solid var(--rule);border-radius:18px;color:var(--ink);cursor:pointer;transition:border-color .2s}
 .lang summary::-webkit-details-marker{display:none}
-.lang summary:hover,.lang[open] summary{border-color:var(--ink)}
+.lang[open] summary{border-color:var(--ink)}
+@media (hover:hover){.lang summary:hover{border-color:var(--ink)}}
 .lang ul{position:absolute;right:0;top:calc(100% + 8px);z-index:20;min-width:160px;margin:0;padding:6px;list-style:none;background:var(--ground);border:1px solid var(--rule);border-radius:4px;box-shadow:0 8px 28px rgb(0 0 0 / .16);text-transform:none;letter-spacing:0}
 .nav .lang li a{display:block;padding:10px 12px;border-radius:2px;color:var(--ink)}
 .nav .lang li a::after{content:none}
-.nav .lang li a:hover{background:var(--surface)}
+@media (hover:hover){.nav .lang li a:hover{background:var(--surface)}}
 .nav .lang li a[aria-current]{color:var(--heather)}
 /* Offers the visitor's own language once, a moment after load. Fixed to the window, so it never moves the page. */
 .lang-note{position:fixed;left:50%;bottom:16px;z-index:30;display:flex;align-items:center;gap:14px;width:max-content;max-width:calc(100% - 32px);padding:10px 8px 10px 16px;background:var(--ground);border:1px solid var(--rule);border-radius:4px;box-shadow:0 8px 28px rgb(0 0 0 / .18);font:400 .8125rem/1.4 var(--mono);color:var(--ink);transform:translateX(-50%)}
@@ -85,15 +86,16 @@ p{margin:0;text-wrap:pretty}
 .lang-note button{margin-left:auto}
 .lang-note a{color:var(--heather);font-weight:500;white-space:nowrap;text-underline-offset:3px}
 .lang-note button{flex:none;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:none;color:var(--muted);font:400 1.125rem/1 var(--mono);cursor:pointer}
-.lang-note button:hover{color:var(--ink);background:var(--surface)}
+@media (hover:hover){.lang-note button:hover{color:var(--ink);background:var(--surface)}}
 @media (prefers-reduced-motion:no-preference){.lang-note{animation:note-in .4s cubic-bezier(.2,.7,.2,1)}}
 @keyframes note-in{from{opacity:0;transform:translate(-50%,10px)}}
 .theme-toggle{display:inline-grid;place-items:center;width:36px;height:36px;padding:0;border:1px solid var(--rule);border-radius:50%;background:transparent;color:var(--ink);cursor:pointer;transition:border-color .2s}
-.theme-toggle:hover{border-color:var(--ink)}
+@media (hover:hover){.theme-toggle:hover{border-color:var(--ink)}}
 .theme-toggle svg{width:18px;height:18px;transition:transform .4s ease}
 .theme-toggle[aria-pressed="true"] svg{transform:rotate(180deg)}
 .nav a{position:relative;text-decoration:none;color:var(--muted);padding-block:6px}
-.nav a:hover{color:var(--ink)}
+/* Hover styles apply only where a pointer hovers. On touch screens a tap leaves :hover set, and the style would stick. */
+@media (hover:hover){.nav a:hover{color:var(--ink)}}
 @media (max-width:720px){.nav a:not(.keep){display:none}}
 /* Nothing in the header wraps, in any language; on phones the gaps tighten, and below 360 px the Contact link gives way (the page's own buttons lead there too). */
 .brand,.nav a,.lang summary{white-space:nowrap}
@@ -116,11 +118,13 @@ h1 span,h1 em{display:block}
 .ol-D{margin-left:-.084em}.ol-d{margin-left:-.041em}.ol-y{margin-left:-.002em}.ol-S{margin-left:-.05em}
 h1 em{font-style:normal;color:var(--heather)}
 .lede{font-size:clamp(1.125rem,1.6vw,1.3125rem);max-width:34em;color:var(--ink)}
+/* The small label above the headline sits on the map. Muted text dips below 4.5:1 where contour lines and colour fields cross behind it; ink keeps clear of that. */
+.hero-copy .eyebrow{color:var(--ink)}
 .actions{display:flex;flex-wrap:wrap;gap:12px}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;font:500 var(--s1)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:1px solid var(--ink);border-radius:2px;transition:background .2s,color .2s}
 .btn.primary{background:var(--ink);color:var(--ground)}
-.btn.primary:hover{background:var(--heather);border-color:var(--heather)}
-.btn.ghost:hover{background:var(--surface)}
+@media (hover:hover){.btn.primary:hover{background:var(--heather);border-color:var(--heather)}}
+@media (hover:hover){.btn.ghost:hover{background:var(--surface)}}
 /* In dark mode the primary button is dark letters on a light ground, which renders lighter than the light-on-dark letters beside it, most of all on 1x screens. A hairline stroke evens the weight without loading a heavier font. */
 :root[data-theme="dark"] .btn.primary{-webkit-text-stroke:.3px currentColor}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{-webkit-text-stroke:.3px currentColor}}
@@ -128,7 +132,7 @@ h1 em{font-style:normal;color:var(--heather)}
 .btn.primary::after{content:"";flex:none;width:1em;height:.7em;background:currentColor;transform:translateY(var(--arrow-y,0));transition:transform .25s ease;
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 11'%3E%3Cpath d='M0 5.5h14M9.5 1l4.5 4.5L9.5 10' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 11'%3E%3Cpath d='M0 5.5h14M9.5 1l4.5 4.5L9.5 10' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E") center/contain no-repeat}
-.btn.primary:hover::after{transform:translate(3px,var(--arrow-y,0))}
+@media (hover:hover){.btn.primary:hover::after{transform:translate(3px,var(--arrow-y,0))}}
 .service,.step{position:relative}
 .service::after,.nav a::after{content:"";position:absolute;left:0;right:0;background:var(--heather);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
 .service::after{top:-1px;height:1px}
@@ -158,7 +162,7 @@ h1 em{font-style:normal;color:var(--heather)}
 .readout .note{font:400 .75rem/1.5 var(--mono);color:var(--muted);max-width:34em}
 .ro-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px}
 .motion-toggle{min-height:32px;padding:6px 12px;font:500 .75rem/1 var(--mono);letter-spacing:.04em;color:var(--ink);background:transparent;border:1px solid var(--muted);border-radius:2px;cursor:pointer;transition:border-color .2s}
-.motion-toggle:hover{border-color:var(--ink)}
+@media (hover:hover){.motion-toggle:hover{border-color:var(--ink)}}
 .hero.still #contours-index{animation-play-state:paused}
 .hero.still .live::before{animation:none}
 /* Theme switch: the map hides at once, then fades back in when it has been redrawn in the new colours */
@@ -175,6 +179,8 @@ html:active-view-transition-type(page)::view-transition-new(root){animation:vt-i
 section.block .wrap{padding-block:clamp(64px,9vw,112px)}
 section.block + section.block .wrap{border-top:1px solid var(--rule)}
 .sec-head{display:grid;gap:16px;justify-items:start;margin-bottom:clamp(36px,5vw,56px)}
+/* From 861 to 1100 px the hero is two columns but the cards and steps are stacked. The heading takes the left column and stays in view while its cards or steps scroll past on the right. */
+@media (min-width:861px) and (max-width:1100px){#work .wrap,#process .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:var(--gutter);align-items:start}#work .sec-head,#process .sec-head{position:sticky;top:24px;margin-bottom:0}}
 .sec-head h2{overflow-wrap:break-word;font-size:var(--s5);font-weight:750;line-height:1.02;letter-spacing:-.02em}
 .sec-head p{color:var(--muted);max-width:32em;font-size:clamp(1.125rem,1.6vw,1.3125rem);text-wrap:pretty}
 
@@ -211,7 +217,7 @@ th.t{text-align:right;padding-right:0}
 @media (max-width:760px){
   table{min-width:0;table-layout:auto}
   thead{display:none}
-  tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding-block:18px;border-bottom:1px solid var(--rule)}
+  tr{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;padding-block:18px;border-bottom:1px solid var(--rule)}
   td{border:0;padding:0}
   td.d{grid-column:1/-1;padding-left:0}
   td.p,td.t{grid-column:1/-1}
@@ -221,7 +227,7 @@ th.t{text-align:right;padding-right:0}
   .meter .bar,.meter small{grid-column:1/-1}
   .meter small{text-align:right}
 }
-.foot-note{margin-top:20px;font:400 .8125rem/1.6 var(--mono);color:var(--muted);max-width:60em}
+.foot-note{margin-top:20px;font:400 .8125rem/1.6 var(--mono);color:var(--muted);max-width:46em}
 .psi{margin-top:clamp(40px,6vw,64px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px var(--gutter);align-items:end;padding:clamp(20px,3vw,32px);background:var(--surface);border:1px solid var(--rule);border-radius:3px}
 .psi h3{font-size:var(--s4);font-weight:700;line-height:1.15;margin-bottom:8px}
 .psi p{color:var(--muted);font-size:1.0625rem}
@@ -232,6 +238,7 @@ th.t{text-align:right;padding-right:0}
 .psi input:focus-visible{outline:2px solid var(--heather);outline-offset:2px}
 .psi input::placeholder{color:var(--muted);opacity:1}
 .psi .btn{min-height:48px;cursor:pointer}
+@media (hover:hover){.psi .btn.ghost:hover{background:var(--ground)}}
 .psi small{font:400 .75rem/1.5 var(--mono);color:var(--muted)}
 @media (max-width:760px){.psi{grid-template-columns:minmax(0,1fr)}}
 
@@ -246,9 +253,11 @@ th.t{text-align:right;padding-right:0}
 /* The address is the button: clicking it copies it, and the icon beside it turns into a check. */
 .mail{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:0;border:0;background:none;cursor:pointer;text-align:left;font:500 var(--fs)/1.2 var(--mono);color:var(--ink);overflow-wrap:anywhere}
 .mail #mail{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;text-decoration-thickness:1px;transition:text-decoration-color .2s ease}
-.mail:hover #mail,.mail:focus-visible #mail{text-decoration-color:var(--heather)}
+.mail:focus-visible #mail{text-decoration-color:var(--heather)}
+@media (hover:hover){.mail:hover #mail{text-decoration-color:var(--heather)}}
 .mail .ci{flex:none;width:20px;height:20px;transform:translateY(.09em);fill:none;stroke:var(--muted);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s ease}
-.mail:hover .ci,.mail:focus-visible .ci{stroke:var(--heather)}
+.mail:focus-visible .ci{stroke:var(--heather)}
+@media (hover:hover){.mail:hover .ci{stroke:var(--heather)}}
 .mail .ci-done{display:none}
 .mail[data-done] .ci{stroke:var(--lichen)}
 .mail[data-done] .ci-copy{display:none}
@@ -269,7 +278,8 @@ footer .wrap{position:relative}
 .bin.on{opacity:1;visibility:visible;transition:opacity .5s ease,color .2s ease}
 .bin svg{display:block;width:24px;height:28px;overflow:visible;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .bin .lid{transform-box:fill-box;transform-origin:85% 100%}
-.bin:hover,.bin:focus-visible,.bin.near{color:var(--heather)}
+.bin:focus-visible,.bin.near{color:var(--heather)}
+@media (hover:hover){.bin:hover{color:var(--heather)}}
 .bin.near .lid,.bin.eating .lid{transform:rotate(18deg)}
 .bin .lid{transition:transform .25s ease}
 .bin.gulp .lid{animation:gulp .4s ease}
@@ -372,7 +382,7 @@ footer .meta{grid-column:2}
 .sparkles i:nth-child(2){animation-delay:.5s!important}.sparkles i:nth-child(3){animation-delay:1s!important}.sparkles i:nth-child(4){animation-delay:1.5s!important}.sparkles i:nth-child(5){animation-delay:2s!important}
 :root:not(.still) .steps.in-view .party{animation:shine 4s ease-in-out infinite}
 .sparkles{transition:transform .3s ease}
-.party:hover .sparkles{transform:scale(1.12)}
+@media (hover:hover){.party:hover .sparkles{transform:scale(1.12)}}
 @keyframes twinkle{0%,100%{opacity:0;transform:scale(.3) rotate(0)}45%{opacity:1;transform:scale(1) rotate(45deg)}70%{opacity:0;transform:scale(.4) rotate(90deg)}}
 @keyframes shine{0%,55%{background-position:100% 0}85%,100%{background-position:0 0}}
 @media (forced-colors:active){.party{-webkit-text-fill-color:ButtonText;background:none}.sparkles{display:none}}
@@ -403,7 +413,9 @@ footer .meta{grid-column:2}
 }
 
 /* This page's own figures beside each budget */
-.meter{display:grid;gap:8px;justify-items:end}
+.meter{display:grid;gap:8px}
+/* Right-aligned only in the table. In the stacked rows on phones the label sits left and the figure right. */
+@media (min-width:761px){.meter{justify-items:end}}
 .meter b{font:500 1.0625rem/1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
 /* The note under each bar wraps inside the column's fixed width, so a longer language never widens the table. */
 .meter small{font:400 .75rem/1.3 var(--mono);color:var(--muted);text-align:right;text-wrap:balance}
@@ -472,6 +484,8 @@ footer .meta{grid-column:2}
 @keyframes kin-mid{to{transform:translate3d(0,14%,0)}}
 @keyframes kin-mid-back{to{transform:translate3d(0,calc(var(--sh,0px) * -.14),0)}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+/* Data saver (the script adds .saver) gets the same: no animation and no transitions. */
+.saver *,.saver *::before,.saver *::after{animation:none!important;transition:none!important}
 </style>
 <script>try{var t=localStorage.getItem('kinmoor-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 
@@ -599,11 +613,11 @@ footer .meta{grid-column:2}
             <tr><td class="m">Largest Contentful Paint<span>LCP</span></td><td class="d">How long until the main image or headline appears</td><td class="t">≤ 2.5 s</td><td class="p"><span class="meter" data-meter="lcp" data-max="2500"><span class="ph">This page</span><b>…</b><span class="bar"><span></span></span><small>measuring</small></span></td></tr>
             <tr><td class="m">Interaction to Next Paint<span>INP</span></td><td class="d">How quickly the page reacts to a tap, a filter, or Add to cart</td><td class="t">≤ 200 ms</td><td class="p"><span class="meter" data-meter="inp" data-max="200"><span class="ph">This page</span><b>—</b><span class="bar"><span></span></span><small>waiting for a tap</small></span></td></tr>
             <tr><td class="m">Cumulative Layout Shift<span>CLS</span></td><td class="d">Whether buttons and text jump around while the page loads</td><td class="t">≤ 0.1</td><td class="p"><span class="meter" data-meter="cls" data-max="0.1"><span class="ph">This page</span><b>…</b><span class="bar"><span></span></span><small>measuring</small></span></td></tr>
-            <tr><td class="m">Accessibility<span>WCAG</span></td><td class="d">Keyboard use, screen readers, readable contrast, and labels</td><td class="t">2.2 AA</td><td class="p"><span class="meter"><span class="ph">This page</span><b>Passes</b><small>automated scan</small></span></td></tr>
+            <tr><td class="m">Accessibility<span>WCAG</span></td><td class="d">Keyboard use, screen readers, readable contrast, and labels</td><td class="t">2.2 AA</td><td class="p"><span class="meter"><span class="ph">This page</span><b>0 violations</b><small>axe-core 4.14.1, 21 Nov 2026</small></span></td></tr>
           </tbody>
         </table>
       </div>
-      <p class="foot-note">The first three are Google's thresholds for a good score, measured at the 75th percentile of real visits on phones and computers. The bars show this page's own figures, measured in your browser, as a share of each budget. The INP figure appears after your first tap or click.</p>
+      <p class="foot-note">The first three are Google's thresholds for a good score, measured at the 75th percentile of real visits on phones and computers. The bars show this page's own figures, measured in your browser, as a share of each budget. The INP figure appears after your first tap or click. The accessibility figure comes from an automated axe-core scan of this page; a scan like that can't check everything.</p>
       <div class="psi">
         <div>
           <h3>How does your store measure up?</h3>
@@ -613,7 +627,7 @@ footer .meta{grid-column:2}
           <label for="psi-url">Your store's web address</label>
           <div class="row">
             <input id="psi-url" name="url" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="yourstore.com">
-            <a class="btn primary" id="psi-go" href="https://pagespeed.web.dev/" target="_blank" rel="noopener">Run the test</a>
+            <a class="btn ghost" id="psi-go" href="https://pagespeed.web.dev/" target="_blank" rel="noopener">Run the test</a>
           </div>
           <small>PageSpeed Insights is a free tool from Google. The web address goes straight to Google; we don't see it.</small>
         </div>
@@ -626,7 +640,7 @@ footer .meta{grid-column:2}
     <div class="wrap">
       <p class="eyebrow">Contact</p>
       <h2 id="contact-h" class="ol-S">Start with an audit.</h2>
-      <p>Send us your store's web address. We'll review it, find what's slowing it down, and tell you what we'd change. There's no commitment to a rebuild.</p>
+      <p>Send us your store's web address. We'll review it, find what's slowing it down, and tell you what we'd change. The audit is free, and there's no commitment to a rebuild.</p>
       <div class="actions"><a class="btn primary" href="mailto:hello@kinmoorstudios.com">Email us</a></div>
       <div class="mailrow">
         <button class="mail" id="copy" type="button"><span id="mail">hello@kinmoorstudios.com</span><span class="vh"> (copy to clipboard)</span><svg class="ci" viewBox="0 0 20 20" aria-hidden="true"><g class="ci-copy"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M13 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/></g><path class="ci-done" d="M4.5 10.5l3.5 3.5 7.5-8"/></svg></button>
@@ -999,7 +1013,7 @@ function kinmoorBoot(){
   var hero=document.querySelector('.hero'),stack=document.querySelector('.contour-stack'),atmosEl=document.querySelector('.atmos');
   var reduce=false; try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
   // A visitor's data-saver setting (Chromium) gets the same still map as reduced motion.
-  var saveData=!!(navigator.connection&&navigator.connection.saveData);if(saveData)reduce=true;
+  var saveData=!!(navigator.connection&&navigator.connection.saveData);if(saveData){reduce=true;document.documentElement.classList.add('saver')}
   function tok(n){return getComputedStyle(root).getPropertyValue(n).trim()}
   function colours(){return{contour:tok('--contour'),strong:tok('--contour-strong'),glow:tok('--glow'),torch:tok('--torch'),
     tr:['--tr1','--tr2','--tr3','--tr4'].map(tok),atm:['--atm1','--atm2','--atm3','--atm4','--atm5','--atm6','--atm7'].map(tok)}}
@@ -1096,18 +1110,24 @@ function kinmoorBoot(){
       if(more)requestAnimationFrame(f);else{parts.forEach(function(q){q.li.classList.remove('dec');q.o.textContent=''});if(done)done()}}
     requestAnimationFrame(f)}
   var svcs=document.getElementById('services');
-  [].forEach.call(document.querySelectorAll('.ring'),function(b){var card=b.closest('.service'),lines=[].slice.call(card.querySelectorAll('.spec li')),desc=card.querySelector('.desc'),spec=card.querySelector('.spec'),busy=false,run=0;
-    b.addEventListener('click',function(){if(busy)return;var open=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',open?'true':'false');
+  [].forEach.call(document.querySelectorAll('.ring'),function(b,i){var card=b.closest('.service'),lines=[].slice.call(card.querySelectorAll('.spec li')),desc=card.querySelector('.desc'),spec=card.querySelector('.spec'),busy=false,run=0,touched=false;
+    // quiet: swap at once, without the decode.
+    function swap(open,quiet){b.setAttribute('aria-expanded',open?'true':'false');
       // The paragraph and the list change places for assistive technology at the press, in step with the button's state, not when the animation ends.
       (open?desc:spec).setAttribute('aria-hidden','true');(open?spec:desc).removeAttribute('aria-hidden');
       // Reduced motion and data saver swap at once.
-      var calm=reduce;try{calm=calm||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+      var calm=quiet||reduce;try{calm=calm||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
       if(calm){card.classList.toggle('open',open);return}
       // Each press starts a new run. An older run still drawing stops at its next frame, so two never draw over each other.
       var id=++run,live=function(){return id===run};
       if(open){card.classList.add('open');scramble(lines,false,null,live)}
       // Closing: the lines scramble away from the bottom up, then the paragraph eases back in.
-      else{busy=true;scramble(lines,true,function(){card.classList.remove('open');busy=false},live)}},sig)});
+      else{busy=true;scramble(lines,true,function(){card.classList.remove('open');busy=false},live)}}
+    b.addEventListener('click',function(){if(busy)return;touched=true;swap(b.getAttribute('aria-expanded')!=='true',false)},sig);
+    // Each card opens itself once, the first time most of it is on screen, so its specifics are seen and the button is understood; "Summary" brings the paragraph back.
+    // Cards that share a row open one after another. A card the visitor has already pressed is left alone. While animation is paused, it opens without the decode.
+    try{var aIO=new IntersectionObserver(function(es){if(!es[es.length-1].isIntersecting)return;aIO.disconnect();
+      setTimeout(function(){if(!touched&&b.getAttribute('aria-expanded')!=='true')swap(true,still)},card.offsetTop===svcs.firstElementChild.offsetTop?i*260:0)},{threshold:.6});obs.push(aIO);aIO.observe(card)}catch(e){}});
   // The rings pulse only while the section is on screen.
   try{var sIO=new IntersectionObserver(function(es){svcs.classList.toggle('in-view',es[es.length-1].isIntersecting)});obs.push(sIO);sIO.observe(svcs)}catch(e){}
 

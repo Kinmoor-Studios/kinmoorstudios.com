@@ -15,6 +15,7 @@
 # Review: a language goes public when its file says "reviewed": true. Until then its pages exist (for reviewers) but are
 # marked noindex and are left out of the switcher, the suggestion note, hreflang, and the sitemap.
 import re, hashlib, base64, json, subprocess, os, sys
+import urllib.parse
 MIN = '_source/tools/min.js'
 SITE = 'https://kinmoorstudios.com'
 LANGS = os.environ.get('LANGS', 'en es fr de ja').split()  # LANGS=en builds English alone
@@ -175,6 +176,9 @@ for l in LANGS:
         body, n = re.subn(r'(<h1[^>]*>)[\s\S]*?(</h1>)', lambda m: m.group(1) + D[l]['h1'] + m.group(2), body, count=1)
         if n != 1: sys.exit('h1 not found')
         body = body.replace('href="/privacy"', f'href="{privacy(l)}"')
+    # The email link opens with a subject line in the page's language.
+    body, n = re.subn(r'href="mailto:hello@kinmoorstudios\.com"', 'href="mailto:hello@kinmoorstudios.com?subject=' + urllib.parse.quote(M['mail_subject']) + '"', body)
+    if n != 1: sys.exit('email link not found')
     body = hand(l, body)
     body = translate(body, l, missing, extra_keep=runs('>' + D[l].get('h1', '') + '<'))
     body = body.replace('<!--LANG-->', switcher(l))
