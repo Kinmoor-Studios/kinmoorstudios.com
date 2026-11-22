@@ -150,14 +150,13 @@ HEAD_COMMON = '''<meta charset="utf-8">
 <link rel="manifest" href="/site.webmanifest">'''
 
 def hand(l, body):
-    """Swap the hand-drawn words (traced by tools/hand.py) into the hint and the bin's note."""
+    """Swap the hand-drawn words (traced by tools/hand.py) into the bin's note."""
     if l == 'en': return body
     hd = json.load(open('_source/i18n/hand.json', encoding='utf-8'))[l]
-    body, n1 = re.subn(r'<path class="nt" transform="[^"]*" d="[^"]*"/>', '<path class="nt" transform="%s" d="%s"/>' % (hd['click']['transform'], hd['click']['d']), body)
     body, n2 = re.subn(r'<svg class="bin-note" viewBox="[^"]*" aria-hidden="true">[\s\S]*?</svg>',
                        '<svg class="bin-note" viewBox="%s" aria-hidden="true"><path class="w1" transform="%s" d="%s"/><path class="w2" transform="%s" d="%s"/></svg>'
                        % (hd['viewBox'], hd['w1']['transform'], hd['w1']['d'], hd['w2']['transform'], hd['w2']['d']), body)
-    if n1 != 1 or n2 != 1: sys.exit(f'{l}: hand-drawn words not found in page.html')
+    if n2 != 1: sys.exit(f'{l}: hand-drawn words not found in page.html')
     return body
 
 # ---------- home pages ----------

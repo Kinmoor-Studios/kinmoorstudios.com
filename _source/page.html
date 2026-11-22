@@ -133,7 +133,10 @@ h1 em{font-style:normal;color:var(--heather)}
 .service::after,.nav a::after{content:"";position:absolute;left:0;right:0;background:var(--heather);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
 .service::after{top:-1px;height:1px}
 .nav a::after{bottom:0;height:1px;background:currentColor}
-@media (hover:hover){.service:hover::after,.nav a:hover::after{transform:scaleX(1)}}
+@media (hover:hover){.nav a:hover::after{transform:scaleX(1)}}
+/* A card's top line draws when its button is hovered or focused: the line answers the one thing that can be pressed. */
+@media (hover:hover){.service:has(.ring:hover)::after{transform:scaleX(1)}}
+.service:has(.ring:focus-visible)::after{transform:scaleX(1)}
 @media (max-width:860px){.hero .wrap{grid-template-columns:minmax(0,1fr)}}
 
 /* Live readout */
@@ -180,7 +183,8 @@ section.block + section.block .wrap{border-top:1px solid var(--rule)}
 .service h3{font-size:var(--s4);font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .service p{color:var(--ink);max-width:32em}
 .service .tag{font:500 .75rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent,var(--heather));transition:color .35s ease}
-@media (max-width:1000px){.services{grid-template-columns:minmax(0,1fr)}}
+/* In one column the card's content keeps to the text measure (32em), so the button sits at the end of the lines it swaps; the top rule still runs the full width. */
+@media (max-width:1100px){.services{grid-template-columns:minmax(0,1fr)}.service{padding-right:max(0px,calc(100% - 32em))}}
 
 .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:40px var(--gutter);counter-reset:step}
 .step{display:grid;gap:12px;align-content:start;counter-increment:step}
@@ -210,7 +214,8 @@ th.t{text-align:right;padding-right:0}
   tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding-block:18px;border-bottom:1px solid var(--rule)}
   td{border:0;padding:0}
   td.d{grid-column:1/-1;padding-left:0}
-  td.p{grid-column:1/-1;padding-left:0}
+  td.p,td.t{grid-column:1/-1}
+  td.p{padding-left:0}
   .meter{grid-template-columns:minmax(0,1fr) auto;justify-items:stretch;align-items:baseline;row-gap:8px}
   .meter .ph{display:block;font:400 .75rem/1 var(--mono);color:var(--muted)}
   .meter .bar,.meter small{grid-column:1/-1}
@@ -225,6 +230,7 @@ th.t{text-align:right;padding-right:0}
 .psi .row{display:flex;flex-wrap:wrap;gap:10px}
 .psi input{flex:1 1 220px;min-width:0;min-height:48px;padding:0 14px;font:400 1.0625rem/1 var(--serif);color:var(--ink);background:var(--ground);border:1px solid var(--muted);border-radius:2px}
 .psi input:focus-visible{outline:2px solid var(--heather);outline-offset:2px}
+.psi input::placeholder{color:var(--muted);opacity:1}
 .psi .btn{min-height:48px;cursor:pointer}
 .psi small{font:400 .75rem/1.5 var(--mono);color:var(--muted)}
 @media (max-width:760px){.psi{grid-template-columns:minmax(0,1fr)}}
@@ -307,24 +313,27 @@ footer .meta{grid-column:2}
 
 /* Specifics: a ring button beside each service, which pulses gently whenever its panel is closed. Pressing it swaps the paragraph for that service's specifics, which decode into place. */
 .service{grid-template-columns:minmax(0,1fr) auto;column-gap:12px}
-.service>:not(.ring):not(.hint){grid-column:1}
-/* "Click me" is traced from the Caveat typeface (SIL Open Font License 1.1, copyright 2014 The Caveat Project Authors) into a single shape, so no extra font loads. */
-/* A hand-drawn note just above and left of the first button, its arrow curling under into the ring, fades once any panel has been opened. */
-.hint{position:absolute;right:24px;top:-2px;width:84px;height:52px;color:var(--heather);pointer-events:none;transition:opacity .4s ease;overflow:visible}
-.hint .nt{fill:currentColor}
-.hint .na{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.services.tried .hint{opacity:0}
+/* The label and the button share the first row; the title and the text below take the card's full width. */
+.service>.tag{grid-column:1;grid-row:1;align-self:center}
+.service>h3,.service>.swap{grid-column:1/-1}
+/* In three columns the cards share their rows, so a title that wraps to two lines does not push its paragraph below its neighbours'. A shorter title sits on the row's bottom edge, next to its text. */
+@media (min-width:1101px){.service{grid-row:span 3;grid-template-rows:subgrid}.service>h3{align-self:end}}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.ring{grid-column:2;grid-row:1/span 2;align-self:start;position:relative;display:grid;place-items:center;width:44px;height:44px;margin:-12px -11px 0 0;padding:0;border:0;border-radius:50%;background:none;color:var(--accent,var(--heather));cursor:pointer;transition:color .35s ease}
+/* The button is a word and the ring. Both words sit in one cell, so the button is as wide as the longer and nothing moves when they swap; the hidden word is also left out of the button's name. */
+.ring{grid-column:2;grid-row:1;align-self:center;position:relative;display:inline-flex;align-items:center;gap:8px;min-height:44px;margin:-14px -11px -14px 0;padding:0 11px 0 12px;border:0;border-radius:2px;background:none;color:var(--accent,var(--heather));font:500 .75rem/1 var(--mono);letter-spacing:.04em;cursor:pointer;transition:color .35s ease}
+.rl{display:grid}
+.rl>*{grid-area:1/1;text-align:right}
+.rl-b,.ring[aria-expanded="true"] .rl-a{visibility:hidden}
+.ring[aria-expanded="true"] .rl-b{visibility:visible}
 .rg{position:relative;flex:none;width:22px;height:22px}
 .rg::after{content:"";position:absolute;inset:0;box-sizing:border-box;border:1.5px solid currentColor;border-radius:50%}
 .rg i.dot{position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:currentColor;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
 .halo{position:absolute;inset:0;border-radius:50%;pointer-events:none}
 .halo::before{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 1.5px var(--heather),0 0 12px 3px var(--glow);opacity:0}
-.services.in-view .ring[aria-expanded="false"] .halo::before{animation:ring-pulse 2.6s cubic-bezier(.2,.6,.3,1) infinite}
-.service:nth-child(2) .halo::before{animation-delay:.35s}.service:nth-child(3) .halo::before{animation-delay:.7s}
+:root:not(.still) .services.in-view .ring[aria-expanded="false"] .halo::before{animation:ring-pulse 2.6s cubic-bezier(.2,.6,.3,1) var(--pd,0s) infinite}
+.service:nth-child(2){--pd:.35s}.service:nth-child(3){--pd:.7s}
 @keyframes ring-pulse{0%{transform:scale(1);opacity:.8}75%,100%{transform:scale(1.9);opacity:0}}
-.ring:hover .rg i.dot{transform:scale(1.35)}
+@media (hover:hover){.ring:hover .rg i.dot{transform:scale(1.35)}}
 .service.open .rg i.dot{transform:scale(2.2)}
 .ring:focus-visible{outline:2px solid var(--heather);outline-offset:0}
 .swap{display:grid}
@@ -359,9 +368,9 @@ footer .meta{grid-column:2}
 .sparkles i:nth-child(3){right:0;top:38%;width:11px;height:11px;background:var(--lichen)}
 .sparkles i:nth-child(4){left:22%;bottom:-2px;width:8px;height:8px}
 .sparkles i:nth-child(5){right:16%;bottom:-4px;width:7px;height:7px;background:var(--tr3)}
-.steps.in-view .sparkles i{animation:twinkle 2.4s ease-in-out infinite}
+:root:not(.still) .steps.in-view .sparkles i{animation:twinkle 2.4s ease-in-out infinite}
 .sparkles i:nth-child(2){animation-delay:.5s!important}.sparkles i:nth-child(3){animation-delay:1s!important}.sparkles i:nth-child(4){animation-delay:1.5s!important}.sparkles i:nth-child(5){animation-delay:2s!important}
-.steps.in-view .party{animation:shine 4s ease-in-out infinite}
+:root:not(.still) .steps.in-view .party{animation:shine 4s ease-in-out infinite}
 .sparkles{transition:transform .3s ease}
 .party:hover .sparkles{transform:scale(1.12)}
 @keyframes twinkle{0%,100%{opacity:0;transform:scale(.3) rotate(0)}45%{opacity:1;transform:scale(1) rotate(45deg)}70%{opacity:0;transform:scale(.4) rotate(90deg)}}
@@ -398,7 +407,7 @@ footer .meta{grid-column:2}
 .meter b{font:500 1.0625rem/1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
 /* The note under each bar wraps inside the column's fixed width, so a longer language never widens the table. */
 .meter small{font:400 .75rem/1.3 var(--mono);color:var(--muted);text-align:right;text-wrap:balance}
-.meter .ph{display:none}
+@media (min-width:761px){.meter .ph{display:none}}
 .bar{display:block;width:100%;height:5px;border-radius:2px;background:var(--rule);overflow:hidden}
 .bar span{display:block;height:100%;background:var(--lichen);transform-origin:0 50%;transform:scaleX(0);transition:transform 1.2s cubic-bezier(.2,.7,.2,1) .15s}
 .meter.shown .bar span{transform:scaleX(var(--v,0))}
@@ -442,14 +451,14 @@ footer .meta{grid-column:2}
 }
 /* Without JavaScript, controls that need it are hidden rather than left doing nothing */
 @media (scripting:none){
-  .theme-toggle,.mail .ci,.copy-state,.readout,th.p,td.p{display:none}
+  .theme-toggle,.mail .ci,.copy-state,.readout,.ring,th.p,td.p{display:none}
   .mail{cursor:text;user-select:all}
 }
 /* Sections below the first screen start out skipped, so the first paint lays out only the hero. The script lays each one out in a quiet moment after loading. Sizes are estimates from real layouts; browsers keep the true size once known. */
 .cv{content-visibility:auto;contain-intrinsic-size:auto var(--est,900px)}
-#work{--est:890px}#process{--est:600px}#budgets{--est:1160px}#contact{--est:540px}
-@media (max-width:1100px){#process{--est:980px}}
-@media (max-width:760px){#work{--est:1600px}#process{--est:1060px}#budgets{--est:1880px}#contact{--est:520px}}
+#work{--est:730px}#process{--est:600px}#budgets{--est:1160px}#contact{--est:540px}
+@media (max-width:1100px){#work{--est:1030px}#process{--est:980px}}
+@media (max-width:760px){#work{--est:1330px}#process{--est:1060px}#budgets{--est:1880px}#contact{--est:520px}}
 /* Depth: as the hero scrolls away, the colour fields and the map move a little slower than the page, so they sit further back. Driven by the scroll position in CSS and run by the graphics card, with no script. It moves only when the visitor scrolls, so Pause leaves it alone; reduced motion turns it off. */
 @media (prefers-reduced-motion:no-preference){@supports (animation-timeline:view()){
   .hero{view-timeline:--hero block}
@@ -473,7 +482,7 @@ footer .meta{grid-column:2}
       Kinmoor
     </a>
     <nav class="nav" aria-label="Sections">
-      <a href="#work">Work</a>
+      <a href="#work">Services</a>
       <a href="#process">Process</a>
       <a href="#budgets">Budgets</a>
       <a class="keep" href="#contact">Contact</a>
@@ -499,9 +508,9 @@ footer .meta{grid-column:2}
     </div>
     <div class="wrap">
       <div class="hero-copy">
-        <p class="eyebrow">Kinmoor Studios · Shopify and software</p>
+        <p class="eyebrow">Kinmoor Studios · Shopify</p>
         <h1 id="h1"><span class="ol-D">Design that</span> <span class="ol-d">doesn’t slow</span> <em class="ol-y">you down.</em></h1>
-        <p class="lede">We design and build Shopify storefronts, apps, and software for consumer brands. Every build has a performance budget, and we meet it without scaling back the design.</p>
+        <p class="lede">We design and build Shopify storefronts and apps for consumer brands. Every build has a performance budget, and we meet it without scaling back the design.</p>
         <div class="actions">
           <a class="btn primary" href="#contact">Start with an audit</a>
           <a class="btn ghost" href="#process">How we work</a>
@@ -537,22 +546,21 @@ footer .meta{grid-column:2}
       </div>
       <div class="services" id="services">
         <article class="service">
-          <svg class="hint" viewBox="0 0 84 52" aria-hidden="true"><path class="nt" transform="translate(0 2) rotate(-4) scale(.42)" d="M12 57q-1 0-2-1q-1 0-2-1q0-1-1-2q-1-2-1-3q0-2 0-4q0-3 0-5q1-2 2-5q0 0 0-1q1 0 1-1q0-1 1-2q0-1 1-2q1-2 2-3q2-3 3-4q1-2 2-3q1-1 2-2q1-1 3-2q1-1 3-1q2 0 4 1q1 0 2 2q1 1 1 3q0 2-1 4q-1 2-1 3q-1 2-3 3q0 1-1 1q-1-1-2-2q-1-1-1-1q0 0 1 0q0 0 0-1q1-1 2-2q0-1 0-2q1-2 1-3q0-1 0-2q-1 0-1 0q0 0-1 1q-2 0-4 2q-1 2-3 4q-2 3-4 6q-1 2-2 4q0 0-1 1q0 1 0 1q0 0 0 1q0 1 0 1q-1 3-1 5q0 3 0 5q1 2 1 2q1 1 2 1q1 0 3-1q1-1 3-1q2-1 3-2q1 0 1-1q1 0 1 0q1-1 2-1q0 0 1 0q0 1 0 2q0 1-1 2q-1 1-2 2q-1 0-2 0q0 1-1 1q-1 1-3 2q-2 1-4 1q-1 1-3 0zm22-3q-1 0-2 0q0-1-1-3q0-1 1-4q0 0 0-1q0 0 0-1q0 0 1-2q0-1 0-2q1-1 1-2q1-1 1-1q0 0 0 0q0-1 0-1q0-1 0-1q1-1 1-1q0 0 0-1q0 0 0 0q0 0 0-1q0 0 0 0q1-1 1-2q1-2 2-4q1-2 1-4q1-2 1-3q1-1 1-2q0 0 0 0q0-1 1-1q0 0 0 0q1 0 1 0q0 0 0 0q1 0 1 1q1 0 1 1q0 0 0 1q0 1 0 1q0 1-1 2q0 1-1 3q-1 1-1 2q-1 1-1 2q0 0 0 0q0 1 0 1q-1 1-1 2q0 1-1 2q0 1 0 1q-1 1-1 1q0 0 0 1q0 0 0 0q0 0 0 0q0 1 0 1q0 0-1 3q-1 3-2 5q-1 3-1 4q0 2 0 2q0 1-1 1zm8-1q0-1 0-2q-1-1 0-1q0-1 0-2q0 0 0 0q0-1 0-1q0 0 0-1q0 0 1-1q0-1 0-2q1-1 1-3q1-1 1-2q0-1 0-1q0-1 1-1q1 0 2 0q1 1 1 2q1 0 0 1q0 1 0 2q-1 1-1 2q0 1 0 1q0 1-1 1q0 1 0 2q0 0-1 1q0 1 0 1q0 1 0 2q-1 2-2 2q-1 1-2 0zm6-23q0 0-1-1q0-1 0-1q0-1 0-1q1 0 1-1q1-1 1-2q0 0 0 0q0-1 1-1q0 0 1 0q1 1 2 2q0 1 0 2q0 1-1 2q-1 1-2 1q-1 1-2 0zm11 24q-1 0-3-1q-1 0-2-1q-1-2-1-3q0-2 0-4q1-3 2-5q1-2 2-4q1-1 2-2q1-1 2-2q1 0 2 0q1 0 1 0q1 0 2 0q1 1 1 1q0 0 1 1q0 0 0 0q0 0 0 1q1 0 1 1q0 1 0 2q0 1-1 2q-1 1-1 1q0 0-1 0q0 0 0 0q0 0 0 0q-1 0-1 0q-1 0-1 0q0-1 0-1q0-1 1-2q0-1 0-2q-1 0-2 0q-1 1-2 2q-1 1-2 3q-1 2-2 5q0 2 0 2q0 1 1 1q0 1 1 0q1 0 2 0q1-1 2-1q1-1 1-1q1-1 1-1q0 0 1-1q0 0 1 0q0 0 1 0q0 0 1 0q0 0 1 1q0 0-1 0q0 0 0 0q0 1 0 1q0 0 0 1q-1 0-2 1q-1 1-1 2q-1 0-2 0q0 0 0 1q0 0-1 0q-1 1-2 1q-1 1-2 1zm15 0q0 0-1-1q0-1-1-2q0 0 0-1q0-1 0-2q1-2 1-4q1 0 1-1q0-1 1-2q0-1 1-2q0-1 1-3q0-1 1-2q1-2 1-3q1-1 1-3q1-1 1-2q1-2 2-4q0-1 1-3q1-1 1-2q0 0 0 0q0 0 0 0q0-1 1-1q0 0 1 0q0 0 1 1q1 1 1 2q0 1-1 3q-1 3-3 6q-2 4-3 6q-1 3-1 4q-1 1-1 1q0 0 1 0q1 0 1-1q1 0 2-1q1 0 1-1q1 0 2 0q0-1 1-1q0 0 0-1q2 0 2 0q1 0 1 1q1 1 1 1q-1 1-2 2q-1 1-3 2q-1 1-3 1q-1 1-1 1q0 0 0 1q1 1 1 2q1 0 1 2q1 1 1 1q1 1 2 2q0 0 2 0q1 0 1 0q1 0 1 1q0 0 0 0q0 1 0 1q-2 1-3 2q-1 1-3 0q-1-1-2-2q-1-1-3-3q0 0 0-1q0-1 0-1q-1 0-1-1q0 0 0 0q0-1 0-1q-1 0-1 0q0 0-1 0q0 1 0 1q-1 1-1 2q0 1-1 2q0 1 0 2q0 1 0 1q-1 1-2 1zm59-2q0 0-1-1q-1 0-1-1q-1-2-1-3q0-2 0-3q1-1 0-1q0 0-1 1q-1 1-3 2q-1 1-3 3q0 1-1 1q-1 1-2 1q0 1-1 0l-1 0q0-1 0-1q0-1 0-1l1-4q1-2 1-3q1 0 1 0q0-1-1-1q0 0-1 1q-1 0-1 1q0 0 0 0q-1 1-1 1q-1 1-1 2q-1 1-2 2q-1 0-2 1q-1 1-2 2q0 1 0 1q-1 0-2-1q-1 0-1-1q0-1 0-2q0-2 1-5q0-1 0-2q1 0 1-1q0-1 0-1q1-1 1-2q0-1 0-2q0-1 0-1q0-1 1-1q0-1 1-1q1 0 1 0q1 0 2 1q0 1 0 2q0 0 0 1q0 1 0 1l-1 2q0 1-1 2q0 0 0 1q0 0 0 0q0 1 0 0q1 0 1-1q1 0 1-1q1-1 3-1q1-1 2-2q1-1 2-1q1 0 2 1q0 0 1 1q0 1 0 1q0 1 0 2q0 0 0 1q-1 0-1 1q0 0 0 0q0 0 0 0q1 0 1-1q1 0 2-1q2-2 4-2q1-1 3 1q0 0 0 1q1 1 1 3q0 1 0 2q0 1 0 1q0 1 0 1q0 0 1 1q0 0 1 0q0 0 1 1q0 1-1 2q-1 0-2 0q-1 0-2 0zm17 0q-2 1-4 1q-2 1-3 0q-2-1-3-2q0-1-1-2q0-2 0-5q0-2 2-5q1-2 3-4q2-2 4-3q0 0 1 0q1 0 2 0q1 0 2 0q1 1 2 1q1 1 1 2q0 1 0 2q0 1-2 3q-1 2-3 3q-1 1-3 1q-1 0-3-1q-1 0-1 1q-1 0-1 2q0 1 1 2q0 1 1 1q1 0 2 0q0 0 1 0q1-1 1-1q1 0 1 0q0-1 1-1q0 0 0 0q0 0 1 0q0 0 1 0q0 1 0 1q0 0 0 1q0 1-1 2q-1 1-2 1zm-1-12q1 0 1-1q1 0 2-1q0-1 0-1q0-1-1-1q0-1-2 0q0 0-1 0q-1 1-1 2q-1 0-1 1q-1 0-1 1q0 0 1 0q1 0 2 0q0 0 1 0z"/><path class="na" d="M35 27c2 8 9 13 21 14 10 1 18 0 26-1"/><path class="na" d="M75.8 36.7c2.2.9 4.2 2 6.2 3.3-1.6 1.6-3.3 3.1-5.2 4.7"/></svg>
-          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-themes"><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span><span class="vh">Specifics: Shopify storefronts</span></button>
+          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-themes" aria-labelledby="rl-themes svc-themes"><span class="rl" id="rl-themes"><span class="rl-a">Specifics</span><span class="rl-b">Summary</span></span><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span></button>
           <span class="tag">Themes</span>
-          <h3>Shopify storefronts</h3>
+          <h3 id="svc-themes">Shopify storefronts</h3>
           <div class="swap"><p class="desc">We design a custom Shopify theme around your brand, built so your team can edit every section without calling a developer.</p><ul class="spec" id="spec-themes"><li><span class="t">Main content appears in under 2.5&nbsp;seconds</span></li><li><span class="t">Buttons respond in under 200&nbsp;milliseconds</span></li><li><span class="t">Meets the WCAG 2.2 AA accessibility standard</span></li><li><span class="t">Works with the apps you keep, like reviews and subscriptions</span></li><li><span class="t">A working concept on your own products before you commit</span></li></ul></div>
         </article>
         <article class="service">
-          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-audits"><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span><span class="vh">Specifics: Store audits</span></button>
+          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-audits" aria-labelledby="rl-audits svc-audits"><span class="rl" id="rl-audits"><span class="rl-a">Specifics</span><span class="rl-b">Summary</span></span><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span></button>
           <span class="tag">Audits</span>
-          <h3>Store audits</h3>
+          <h3 id="svc-audits">Store audits</h3>
           <div class="swap"><p class="desc">We check speed, accessibility, search, and every installed app, with evidence behind each finding. You get a ranked list of fixes, whether or not you rebuild with us.</p><ul class="spec" id="spec-audits"><li><span class="t">Field and lab speed data, on mobile and desktop</span></li><li><span class="t">The speed cost and monthly fee of every installed app</span></li><li><span class="t">WCAG 2.2 accessibility and technical SEO review</span></li><li><span class="t">Which apps your theme could replace, and what that saves</span></li></ul></div>
         </article>
         <article class="service">
-          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-apps"><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span><span class="vh">Specifics: Shopify apps and integrations</span></button>
+          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-apps" aria-labelledby="rl-apps svc-apps"><span class="rl" id="rl-apps"><span class="rl-a">Specifics</span><span class="rl-b">Summary</span></span><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span></button>
           <span class="tag">Apps</span>
-          <h3>Shopify apps and integrations</h3>
+          <h3 id="svc-apps">Shopify apps and integrations</h3>
           <div class="swap"><p class="desc">When an off-the-shelf app is too slow, costs too much, or doesn't fit how you work, we build one for you: a checkout extension, a tool in the Shopify admin, or a connection to your other systems.</p><ul class="spec" id="spec-apps"><li><span class="t">Built on Shopify's supported extension points, so updates don't break it</span></li><li><span class="t">Set up under your company's own account, so you own it</span></li><li><span class="t">Adds no weight to pages that don't use it</span></li><li><span class="t">Held to the same speed budget as your theme</span></li></ul></div>
         </article>
       </div>
@@ -619,6 +627,7 @@ footer .meta{grid-column:2}
       <p class="eyebrow">Contact</p>
       <h2 id="contact-h" class="ol-S">Start with an audit.</h2>
       <p>Send us your store's web address. We'll review it, find what's slowing it down, and tell you what we'd change. There's no commitment to a rebuild.</p>
+      <div class="actions"><a class="btn primary" href="mailto:hello@kinmoorstudios.com">Email us</a></div>
       <div class="mailrow">
         <button class="mail" id="copy" type="button"><span id="mail">hello@kinmoorstudios.com</span><span class="vh"> (copy to clipboard)</span><svg class="ci" viewBox="0 0 20 20" aria-hidden="true"><g class="ci-copy"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M13 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/></g><path class="ci-done" d="M4.5 10.5l3.5 3.5 7.5-8"/></svg></button>
         <span class="copy-state" id="copy-state" role="status"></span>
@@ -1003,7 +1012,7 @@ function kinmoorBoot(){
     var ro=document.querySelector('.readout'),q=ro&&ro.getBoundingClientRect();if(q&&send)send({type:'cover',r:[q.left-r.left,q.top-r.top,q.width,q.height]});
     return{W:sr.width,H:sr.height,DPR:D}}
   var send=null,ready=false,onScreen=true,dead=false,quality=0,builder=null;
-  // A visible control to stop the background (WCAG 2.2.2), remembered for the next visit.
+  // A visible control to stop the background and every other loop on the page (WCAG 2.2.2), remembered for the next visit.
   var still=false,mbtn=document.getElementById('motion');try{still=localStorage.getItem('kinmoor-motion')==='paused'}catch(e){}
   function budgetText(){return BT.anim}
   function onStats(m){
@@ -1011,9 +1020,9 @@ function kinmoorBoot(){
     else if(m.type==='drawn'){stack.classList.remove('redraw')}
     else if(m.type==='quality'){quality=m.q;hero.dataset.quality=m.q}
     else if(m.type==='stats'&&!still&&!reduce){set('m-anim',num(m.work,2)+NB+T.ms,m.work<=2?'ok':'over',budgetText())}}
-  function showMotion(){mbtn.setAttribute('aria-pressed',still?'true':'false');mbtn.textContent=still?T.play:T.pause;hero.classList.toggle('still',still);
+  function showMotion(){mbtn.setAttribute('aria-pressed',still?'true':'false');mbtn.textContent=still?T.play:T.pause;hero.classList.toggle('still',still);document.documentElement.classList.toggle('still',still);
     if(still)set('m-anim',num(0,2)+NB+T.ms,'info',T.paused)}
-  if(reduce){mbtn.hidden=true;hero.classList.add('still');set('m-anim',T.off,'info',saveData?T.saver:T.reduced)}else showMotion();
+  if(reduce){mbtn.hidden=true;hero.classList.add('still');document.documentElement.classList.add('still');set('m-anim',T.off,'info',saveData?T.saver:T.reduced)}else showMotion();
   function boot(){
     if(dead)return;
     var cvB=document.getElementById('contours'),cvI=document.getElementById('contours-index'),cvL=document.getElementById('contours-lights'),cvA=document.getElementById('atmos-cv');
@@ -1076,10 +1085,10 @@ function kinmoorBoot(){
   // A scrambled copy of each line is drawn over the real text, which keeps its place, so nothing on the page moves.
   // Lines type in from the left, led by a few scrambled characters, in the mono font (whose trimmed character set covers everything used here).
   var SCR=T.scr;
-  function scramble(lines,closing,done){var t0=performance.now(),parts=lines.map(function(li){var t=li.querySelector('.t'),o=li.querySelector('.o');
+  function scramble(lines,closing,done,live){var t0=performance.now(),parts=lines.map(function(li){var t=li.querySelector('.t'),o=li.querySelector('.o');
       if(!o){o=document.createElement('span');o.className='o';o.setAttribute('aria-hidden','true');li.appendChild(o)}li.classList.add('dec');return{li:li,o:o,txt:t.textContent}});
     // Opening, each line's progress p runs 0 to 1 (characters revealed); closing, it runs 1 to 0, last line first.
-    function f(now){var more=false;
+    function f(now){if(live&&!live())return;var more=false;
       for(var i=0;i<parts.length;i++){var q=parts[i],n=q.txt.length,dur=closing?160+n*3:260+n*9,lag=(closing?parts.length-1-i:i)*(closing?40:90),u=Math.max(0,Math.min(1,(now-t0-lag)/dur)),p=closing?1-u:u,k=Math.floor(p*n),out=q.txt.slice(0,k);
         if(u>0&&u<1){more=true;for(var j=k;j<Math.min(n,k+5);j++)out+=q.txt[j]===' '?' ':SCR[Math.random()*SCR.length|0]}
         else if(u===0)more=true;
@@ -1087,13 +1096,18 @@ function kinmoorBoot(){
       if(more)requestAnimationFrame(f);else{parts.forEach(function(q){q.li.classList.remove('dec');q.o.textContent=''});if(done)done()}}
     requestAnimationFrame(f)}
   var svcs=document.getElementById('services');
-  [].forEach.call(document.querySelectorAll('.ring'),function(b){var card=b.closest('.service'),lines=[].slice.call(card.querySelectorAll('.spec li')),busy=false;
-    b.addEventListener('click',function(){if(busy)return;var open=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',open?'true':'false');if(svcs)svcs.classList.add('tried');
-      var calm=false;try{calm=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+  [].forEach.call(document.querySelectorAll('.ring'),function(b){var card=b.closest('.service'),lines=[].slice.call(card.querySelectorAll('.spec li')),desc=card.querySelector('.desc'),spec=card.querySelector('.spec'),busy=false,run=0;
+    b.addEventListener('click',function(){if(busy)return;var open=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',open?'true':'false');
+      // The paragraph and the list change places for assistive technology at the press, in step with the button's state, not when the animation ends.
+      (open?desc:spec).setAttribute('aria-hidden','true');(open?spec:desc).removeAttribute('aria-hidden');
+      // Reduced motion and data saver swap at once.
+      var calm=reduce;try{calm=calm||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
       if(calm){card.classList.toggle('open',open);return}
-      if(open){card.classList.add('open');scramble(lines,false)}
+      // Each press starts a new run. An older run still drawing stops at its next frame, so two never draw over each other.
+      var id=++run,live=function(){return id===run};
+      if(open){card.classList.add('open');scramble(lines,false,null,live)}
       // Closing: the lines scramble away from the bottom up, then the paragraph eases back in.
-      else{busy=true;scramble(lines,true,function(){card.classList.remove('open');busy=false})}},sig)});
+      else{busy=true;scramble(lines,true,function(){card.classList.remove('open');busy=false},live)}},sig)});
   // The rings pulse only while the section is on screen.
   try{var sIO=new IntersectionObserver(function(es){svcs.classList.toggle('in-view',es[es.length-1].isIntersecting)});obs.push(sIO);sIO.observe(svcs)}catch(e){}
 

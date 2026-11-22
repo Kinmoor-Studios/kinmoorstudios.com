@@ -77,6 +77,8 @@ COLLECT = r'''() => {
   const add = (el, text) => {
     if (!el || !text) return;
     const cs = getComputedStyle(el); const fam = cs.fontFamily.split(',')[0].trim().replace(/^["']|["']$/g, '');
+    // Text is counted as it is drawn: uppercase labels need the capital letters, accents included.
+    if (cs.textTransform === 'uppercase') text = text.toUpperCase(); else if (cs.textTransform === 'lowercase') text = text.toLowerCase();
     const key = fam + '|' + (parseInt(cs.fontWeight) >= 500 ? (fam === 'IBM Plex Mono' ? 500 : 700) : 400);
     out[key] = (out[key] || '') + text;
     const r = el.getBoundingClientRect();

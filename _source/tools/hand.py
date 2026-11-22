@@ -47,18 +47,11 @@ def r2(v): return ('%.2f' % v).rstrip('0').rstrip('.')
 if __name__ == '__main__':
     caveat, klee = sys.argv[1], sys.argv[2]
     D = {l: json.load(open(f'_source/i18n/{l}.json', encoding='utf-8')) for l in ('en', 'es', 'fr', 'de', 'ja')}
-    _, ec = trace(caveat, D['en']['hand']['click'])      # English hint: transform="translate(0 2) rotate(-4) scale(.42)"
     _, et = trace(caveat, D['en']['hand']['w2'])         # "Tasty!": ends at x=130 in a 132-wide note
-    ecx = .42 * (ec[0] + ec[2]) / 2; ebottom = .42 * ec[3] + 2; ew = ec[2] - ec[0]
     tcy = (et[1] + et[3]) / 2; th = et[3] - et[1]
     out = {}
     for l in ('es', 'fr', 'de', 'ja'):
         font = klee if l == 'ja' else caveat; h = D[l]['hand']; o = {'viewBox': '0 0 132 71'}
-        d, b = trace(font, h['click'])
-        s = .42 * min(1, ew * 1.2 / (b[2] - b[0]))
-        if l == 'ja': s = min(s, .42 * th / (b[3] - b[1]) * 1.05)
-        tx = ecx - s * (b[0] + b[2]) / 2; ty = ebottom - s * b[3]
-        o['click'] = {'d': d, 'transform': f'translate({r2(tx)} {r2(ty)}) rotate(-4) scale({r2(s)})'}
         for k in ('w1', 'w2'):
             d, b = trace(font, h[k])
             # Kana and kanji fill their whole em, so they are set smaller, and no wider than about 1.4 times "Tasty!".
@@ -67,4 +60,4 @@ if __name__ == '__main__':
             o[k] = {'d': d, 'transform': f'translate({r2(tx)} {r2(ty)})' + (f' scale({r2(s)})' if s != 1 else '')}
         out[l] = o
     json.dump(out, open('_source/i18n/hand.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    print('traced:', ', '.join(f"{l}: {D[l]['hand']['click']} / {D[l]['hand']['w1']} / {D[l]['hand']['w2']}" for l in out))
+    print('traced:', ', '.join(f"{l}: {D[l]['hand']['w1']} / {D[l]['hand']['w2']}" for l in out))
