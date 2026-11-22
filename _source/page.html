@@ -28,7 +28,7 @@
   --torch:#7E4785;
   --glow:rgba(107,61,113,.18);
   --spark:#6B3D71;
-  --tr1:#6B3D71; --tr2:#56661B; --tr3:#3E5BA8; --tr4:#A0601C; --tr4-ink:#8C5318; --teal-ink:#2A6A62;
+  --tr1:#6B3D71; --tr2:#56661B; --tr3:#3E5BA8; --tr4:#A0601C; --tr4-ink:#8C5318;
   --atm1:rgba(124,64,132,.24); --atm2:rgba(64,90,190,.20); --atm3:rgba(224,146,56,.24); --atm4:rgba(56,132,124,.18);
   --atm5:rgba(206,82,128,.20); --atm6:rgba(112,88,214,.22); --atm7:rgba(236,172,70,.24);
 
@@ -43,12 +43,12 @@
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --torch:#E6CBEA; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --tr4-ink:#F2C08A; --teal-ink:#86CFC1; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
+    --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --torch:#E6CBEA; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --tr4-ink:#F2C08A; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
     --heather:#C99FCF; --lichen:#B9CB5E; --warn:#E8975E; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --torch:#E6CBEA; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --tr4-ink:#F2C08A; --teal-ink:#86CFC1; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
+  --ground:#111310; --surface:#191C17; --ink:#E8EBE2; --muted:#9BA394; --rule:#2D3229; --contour:#252A21; --contour-strong:#363E2F; --torch:#E6CBEA; --glow:rgba(201,159,207,.24); --spark:#E6CBEA; --tr1:#E6CBEA; --tr2:#CFE07A; --tr3:#A9BEF2; --tr4:#F2C08A; --tr4-ink:#F2C08A; --atm1:rgba(156,92,178,.30); --atm2:rgba(58,82,190,.30); --atm3:rgba(196,122,48,.20); --atm4:rgba(38,118,128,.24); --atm5:rgba(188,70,124,.24); --atm6:rgba(104,82,214,.28); --atm7:rgba(214,152,70,.18);
   --heather:#C99FCF; --lichen:#B9CB5E; --warn:#E8975E; color-scheme:dark;
 }
 
@@ -175,12 +175,12 @@ section.block + section.block .wrap{border-top:1px solid var(--rule)}
 .sec-head h2{overflow-wrap:break-word;font-size:var(--s5);font-weight:750;line-height:1.02;letter-spacing:-.02em}
 .sec-head p{color:var(--muted);max-width:32em;font-size:clamp(1.125rem,1.6vw,1.3125rem);text-wrap:pretty}
 
-.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--gutter)}
+.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 var(--gutter)}
 .service{display:grid;gap:10px;padding-block:28px;border-top:1px solid var(--rule);align-content:start}
 .service h3{font-size:var(--s4);font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .service p{color:var(--ink);max-width:32em}
 .service .tag{font:500 .75rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent,var(--heather));transition:color .35s ease}
-@media (max-width:760px){.services{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:1000px){.services{grid-template-columns:minmax(0,1fr)}}
 
 .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:40px var(--gutter);counter-reset:step}
 .step{display:grid;gap:12px;align-content:start;counter-increment:step}
@@ -322,7 +322,7 @@ footer .meta{grid-column:2}
 .halo{position:absolute;inset:0;border-radius:50%;pointer-events:none}
 .halo::before{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 1.5px var(--heather),0 0 12px 3px var(--glow);opacity:0}
 .services.in-view .ring[aria-expanded="false"] .halo::before{animation:ring-pulse 2.6s cubic-bezier(.2,.6,.3,1) infinite}
-.service:nth-child(2) .halo::before{animation-delay:.35s}.service:nth-child(3) .halo::before{animation-delay:.7s}.service:nth-child(4) .halo::before{animation-delay:1.05s}
+.service:nth-child(2) .halo::before{animation-delay:.35s}.service:nth-child(3) .halo::before{animation-delay:.7s}
 @keyframes ring-pulse{0%{transform:scale(1);opacity:.8}75%,100%{transform:scale(1.9);opacity:0}}
 .ring:hover .rg i.dot{transform:scale(1.35)}
 .service.open .rg i.dot{transform:scale(2.2)}
@@ -338,8 +338,8 @@ footer .meta{grid-column:2}
 .spec .o{position:absolute;top:0;left:2ch;right:0;text-indent:0}
 .service.open .desc{opacity:0;transform:translateY(-6px);visibility:hidden;transition:opacity .2s ease,transform .2s ease,visibility 0s linear .2s}
 .service.open .spec{visibility:visible}
-/* Each card has a colour that complements the heather: three from the tracers, and a deep teal. Once opened, the card's label, button and list markers take it. */
-.service:nth-child(1){--tint:var(--tr2)}.service:nth-child(2){--tint:var(--tr3)}.service:nth-child(3){--tint:var(--tr4-ink)}.service:nth-child(4){--tint:var(--teal-ink)}
+/* Each card has a colour that complements the heather: taken from the tracers. Once opened, the card's label, button and list markers take it. */
+.service:nth-child(1){--tint:var(--tr2)}.service:nth-child(2){--tint:var(--tr3)}.service:nth-child(3){--tint:var(--tr4-ink)}
 .service.open{--accent:var(--tint)}
 /* The card's top line fills in heather on hover. Once the card is opened it takes the card's colour and stays drawn. */
 .service::after{background:var(--accent,var(--heather));transition:transform .5s cubic-bezier(.2,.7,.2,1),background-color .35s ease}
@@ -533,7 +533,7 @@ footer .meta{grid-column:2}
     <div class="wrap">
       <div class="sec-head">
         <h2 id="work-h">What we build</h2>
-        <p>We make online stores, the apps that extend them, and the back-office tools that keep a brand running. Each one is designed, measured, and tested before it ships.</p>
+        <p>We make online stores and the apps that extend them. Each one is designed, measured, and tested before it ships.</p>
       </div>
       <div class="services" id="services">
         <article class="service">
@@ -554,12 +554,6 @@ footer .meta{grid-column:2}
           <span class="tag">Apps</span>
           <h3>Shopify apps and integrations</h3>
           <div class="swap"><p class="desc">When an off-the-shelf app is too slow, costs too much, or doesn't fit how you work, we build one for you: a checkout extension, a tool in the Shopify admin, or a connection to your other systems.</p><ul class="spec" id="spec-apps"><li><span class="t">Built on Shopify's supported extension points, so updates don't break it</span></li><li><span class="t">Set up under your company's own account, so you own it</span></li><li><span class="t">Adds no weight to pages that don't use it</span></li><li><span class="t">Held to the same speed budget as your theme</span></li></ul></div>
-        </article>
-        <article class="service">
-          <button class="ring" type="button" aria-expanded="false" aria-controls="spec-software"><span class="rg" aria-hidden="true"><span class="halo"></span><i class="dot"></i></span><span class="vh">Specifics: Back-office software</span></button>
-          <span class="tag">Software</span>
-          <h3>Back-office software</h3>
-          <div class="swap"><p class="desc">Our first product, in private development, does the bookkeeping for every Shopify payout. It splits each deposit into the sales, fees, and refunds inside it, flags anything that doesn't add up, and posts to QuickBooks only after someone approves it.</p><ul class="spec" id="spec-software"><li><span class="t">Checks Shopify for new payouts every morning</span></li><li><span class="t">Never posts a payout that's already in your books</span></li><li><span class="t">Attaches the payout's source file to each QuickBooks entry</span></li><li><span class="t">Any posting can be undone, and every action is logged</span></li><li><span class="t">Two-step sign-in for everyone on your team</span></li></ul></div>
         </article>
       </div>
     </div>
